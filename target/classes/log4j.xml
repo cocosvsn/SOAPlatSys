@@ -5,7 +5,7 @@
 	<appender name="Cms_filelog_daily" class="org.apache.log4j.DailyRollingFileAppender">
 		<param name="Threshold" value="debug" />
 		<param name="ImmediateFlush" value="true"/>
-		<param name="File" value="~/logs/cms.log" />
+		<param name="File" value="${catalina.home}/logs/cms.log" />
 		<param name="DatePattern" value="'.daily.'yyyy-MM-dd'.txt'" />
 		<layout class="org.apache.log4j.PatternLayout">
 			<param name="ConversionPattern" value="%d [%-5p] %l - %m%n" />
@@ -15,7 +15,7 @@
 	<appender name="root_filelog_daily" class="org.apache.log4j.DailyRollingFileAppender">
 		<param name="Threshold" value="debug" />
 		<param name="ImmediateFlush" value="true"/>
-		<param name="File" value="~/logs/root.log" />
+		<param name="File" value="${catalina.home}/logs/root.log" />
 		<param name="DatePattern" value="'.daily.'yyyy-MM-dd'.txt'" />
 		<layout class="org.apache.log4j.PatternLayout">
 			<param name="ConversionPattern" value="%d [%-5p] %l - %m%n" />
@@ -25,7 +25,7 @@
 	<appender name="sys_filelog_daily" class="org.apache.log4j.DailyRollingFileAppender">
 		<param name="Threshold" value="debug" />
 		<param name="ImmediateFlush" value="true"/>
-		<param name="File" value="~/logs/sys.log" />
+		<param name="File" value="${catalina.home}/logs/sys.log" />
 		<param name="DatePattern" value="'.daily.'yyyy-MM-dd'.txt'" />
 		<layout class="org.apache.log4j.PatternLayout">
 			<param name="ConversionPattern" value="%d [%-5p] %l - %m%n" />
