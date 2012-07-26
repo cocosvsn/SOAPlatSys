@@ -1,0 +1,15 @@
+/* CSS file */
+@namespace s "library://ns.adobe.com/flex/spark";
+@namespace mx "library://ns.adobe.com/flex/mx";
+
+mx|ToolTip{
+	fontSize: 12;
+}
+
+mx|Form{
+	label-width: 80;
+}
+
+mx|FormItemLabel{
+	text-align: left;
+}

@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	     xmlns:aop="http://www.springframework.org/schema/aop"
+	     xmlns:tx="http://www.springframework.org/schema/tx"
+	     xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+           http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd
+           http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd">
+	
+	
+	<bean id="getsyspk" class="com.soaplat.sysmgr.common.GetSysPKImpl">
+	  
+	</bean>
+	
+	<!--定义业务逻辑-->
+	<bean  id="dictManager" class="com.soaplat.sysmgr.managerimpl.DictManagerImpl">
+		<property name="baseDAO">
+			<ref bean="baseDAO"/>
+		</property>
+		<property name="getsyspk">
+			 <ref bean="getsyspk"/>
+		</property>
+	</bean>
+	
+	<bean  id="dicttypeManager" class="com.soaplat.sysmgr.managerimpl.DictTypeManagerImpl">
+		<property name="baseDAO">
+			<ref bean="baseDAO"/>
+		</property>
+		<property name="getsyspk">
+			 <ref bean="getsyspk"/>
+		</property>
+	</bean>
+	
+	<bean  id="funresourceManager" class="com.soaplat.sysmgr.managerimpl.FunResourceManagerImpl">
+		<property name="baseDAO">
+			<ref bean="baseDAO"/>
+		</property>
+		<property name="getsyspk">
+			 <ref bean="getsyspk"/>
+		</property>
+	</bean>
+	
+	<bean  id="groupManager" class="com.soaplat.sysmgr.managerimpl.GroupManagerImpl">
+		<property name="baseDAO">
+			<ref bean="baseDAO"/>
+		</property>
+		<property name="getsyspk">
+			 <ref bean="getsyspk"/>
+		</property>
+	</bean>
+	<bean  id="groupoperrelManager" class="com.soaplat.sysmgr.managerimpl.GroupOperRelManagerImpl">
+		<property name="baseDAO">
+			<ref bean="baseDAO"/>
+		</property>
+		<property name="getsyspk">
+			 <ref bean="getsyspk"/>
+		</property>
+	</bean>
+	<bean  id="grouprolerelManager" class="com.soaplat.sysmgr.managerimpl.GroupRoleRelManagerImpl">
+		<property name="baseDAO">
+			<ref bean="baseDAO"/>
+		</property>
+		<property name="getsyspk">
+			 <ref bean="getsyspk"/>
+		</property>
+	</bean>
+	
+	<bean  id="iconsetManager" class="com.soaplat.sysmgr.managerimpl.IconSetManagerImpl">
+		<property name="baseDAO">
+			<ref bean="baseDAO"/>
+		</property>
+		<property name="getsyspk">
+			 <ref bean="getsyspk"/>
+		</property>
+	</bean>
+	
+	<bean  id="menuManager" class="com.soaplat.sysmgr.managerimpl.MenuManagerImpl">
+		<property name="baseDAO">
+			<ref bean="baseDAO"/>
+		</property>
+		<property name="getsyspk">
+			 <ref bean="getsyspk"/>
+		</property>
+	</bean>
+	
+	<bean  id="operatorManager" class="com.soaplat.sysmgr.managerimpl.OperatorManagerImpl">
+		<property name="baseDAO">
+			<ref bean="baseDAO"/>
+		</property>
+		<property name="getsyspk">
+			 <ref bean="getsyspk"/>
+		</property>
+	</bean>
+	
+	<bean  id="orgManager" class="com.soaplat.sysmgr.managerimpl.OrgManagerImpl">
+		<property name="baseDAO">
+			<ref bean="baseDAO"/>
+		</property>
+		<property name="getsyspk">
+			 <ref bean="getsyspk"/>
+		</property>
+	</bean>
+	
+	<bean  id="rolefunrelManager" class="com.soaplat.sysmgr.managerimpl.RoleFunRelManagerImpl">
+		<property name="baseDAO">
+			<ref bean="baseDAO"/>
+		</property>
+		<property name="getsyspk">
+			 <ref bean="getsyspk"/>
+		</property>
+	</bean>
+	<bean  id="roleManager" class="com.soaplat.sysmgr.managerimpl.RoleManagerImpl">
+		<property name="baseDAO">
+			<ref bean="baseDAO"/>
+		</property>
+		<property name="getsyspk">
+			 <ref bean="getsyspk"/>
+		</property>
+	</bean>
+	
+	<bean  id="roleoperrelManager" class="com.soaplat.sysmgr.managerimpl.RoleOperRelManagerImpl">
+		<property name="baseDAO">
+			<ref bean="baseDAO"/>
+		</property>
+		<property name="getsyspk">
+			 <ref bean="getsyspk"/>
+		</property>
+	</bean>
+	
+	<bean  id="commonutilManager" class="com.soaplat.sysmgr.managerimpl.CommonUtilManagerImpl">
+		<property name="baseDAO">
+			<ref bean="baseDAO"/>
+		</property>
+		
+	</bean>
+</beans>

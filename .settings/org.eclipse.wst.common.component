@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-modules id="moduleCoreId" project-version="1.5.0">
+    <wb-module deploy-name="webapp">
+        <wb-resource deploy-path="/" source-path="/target/m2e-wtp/web-resources"/>
+        <wb-resource deploy-path="/" source-path="/src/main/webapp" tag="defaultRootSource"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/resources"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/java"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/cmsmgr"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/transmgr"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/sysmgr"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/amsmgr"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/srmmgr"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/flexproxy"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/cdsmgr"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/cbsmgr"/>
+        <property name="java-output-path" value="/webapp/target/classes"/>
+        <property name="context-root" value="SOAPlatSys"/>
+    </wb-module>
+</project-modules>

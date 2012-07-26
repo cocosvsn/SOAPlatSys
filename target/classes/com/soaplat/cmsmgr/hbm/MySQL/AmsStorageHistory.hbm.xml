@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+                                   "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.soaplat.amsmgr.bean">
+	<class name="AmsStorageHistory" table="TSOAAMSSTORAGEHISTORY">
+		<id name="id" type="java.lang.String">
+			<column length="30" name="RELID" />
+			<generator class="assigned" />
+		</id>
+		<property name="sgId" type="java.lang.String">
+			<column length="256" name="STGLOBALID" />
+		</property>
+		<property name="scgId" type="java.lang.String">
+			<column length="256" name="STCLASSGLOBALID" />
+		</property>
+		<property name="sdgId" type="java.lang.String">
+			<column length="256" name="STDIRGLOBALID" />
+		</property>
+		<property name="progFileId" type="java.lang.String">
+			<column length="30" name="PROGFILEID" />
+		</property>
+		<property name="fileName" type="java.lang.String">
+			<column length="100" name="FILENAME" />
+		</property>
+		<property name="progId" type="java.lang.String">
+			<column length="256" name="PRGLOBALID" />
+		</property>
+		<property name="optType" type="java.lang.Long">
+			<column name="OPERATION" />
+		</property>
+		<property name="policyId" type="java.lang.String">
+			<column length="30" name="POLICYID" />
+		</property>
+		<property name="inputManId" type="java.lang.String">
+			<column length="60" name="INPUTMANID" />
+		</property>
+		<property name="inputTime" type="java.util.Date">
+			<column name="INPUTTIME" />
+		</property>
+		<property name="optResult" type="java.lang.Long">
+			<column name="RESULT" />
+		</property>
+		<property name="optObjectId" type="java.lang.String">
+			<column name="OPTOBJECTID" length="60" />
+		</property>
+		<property name="remark" type="java.lang.String">
+			<column length="400" name="REMARK" />
+		</property>
+	</class>
+</hibernate-mapping>

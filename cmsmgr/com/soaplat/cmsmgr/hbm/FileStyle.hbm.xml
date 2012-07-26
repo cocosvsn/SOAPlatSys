@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+                                   "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.soaplat.cmsmgr.bean">
+ <class name="FileStyle" schema="CMS" table="TFILESTYLE">
+  <id name="id" type="java.lang.Long">
+   <column name="FILESTYLEID" precision="6" scale="0"/>
+   <generator class="sequence">
+    <param name="sequence">CMS.SEQBPMCID</param>
+   </generator>
+  </id>
+  <property generated="never" lazy="false" name="styleCode" type="java.lang.Long">
+   <column name="FILESTYLECODE"/>
+  </property>
+  <property generated="never" lazy="false" name="styleId" type="java.lang.Long">
+   <column name="STYLEID"/>
+  </property>
+  <property generated="never" lazy="false" name="description" type="java.lang.String">
+   <column length="60" name="DESCRIPTION"/>
+  </property>
+  <property generated="never" lazy="false" name="fileTypeId" type="java.lang.String">
+   <column length="20" name="FILETYPEID"/>
+  </property>
+  <property generated="never" lazy="false" name="validTag" type="java.lang.String">
+   <column length="2" name="VALID_TAG"/>
+  </property>
+ </class>
+</hibernate-mapping>

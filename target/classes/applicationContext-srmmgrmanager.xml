@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	     xmlns:aop="http://www.springframework.org/schema/aop"
+	     xmlns:tx="http://www.springframework.org/schema/tx"
+	     xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+           http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd
+           http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd">
+	
+	
+	<bean id="getsrmpk" class="com.srmmgr.common.GetSrmPKImpl"/>
+	
+	<!-- 定义业务逻辑 -->
+	<bean  id="channellistManager" class="com.srmmgr.managerimpl.ChannelListManagerImpl">
+		<property name="baseDAO">
+			<ref bean="baseDAO"/>
+		</property>
+		<property name="getsrmpk">
+			<ref bean="getsrmpk"/>
+		</property>
+	</bean>
+	
+	<bean  id="cmdconsumelistManager" class="com.srmmgr.managerimpl.CmdConsumeListManagerImpl">
+		<property name="baseDAO">
+			<ref bean="baseDAO"/>
+		</property>
+		<property name="getsrmpk">
+			<ref bean="getsrmpk"/>
+		</property>
+	</bean>
+	
+	<bean  id="consumedetailManager" class="com.srmmgr.managerimpl.ConsumeDetailHisManagerImpl">
+		<property name="baseDAO">
+			<ref bean="baseDAO"/>
+		</property>
+		<property name="getsrmpk">
+			<ref bean="getsrmpk"/>
+		</property>
+	</bean>
+	<bean  id="consumedetailhisManager" class="com.srmmgr.managerimpl.ConsumeDetailManagerImpl">
+		<property name="baseDAO">
+			<ref bean="baseDAO"/>
+		</property>
+		<property name="getsrmpk">
+			<ref bean="getsrmpk"/>
+		</property>
+	</bean>
+	
+	<bean  id="consumelisthisManager" class="com.srmmgr.managerimpl.ConsumeListHisManagerImpl">
+		<property name="baseDAO">
+			<ref bean="baseDAO"/>
+		</property>
+		<property name="getsrmpk">
+			<ref bean="getsrmpk"/>
+		</property>
+	</bean>
+	
+	<bean  id="consumelistManager" class="com.srmmgr.managerimpl.ConsumeListManagerImpl">
+		<property name="baseDAO">
+			<ref bean="baseDAO"/>
+		</property>
+		<property name="getsrmpk">
+			<ref bean="getsrmpk"/>
+		</property>
+	</bean>
+	
+	<bean  id="districtManager" class="com.srmmgr.managerimpl.DistrictManagerImpl">
+		<property name="baseDAO">
+			<ref bean="baseDAO"/>
+		</property>
+		<property name="getsrmpk">
+			<ref bean="getsrmpk"/>
+		</property>
+	</bean>
+	<bean  id="ipqamchannelprognoManager" class="com.srmmgr.managerimpl.IpQamChannelProgNoManagerImpl">
+		<property name="baseDAO">
+			<ref bean="baseDAO"/>
+		</property>
+		<property name="getsrmpk">
+			<ref bean="getsrmpk"/>
+		</property>
+	</bean>
+	
+	<bean  id="ipqamchannelManager" class="com.srmmgr.managerimpl.IpQamChannelManagerImpl">
+		<property name="baseDAO">
+			<ref bean="baseDAO"/>
+		</property>
+		<property name="getsrmpk">
+			<ref bean="getsrmpk"/>
+		</property>
+	</bean>
+	
+	<bean  id="ipqamchannelusageManager" class="com.srmmgr.managerimpl.IpQamChannelUsageManagerImpl">
+		<property name="baseDAO">
+			<ref bean="baseDAO"/>
+		</property>
+		<property name="getsrmpk">
+			<ref bean="getsrmpk"/>
+		</property>
+	</bean>
+	
+	<bean  id="ipqamManager" class="com.srmmgr.managerimpl.IpQamManagerImpl">
+		<property name="baseDAO">
+			<ref bean="baseDAO"/>
+		</property>
+		<property name="getsrmpk">
+			<ref bean="getsrmpk"/>
+		</property>
+	</bean>
+	
+	<bean  id="progproductrelManager" class="com.srmmgr.managerimpl.ProgProductRelManagerImpl">
+		<property name="baseDAO">
+			<ref bean="baseDAO"/>
+		</property>
+		<property name="getsrmpk">
+			<ref bean="getsrmpk"/>
+		</property>
+	</bean>
+	<bean  id="resepgservicelistManager" class="com.srmmgr.managerimpl.ResEpgServiceListManagerImpl">
+		<property name="baseDAO">
+			<ref bean="baseDAO"/>
+		</property>
+		<property name="getsrmpk">
+			<ref bean="getsrmpk"/>
+		</property>
+	</bean>
+	<bean  id="resserverinfoManager" class="com.srmmgr.managerimpl.ResServerInfoManagerImpl">
+		<property name="baseDAO">
+			<ref bean="baseDAO"/>
+		</property>
+		<property name="getsrmpk">
+			<ref bean="getsrmpk"/>
+		</property>
+	</bean>
+	<bean  id="srmstoragedirManager" class="com.srmmgr.managerimpl.SrmStorageDirManagerImpl">
+		<property name="baseDAO">
+			<ref bean="baseDAO"/>
+		</property>
+		<property name="getsrmpk">
+			<ref bean="getsrmpk"/>
+		</property>
+	</bean>
+	<bean  id="srmstorageManager" class="com.srmmgr.managerimpl.SrmStorageManagerImpl">
+		<property name="baseDAO">
+			<ref bean="baseDAO"/>
+		</property>
+		<property name="getsrmpk">
+			<ref bean="getsrmpk"/>
+		</property>
+	</bean>
+	<bean  id="srmstorageprgrelManager" class="com.srmmgr.managerimpl.SrmStoragePrgRelManagerImpl">
+		<property name="baseDAO">
+			<ref bean="baseDAO"/>
+		</property>
+		<property name="getsrmpk">
+			<ref bean="getsrmpk"/>
+		</property>
+	</bean>
+	<bean  id="stbcustomerauthManager" class="com.srmmgr.managerimpl.StbCustomerAuthManagerImpl">
+		<property name="baseDAO">
+			<ref bean="baseDAO"/>
+		</property>
+		<property name="getsrmpk">
+			<ref bean="getsrmpk"/>
+		</property>
+	</bean>
+	<bean  id="stbcustomerManager" class="com.srmmgr.managerimpl.StbCustomerManagerImpl">
+		<property name="baseDAO">
+			<ref bean="baseDAO"/>
+		</property>
+		<property name="getsrmpk">
+			<ref bean="getsrmpk"/>
+		</property>
+	</bean>
+	
+	<bean  id="storagevsrelManager" class="com.srmmgr.managerimpl.StorageVsRelManagerImpl">
+		<property name="baseDAO">
+			<ref bean="baseDAO"/>
+		</property>
+		<property name="getsrmpk">
+			<ref bean="getsrmpk"/>
+		</property>
+	</bean>
+	
+	<bean  id="vodserverManager" class="com.srmmgr.managerimpl.VodServerManagerImpl">
+		<property name="baseDAO">
+			<ref bean="baseDAO"/>
+		</property>
+		<property name="getsrmpk">
+			<ref bean="getsrmpk"/>
+		</property>
+	</bean>
+	
+	<bean  id="vodserverusageManager" class="com.srmmgr.managerimpl.VodServerUsageManagerImpl">
+		<property name="baseDAO">
+			<ref bean="baseDAO"/>
+		</property>
+		<property name="getsrmpk">
+			<ref bean="getsrmpk"/>
+		</property>
+	</bean>
+	
+	<bean  id="webserverManager" class="com.srmmgr.managerimpl.WebServerManagerImpl">
+		<property name="baseDAO">
+			<ref bean="baseDAO"/>
+		</property>
+		<property name="getsrmpk">
+			<ref bean="getsrmpk"/>
+		</property>
+	</bean>
+	
+	<bean  id="websvodsrelManager" class="com.srmmgr.managerimpl.WebSVodSRelManagerImpl">
+		<property name="baseDAO">
+			<ref bean="baseDAO"/>
+		</property>
+		<property name="getsrmpk">
+			<ref bean="getsrmpk"/>
+		</property>
+	</bean>
+	
+</beans>

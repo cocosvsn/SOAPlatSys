@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<dwr>
+	<allow>
+
+		<!--
+			<create creator="new" javascript="JDate"> <param name="class"
+			value="java.util.Date" /> </create>
+		-->
+
+		<create creator="none" javascript="EncryptService">
+			<param name="class" value="com.soaplat.cmsmgr.service.BackgroundEncryptService" />
+			<include method="start" />
+			<include method="stop" />
+		</create>
+		
+		<create creator="new" javascript="FileManagerService">
+			<param name="class" value="com.soaplat.amsmgr.serviceimpl.FileManagerService" />
+		</create>
+		
+		<create creator="new" javascript="ProgPackageServiceImpl">
+			<param name="class" value="com.soaplat.cmsmgr.service.ProgPackageServiceImpl" />
+			<include method="initMigrationState" />
+			<include method="initDealState" />
+			<include method="queryProgPackages"/>
+		</create>
+		
+		<create creator="new" javascript="EncryptServiceServiceImpl">
+			<param name="class" value="com.soaplat.cmsmgr.EncryptService.EncryptServiceServiceImpl" />
+		</create>
+		
+		<create creator="new" javascript="EncryptServiceImpl">
+			<param name="class" value="com.soaplat.cmsmgr.service.EncryptServiceImpl" />
+		</create>
+		
+		<create creator="new" javascript="ProgramInfoService">
+			<param name="class" value="com.soaplat.cmsmgr.service.ProgramInfoService" />
+		</create>
+		
+		<create creator="new" javascript="ProductService">
+			<param name="class" value="com.soaplat.cmsmgr.service.ProductService" />
+		</create>
+		
+		<create creator="new" javascript="PortalColumnService">
+			<param name="class" value="com.soaplat.cmsmgr.service.PortalColumnServiceImpl" />
+		</create>
+	</allow>
+</dwr>

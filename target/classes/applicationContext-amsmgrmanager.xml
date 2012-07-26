@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	     xmlns:aop="http://www.springframework.org/schema/aop"
+	     xmlns:tx="http://www.springframework.org/schema/tx"
+	     xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+           http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd
+           http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd">
+	
+	
+	<bean id="getamspk" class="com.soaplat.amsmgr.common.GetAmsPkImpl"/>
+	
+	<!-- 定义业务逻辑 -->
+	
+	<bean  id="amsfileserverManager" class="com.soaplat.amsmgr.managerimpl.AmsFileServerManagerImpl">
+		<property name="baseDAO">
+			<ref bean="baseDAO"/>
+		</property>
+		<property name="getamspk">
+			<ref bean="getamspk"/>
+		</property>
+	</bean>
+	
+	<bean  id="amsfilesscheduleManager" class="com.soaplat.amsmgr.managerimpl.AmsFileSScheduleManagerImpl">
+		<property name="baseDAO">
+			<ref bean="baseDAO"/>
+		</property>
+		<property name="getamspk">
+			<ref bean="getamspk"/>
+		</property>
+	</bean>
+	
+	<bean  id="amsstorageclassManager" class="com.soaplat.amsmgr.managerimpl.AmsStorageClassManagerImpl">
+		<property name="baseDAO">
+			<ref bean="baseDAO"/>
+		</property>
+		<property name="getamspk">
+			<ref bean="getamspk"/>
+		</property>
+	</bean>
+	
+	<bean  id="amsstoragedirManager" class="com.soaplat.amsmgr.managerimpl.AmsStorageDirManagerImpl">
+		<property name="baseDAO">
+			<ref bean="baseDAO"/>
+		</property>
+		<property name="getamspk">
+			<ref bean="getamspk"/>
+		</property>
+	</bean>
+	
+	<bean  id="amsstorageManager" class="com.soaplat.amsmgr.managerimpl.AmsStorageManagerImpl">
+		<property name="baseDAO">
+			<ref bean="baseDAO"/>
+		</property>
+		<property name="getamspk">
+			<ref bean="getamspk"/>
+		</property>
+	</bean>
+	
+	<bean  id="amsstorageprgrelManager" class="com.soaplat.amsmgr.managerimpl.AmsStoragePrgRelManagerImpl">
+		<property name="baseDAO">
+			<ref bean="baseDAO"/>
+		</property>
+		<property name="getamspk">
+			<ref bean="getamspk"/>
+		</property>
+	</bean>
+	
+	<bean  id="amsstoragerouteManager" class="com.soaplat.amsmgr.managerimpl.AmsStorageRouteManagerImpl">
+		<property name="baseDAO">
+			<ref bean="baseDAO"/>
+		</property>
+		<property name="getamspk">
+			<ref bean="getamspk"/>
+		</property>
+	</bean>
+	
+	<!-- HuangBo -->
+	<bean id="amsStoragePolicyManager" class="com.soaplat.amsmgr.managerimpl.AmsStoragePolicyManagerImpl">
+		<property name="baseDAO" ref="baseDAO"></property>
+	</bean>
+	
+	<bean id="amsStorageHistoryManager" class="com.soaplat.amsmgr.managerimpl.AmsStorageHistoryManagerImpl">
+		<property name="baseDAO" ref="baseDAO"></property>
+	</bean>
+	
+	<bean id="amsStoragePrgRelBackManager" class="com.soaplat.amsmgr.managerimpl.AmsStoragePrgRelBackManagerImpl">
+		<property name="baseDAO" ref="baseDAO"></property>
+	</bean>
+	
+	<!-- 测试用的Service类 -->
+<!--	<bean id="fileManagerService" class="com.soaplat.amsmgr.serviceimpl.FileManagerService">-->
+<!--		<property name="fileServerManager" ref="amsfileserverManager"></property>-->
+<!--		<property name="programInfoManager" ref="programinfoManager"></property>-->
+<!--		<property name="progPackageManager" ref="progPackageManager"></property>-->
+<!--		<property name="productInfoManager" ref="productinfoManager"></property>-->
+<!--		<property name="amsStoragePrgRelManager" ref="amsstorageprgrelManager"></property>-->
+<!--		<property name="amsStorageHistoryManager" ref="amsStorageHistoryManager"></property>-->
+<!--		<property name="amsStoragePrgRelBackManager" ref="amsStoragePrgRelBackManager"></property>-->
+<!--	</bean>-->
+</beans>

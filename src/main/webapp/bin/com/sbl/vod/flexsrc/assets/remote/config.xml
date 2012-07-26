@@ -1,0 +1,7 @@
+<root>
+	<appname>卫星数字投递平台v1.2-5.3</appname>
+	<endpoint2>http://10.100.1.27:8080/SOAPlatSys/messagebroker/amf</endpoint2>
+	<endpoint>http://172.23.17.66:8080/SOAPlatSys/messagebroker/amf</endpoint>
+	<fileFrom>C:\Program Files\Apache Software Foundation\apache-tomcat-7.0.2\webapps\upload\temp\</fileFrom>
+	<storagedir>\\\\172.23.19.117\\cms\\Prepared\\H264\\</storagedir>
+</root>

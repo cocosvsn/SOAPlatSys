@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+                                   "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+                                   
+<hibernate-mapping package="com.soaplat.cmsmgr.bean">
+	<class name="TProductInfo" schema="CMS" table="TPRODUCTINFO">
+		<id name="id" type="java.lang.String">
+			<column length="30" name="PRODUCTINFOID" />
+			<generator class="assigned" />
+		</id>
+		<property generated="never" lazy="false" name="progPackageId"
+			type="java.lang.String">
+			<column length="30" name="PRODUCTID" />
+		</property>
+		<property generated="never" lazy="false" name="productName"
+			type="java.lang.String">
+			<column length="200" name="PRODUCTINFONAME" />
+		</property>
+		<property generated="never" lazy="false" name="ippvId"
+			type="java.lang.String">
+			<column length="30" name="IPPVID" />
+		</property>
+		<property generated="never" lazy="false" name="slotId"
+			type="java.lang.String">
+			<column length="30" name="SLOTID" />
+		</property>
+		<property generated="never" lazy="false" name="price"
+			type="java.lang.String">
+			<column length="30" name="PRICE" />
+		</property>
+		<property generated="never" lazy="false" name="expired"
+			type="java.util.Date">
+			<column length="7" name="EXPIREDDATE" />
+		</property>
+		<property generated="never" lazy="false" name="watchDuration"
+			type="java.lang.String">
+			<column length="30" name="WATCHDURATION" />
+		</property>
+		<property generated="never" lazy="false" name="watchTimes"
+			type="java.lang.String">
+			<column length="30" name="WATCHTIMES" />
+		</property>
+		<property generated="never" lazy="false" name="watchTraffice"
+			type="java.lang.String">
+			<column length="30" name="WATCHTRAFFICE" />
+		</property>
+		<property generated="never" lazy="false" name="keyId"
+			type="java.lang.String">
+			<column length="60" name="KEYID" />
+		</property>
+		<property generated="never" lazy="false" name="validDate"
+			type="java.util.Date">
+			<column length="7" name="VALIDDATE" />
+		</property>
+		<property generated="never" lazy="false" name="invalidDate"
+			type="java.util.Date">
+			<column length="7" name="INVALIDDATE" />
+		</property>
+		<property generated="never" lazy="false" name="productStyleId"
+			type="java.lang.String">
+			<column length="30" name="PRODUCTINFOSTYLEID" />
+		</property>
+		<property generated="never" lazy="false" name="productXml"
+			type="java.lang.String">
+			<column length="1000" name="PRODUCTINFOXML" />
+		</property>
+		<property generated="never" lazy="false" name="keyFileId"
+			type="java.lang.String">
+			<column length="30" name="KEYFILEID" />
+		</property>
+		<property generated="never" lazy="false" name="encryptState"
+			type="java.lang.Long">
+			<column precision="22" scale="0" name="ENCRYPTSTATE"/>
+		</property>
+		<property generated="never" lazy="false" name="keyUpdateTime"
+			type="java.util.Date">
+			<column length="7" name="KEYUPDATETIME" />
+		</property>
+		<property generated="never" lazy="false" name="operator"
+			type="java.lang.String">
+			<column length="60" name="INPUTMANID" />
+		</property>
+		<property generated="never" lazy="false" name="inputTime"
+			type="java.util.Date">
+			<column length="7" name="INPUTTIME" />
+		</property>
+		<property generated="never" lazy="false" name="remark"
+			type="java.lang.String">
+			<column length="400" name="REMARK" />
+		</property>
+	</class>
+</hibernate-mapping>

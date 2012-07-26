@@ -1,0 +1,555 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	     xmlns:aop="http://www.springframework.org/schema/aop"
+	     xmlns:tx="http://www.springframework.org/schema/tx"
+	     xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+           http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd
+           http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd">
+	
+	
+	<bean id="getcmspk" class="com.soaplat.cmsmgr.common.GetCmsPKImpl"/>
+	
+	<bean  id="offlineprogManager" class="com.soaplat.cmsmgr.managerimpl.OfflineProgManagerImpl">
+		<property name="baseDAO">
+			<ref bean="baseDAO"/>
+		</property>
+		<property name="getcmspk">
+			<ref bean="getcmspk"/>
+		</property>
+	</bean>
+		
+	<bean  id="offlinestorageManager" class="com.soaplat.cmsmgr.managerimpl.OfflineStorageManagerImpl">
+		<property name="baseDAO">
+			<ref bean="baseDAO"/>
+		</property>
+		<property name="getcmspk">
+			<ref bean="getcmspk"/>
+		</property>
+	</bean>
+
+	<bean  id="productinfoManager" class="com.soaplat.cmsmgr.managerimpl.ProductInfoManagerImpl">
+		<property name="baseDAO">
+			<ref bean="baseDAO"/>
+		</property>
+		<property name="getcmspk">
+			<ref bean="getcmspk"/>
+		</property>
+	</bean>
+
+	<bean  id="progawardManager" class="com.soaplat.cmsmgr.managerimpl.ProgAwardManagerImpl">
+		<property name="baseDAO">
+			<ref bean="baseDAO"/>
+		</property>
+		<property name="getcmspk">
+			<ref bean="getcmspk"/>
+		</property>
+	</bean>
+
+	<bean  id="progcopyrightManager" class="com.soaplat.cmsmgr.managerimpl.ProgCopyrightManagerImpl">
+		<property name="baseDAO">
+			<ref bean="baseDAO"/>
+		</property>
+		<property name="getcmspk">
+			<ref bean="getcmspk"/>
+		</property>
+	</bean>
+	
+	<bean  id="progcreatorManager" class="com.soaplat.cmsmgr.managerimpl.ProgCreatorManagerImpl">
+		<property name="baseDAO">
+			<ref bean="baseDAO"/>
+		</property>
+		<property name="getcmspk">
+			<ref bean="getcmspk"/>
+		</property>
+	</bean>
+	
+	<bean  id="progframeinfoManager" class="com.soaplat.cmsmgr.managerimpl.ProgFrameInfoManagerImpl">
+		<property name="baseDAO">
+			<ref bean="baseDAO"/>
+		</property>
+		<property name="getcmspk">
+			<ref bean="getcmspk"/>
+		</property>
+	</bean>
+	
+	<bean  id="progindexinfoManager" class="com.soaplat.cmsmgr.managerimpl.ProgIndexInfoManagerImpl">
+		<property name="baseDAO">
+			<ref bean="baseDAO"/>
+		</property>
+		<property name="getcmspk">
+			<ref bean="getcmspk"/>
+		</property>
+	</bean>
+	
+	<bean  id="proglicencesManager" class="com.soaplat.cmsmgr.managerimpl.ProgLicencesManagerImpl">
+		<property name="baseDAO">
+			<ref bean="baseDAO"/>
+		</property>
+		<property name="getcmspk">
+			<ref bean="getcmspk"/>
+		</property>
+	</bean>
+	
+	<bean  id="progpractManager" class="com.soaplat.cmsmgr.managerimpl.ProgPractManagerImpl">
+		<property name="baseDAO">
+			<ref bean="baseDAO"/>
+		</property>
+		<property name="getcmspk">
+			<ref bean="getcmspk"/>
+		</property>
+	</bean>
+	
+	<bean  id="progpublishersManager" class="com.soaplat.cmsmgr.managerimpl.ProgPublishersManagerImpl">
+		<property name="baseDAO">
+			<ref bean="baseDAO"/>
+		</property>
+		<property name="getcmspk">
+			<ref bean="getcmspk"/>
+		</property>
+	</bean>
+	
+	<bean  id="programeditrelManager" class="com.soaplat.cmsmgr.managerimpl.ProgramEditRelManagerImpl">
+		<property name="baseDAO">
+			<ref bean="baseDAO"/>
+		</property>
+		<property name="getcmspk">
+			<ref bean="getcmspk"/>
+		</property>
+	</bean>
+	
+	<bean  id="programfilesManager" class="com.soaplat.cmsmgr.managerimpl.ProgramFilesManagerImpl">
+		<property name="baseDAO">
+			<ref bean="baseDAO"/>
+		</property>
+		<property name="getcmspk">
+			<ref bean="getcmspk"/>
+		</property>
+	</bean>
+	
+	<bean  id="programinfoManager" class="com.soaplat.cmsmgr.managerimpl.ProgramInfoManagerImpl">
+		<property name="baseDAO">
+			<ref bean="baseDAO"/>
+		</property>
+		<property name="getcmspk">
+			<ref bean="getcmspk"/>
+		</property>
+	</bean>
+	
+	<bean  id="ptpmrelManager" class="com.soaplat.cmsmgr.managerimpl.PTPMRELManagerImpl">
+		<property name="baseDAO">
+			<ref bean="baseDAO"/>
+		</property>
+		<property name="getcmspk">
+			<ref bean="getcmspk"/>
+		</property>
+	</bean>
+	
+	<bean  id="sysdefcatManager" class="com.soaplat.cmsmgr.managerimpl.SysDefcatManagerImpl">
+		<property name="baseDAO">
+			<ref bean="baseDAO"/>
+		</property>
+		<property name="getcmspk">
+			<ref bean="getcmspk"/>
+		</property>
+	</bean>
+	
+	<!-- 20091029 -->
+	
+	<bean  id="packageFilesManager" class="com.soaplat.cmsmgr.managerimpl.PackageFilesManagerImpl">
+		<property name="baseDAO">
+			<ref bean="baseDAO"/>
+		</property>
+		<property name="getcmspk">
+			<ref bean="getcmspk"/>
+		</property>
+	</bean>
+	
+	<bean  id="packStyleFileTypeManager" class="com.soaplat.cmsmgr.managerimpl.PackStyleFileTypeManagerImpl">
+		<property name="baseDAO">
+			<ref bean="baseDAO"/>
+		</property>
+		<property name="getcmspk">
+			<ref bean="getcmspk"/>
+		</property>
+	</bean>
+	
+	<bean  id="packStyleManager" class="com.soaplat.cmsmgr.managerimpl.PackStyleManagerImpl">
+		<property name="baseDAO">
+			<ref bean="baseDAO"/>
+		</property>
+		<property name="getcmspk">
+			<ref bean="getcmspk"/>
+		</property>
+	</bean>
+	
+	<bean  id="pPColumnRelManager" class="com.soaplat.cmsmgr.managerimpl.PPColumnRelManagerImpl">
+		<property name="baseDAO">
+			<ref bean="baseDAO"/>
+		</property>
+		<property name="getcmspk">
+			<ref bean="getcmspk"/>
+		</property>
+	</bean>
+	
+	<bean  id="progPackageManager" class="com.soaplat.cmsmgr.managerimpl.ProgPackageManagerImpl">
+		<property name="baseDAO">
+			<ref bean="baseDAO"/>
+		</property>
+		<property name="getcmspk">
+			<ref bean="getcmspk"/>
+		</property>
+	</bean>
+	
+	<bean  id="progPPRelManager" class="com.soaplat.cmsmgr.managerimpl.ProgPPRelManagerImpl">
+		<property name="baseDAO">
+			<ref bean="baseDAO"/>
+		</property>
+		<property name="getcmspk">
+			<ref bean="getcmspk"/>
+		</property>
+	</bean>
+	
+	<bean  id="progSrvRelManager" class="com.soaplat.cmsmgr.managerimpl.ProgSrvRelManagerImpl">
+		<property name="baseDAO">
+			<ref bean="baseDAO"/>
+		</property>
+		<property name="getcmspk">
+			<ref bean="getcmspk"/>
+		</property>
+	</bean>
+	
+	<bean  id="srvColumnManager" class="com.soaplat.cmsmgr.managerimpl.SrvColumnManagerImpl">
+		<property name="baseDAO">
+			<ref bean="baseDAO"/>
+		</property>
+		<property name="getcmspk">
+			<ref bean="getcmspk"/>
+		</property>
+	</bean>
+	
+	<bean  id="srvProductManager" class="com.soaplat.cmsmgr.managerimpl.SrvProductManagerImpl">
+		<property name="baseDAO">
+			<ref bean="baseDAO"/>
+		</property>
+		<property name="getcmspk">
+			<ref bean="getcmspk"/>
+		</property>
+	</bean>
+	
+	<bean  id="srvProgClassManager" class="com.soaplat.cmsmgr.managerimpl.SrvProgClassManagerImpl">
+		<property name="baseDAO">
+			<ref bean="baseDAO"/>
+		</property>
+		<property name="getcmspk">
+			<ref bean="getcmspk"/>
+		</property>
+	</bean>
+	
+	<bean  id="progTypeManager" class="com.soaplat.cmsmgr.managerimpl.ProgTypeManagerImpl">
+		<property name="baseDAO">
+			<ref bean="baseDAO"/>
+		</property>
+		<property name="getcmspk">
+			<ref bean="getcmspk"/>
+		</property>
+	</bean>
+	
+	<bean  id="cmsServiceManager" class="com.soaplat.cmsmgr.managerimpl.CmsServiceManagerImpl">
+		<property name="baseDAO">
+			<ref bean="baseDAO"/>
+		</property>
+		<property name="getcmspk">
+			<ref bean="getcmspk"/>
+		</property>
+	</bean>
+	
+	<bean  id="programFilesManager" class="com.soaplat.cmsmgr.managerimpl.ProgramFilesManagerImpl">
+		<property name="baseDAO">
+			<ref bean="baseDAO"/>
+		</property>
+		<property name="getcmspk">
+			<ref bean="getcmspk"/>
+		</property>
+	</bean>
+	
+	<bean  id="portalColumnManager" class="com.soaplat.cmsmgr.managerimpl.PortalColumnManagerImpl">
+		<property name="baseDAO">
+			<ref bean="baseDAO"/>
+		</property>
+		<property name="getcmspk">
+			<ref bean="getcmspk"/>
+		</property>
+	</bean>
+	
+	<bean  id="progListManager" class="com.soaplat.cmsmgr.managerimpl.ProgListManagerImpl">
+		<property name="baseDAO">
+			<ref bean="baseDAO"/>
+		</property>
+		<property name="getcmspk">
+			<ref bean="getcmspk"/>
+		</property>
+	</bean>
+	
+	<bean  id="progListDetailManager" class="com.soaplat.cmsmgr.managerimpl.ProgListDetailManagerImpl">
+		<property name="baseDAO">
+			<ref bean="baseDAO"/>
+		</property>
+		<property name="getcmspk">
+			<ref bean="getcmspk"/>
+		</property>
+	</bean>
+	
+	<bean  id="portalModManager" class="com.soaplat.cmsmgr.managerimpl.PortalModManagerImpl">
+		<property name="baseDAO">
+			<ref bean="baseDAO"/>
+		</property>
+		<property name="getcmspk">
+			<ref bean="getcmspk"/>
+		</property>
+	</bean>
+	
+	<bean  id="bpmcManager" class="com.soaplat.cmsmgr.managerimpl.BpmcManagerImpl">
+		<property name="baseDAO">
+			<ref bean="baseDAO"/>
+		</property>
+		<property name="getcmspk">
+			<ref bean="getcmspk"/>
+		</property>
+	</bean>
+	
+	<bean  id="flowActivityOrderManager" class="com.soaplat.cmsmgr.managerimpl.FlowActivityOrderManagerImpl">
+		<property name="baseDAO">
+			<ref bean="baseDAO"/>
+		</property>
+		<property name="getcmspk">
+			<ref bean="getcmspk"/>
+		</property>
+	</bean>
+	
+	<bean  id="cmsSiteManager" class="com.soaplat.cmsmgr.managerimpl.CmsSiteManagerImpl">
+		<property name="baseDAO">
+			<ref bean="baseDAO"/>
+		</property>
+		<property name="getcmspk">
+			<ref bean="getcmspk"/>
+		</property>
+	</bean>
+	
+	<bean  id="portalModTypeManager" class="com.soaplat.cmsmgr.managerimpl.PortalModTypeManagerImpl">
+		<property name="baseDAO">
+			<ref bean="baseDAO"/>
+		</property>
+		<property name="getcmspk">
+			<ref bean="getcmspk"/>
+		</property>
+	</bean>
+	
+	<bean  id="portalRoleOperRelManager" class="com.soaplat.cmsmgr.managerimpl.PortalRoleOperRelManagerImpl">
+		<property name="baseDAO">
+			<ref bean="baseDAO"/>
+		</property>
+		<property name="getcmspk">
+			<ref bean="getcmspk"/>
+		</property>
+	</bean>
+	
+	<bean  id="progListMangDetailManager" class="com.soaplat.cmsmgr.managerimpl.ProgListMangDetailManagerImpl">
+		<property name="baseDAO">
+			<ref bean="baseDAO"/>
+		</property>
+		<property name="getcmspk">
+			<ref bean="getcmspk"/>
+		</property>
+	</bean>
+	
+	<bean  id="progListMangManager" class="com.soaplat.cmsmgr.managerimpl.ProgListMangManagerImpl">
+		<property name="baseDAO">
+			<ref bean="baseDAO"/>
+		</property>
+		<property name="getcmspk">
+			<ref bean="getcmspk"/>
+		</property>
+	</bean>
+	
+	<bean  id="progListFileManager" class="com.soaplat.cmsmgr.managerimpl.ProgListFileManagerImpl">
+		<property name="baseDAO">
+			<ref bean="baseDAO"/>
+		</property>
+		<property name="getcmspk">
+			<ref bean="getcmspk"/>
+		</property>
+	</bean>
+	
+	<bean  id="encryptListManager" class="com.soaplat.cmsmgr.managerimpl.EncryptListManagerImpl">
+		<property name="baseDAO">
+			<ref bean="baseDAO"/>
+		</property>
+		<property name="getcmspk">
+			<ref bean="getcmspk"/>
+		</property>
+	</bean>
+	
+	<bean  id="styleRelManager" class="com.soaplat.cmsmgr.managerimpl.StyleRelManagerImpl">
+		<property name="baseDAO">
+			<ref bean="baseDAO"/>
+		</property>
+		<property name="getcmspk">
+			<ref bean="getcmspk"/>
+		</property>
+	</bean>
+	
+	<bean  id="flowActionManager" class="com.soaplat.cmsmgr.managerimpl.FlowActionManagerImpl">
+		<property name="baseDAO">
+			<ref bean="baseDAO"/>
+		</property>
+		<property name="getcmspk">
+			<ref bean="getcmspk"/>
+		</property>
+	</bean>
+	
+	<bean id="portalJsRulesManager" class="com.soaplat.cmsmgr.managerimpl.PortalJsRulesManagerImpl">
+		<property name="baseDAO">
+			<ref bean="baseDAO"/>
+		</property>
+		<property name="getcmspk">
+			<ref bean="getcmspk"/>
+		</property>
+	</bean>
+	
+	<bean id="portalPackageManager" class="com.soaplat.cmsmgr.managerimpl.PortalPackageManagerImpl">
+		<property name="baseDAO">
+			<ref bean="baseDAO"/>
+		</property>
+		<property name="getcmspk">
+			<ref bean="getcmspk"/>
+		</property>
+	</bean>
+	
+	<bean id="ptpPgpRelManager" class="com.soaplat.cmsmgr.managerimpl.PtpPgpRelManagerImpl">
+		<property name="baseDAO">
+			<ref bean="baseDAO"/>
+		</property>
+		<property name="getcmspk">
+			<ref bean="getcmspk"/>
+		</property>
+	</bean>
+	
+	<bean id="packStylePortalColumnManager" class="com.soaplat.cmsmgr.managerimpl.PackStylePortalColumnManagerImpl">
+		<property name="baseDAO">
+			<ref bean="baseDAO"/>
+		</property>
+		<property name="getcmspk">
+			<ref bean="getcmspk"/>
+		</property>
+	</bean>
+	
+	<bean id="progListDeleteDetailManager" class="com.soaplat.cmsmgr.managerimpl.ProgListDeleteDetailManagerImpl">
+		<property name="baseDAO">
+			<ref bean="baseDAO"/>
+		</property>
+		<property name="getcmspk">
+			<ref bean="getcmspk"/>
+		</property>
+	</bean>
+	
+	
+	
+	<bean  id="cmsTransactionManager" class="com.soaplat.cmsmgr.managerimpl.CmsTransactionManagerImpl">
+		<!--  <property name="baseDAO">
+			<ref bean="baseDAO"/>
+		</property>
+		<property name="getcmspk">
+			<ref bean="getcmspk"/>
+		</property>-->
+	</bean>
+	
+	<!--         ============== Bunco =============          -->
+	<!-- 播发单 -->
+	<bean id="progListFileDao" class="com.soaplat.cmsmgr.managerimpl.ProgListFileDaoImpl">
+		<property name="baseDAO" ref="baseDAO" />
+	</bean>
+	
+	<!-- 产品定价 -->
+	<bean id="pricingManager" class="com.soaplat.cmsmgr.managerimpl.PricingManagerImpl">
+		<property name="baseDAO" ref="baseDAO" />
+	</bean>
+	
+	<!-- 产品定义 -->
+	<bean id="cmsProductManager" class="com.soaplat.cmsmgr.managerimpl.ProductManagerImpl">
+		<property name="baseDAO" ref="baseDAO" />
+	</bean>
+	
+	<!-- 文件样式 -->
+	<bean id="fileStyleManager" class="com.soaplat.cmsmgr.managerimpl.FileStyleManagerImpl">
+		<property name="baseDAO" ref="baseDAO" />
+	</bean>
+	
+	<!-- 品牌产品关系 -->
+	<bean id="cmsSiteProductRelManager" class="com.soaplat.cmsmgr.managerimpl.CmsSiteProductRelManagerImpl">
+		<property name="baseDAO" ref="baseDAO" />
+	</bean>
+	
+	<bean id="broadcastManager" class="com.soaplat.cmsmgr.managerimpl.BroadcastManagerImpl">
+		<property name="progListMangDAO">
+			<ref bean="progListMangDAO"/>
+		</property>
+		<property name="packageFilesDAO">
+			<ref bean="packageFilesDAO"/>
+		</property>
+		<property name="portalColumnDAO">
+			<ref bean="portalColumnDAO"/>
+		</property>
+	</bean>
+	
+	<!-- 节目录入模块 -->
+	<bean id="programInfoModuleManager" class="com.soaplat.cmsmgr.managerimpl.ProgramInfoModuleManagerImpl">
+		<property name="baseDAO" ref="baseDAO"/>
+		<property name="programInfoManager" ref="programinfoManager"/>
+		<property name="packageFilesManager" ref="packageFilesManager"/>
+		<property name="amsStorageDirManager" ref="amsstoragedirManager" />
+		<property name="migrationModuleManager" ref="migrationModuleManager"/>
+	</bean>
+	
+	<!-- 序列操作 -->
+	<bean id="sequenceManager" class="com.soaplat.cmsmgr.managerimpl.SequenceManagerImpl">
+		<property name="baseDAO" ref="baseDAO" />
+	</bean>
+	
+	<bean id="broadcastModuleManager" class="com.soaplat.cmsmgr.managerimpl.BroadcastModuleManagerImpl">
+		<property name="cmsTransactionManager" ref="cmsTransactionManager" />
+		<property name="cmsSiteManager" ref="cmsSiteManager" />
+		<property name="portalColumnManager" ref="portalColumnManager" />
+		<property name="progListDetailManager" ref="progListDetailManager" />
+		<property name="progPackageManager" ref="progPackageManager" />
+		<property name="fileStyleManager" ref="fileStyleManager" />
+		<property name="packageFilesManager" ref="packageFilesManager" />
+		<property name="progListMangManager" ref="progListMangManager" />
+		<property name="progListFileManager" ref="progListFileManager" />
+		<property name="progListMangDetailManager" ref="progListMangDetailManager" />
+		<property name="bpmcManager" ref="bpmcManager" />
+		<property name="flowActivityOrderManager" ref="flowActivityOrderManager" />
+		<property name="productinfoManager" ref="productinfoManager" />
+		<property name="programFilesManager" ref="programFilesManager" />
+		<property name="programinfoManager" ref="programinfoManager" />
+		<property name="progListDeleteDetailManager" ref="progListDeleteDetailManager" />
+	</bean>
+	
+	<!-- 迁移模块Manager -->
+	<bean id="migrationModuleManager" class="com.soaplat.cmsmgr.managerimpl.MigrationModuleManagerImpl">
+		<property name="programInfoManager" ref="programinfoManager" />
+		<property name="progListFileManager" ref="progListFileManager" />
+		<property name="packageFilesManager" ref="packageFilesManager" />
+		<property name="progListDetailManager" ref="progListDetailManager" />
+		<property name="progPackageManager" ref="progPackageManager" />
+		<property name="fileStyleManager" ref="fileStyleManager" />
+		<property name="amsstorageManager" ref="amsstorageManager" />
+		<property name="amsstorageclassManager" ref="amsstorageclassManager" />
+		<property name="amsstorageprgrelManager" ref="amsstorageprgrelManager" />
+		<property name="amsstoragedirManager" ref="amsstoragedirManager" />
+		<property name="programFilesManager" ref="programFilesManager" />
+		<property name="portalColumnManager" ref="portalColumnManager" />
+		<property name="productinfoManager" ref="productinfoManager" />
+	</bean> 
+</beans>

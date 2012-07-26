@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC
+	"-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+	"http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+	<session-factory>
+		<property name="connection.username">cms</property>
+		<property name="connection.password">smc</property>
+		<property name="connection.url">jdbc:oracle:thin:@172.23.17.66:1521:orcl</property>
+		<property name="dialect">
+			org.hibernate.dialect.Oracle10gDialect
+		</property>
+		<property name="connection.driver_class">
+			oracle.jdbc.driver.OracleDriver
+		</property>
+		<property name="hibernate.show_sql">true</property>
+		<property name="hibernate.jdbc.batch_size">0</property>
+		<!--<property name="hibernate.hbm2ddl.auto">update</property>-->
+
+		<!-- 命名SQL -->
+		<mapping resource="com/soaplat/sysmgr/hbm/SysNamedQuery.hbm.xml" />
+		<!-- 数据字典hbm -->
+		<mapping resource="com/soaplat/sysmgr/hbm/Dict.hbm.xml" />
+		<mapping resource="com/soaplat/sysmgr/hbm/DictType.hbm.xml" />
+		<!-- 数据实体 -->
+		<mapping resource="com/soaplat/sysmgr/hbm/RoleOperRel.hbm.xml" />
+		<mapping resource="com/soaplat/sysmgr/hbm/Menu.hbm.xml" />
+		<mapping resource="com/soaplat/sysmgr/hbm/GroupRoleRel.hbm.xml" />
+		<mapping resource="com/soaplat/sysmgr/hbm/RoleFunRel.hbm.xml" />
+		<mapping resource="com/soaplat/sysmgr/hbm/Org.hbm.xml" />
+		<mapping resource="com/soaplat/sysmgr/hbm/Operator.hbm.xml" />
+		<mapping resource="com/soaplat/sysmgr/hbm/Role.hbm.xml" />
+		<mapping resource="com/soaplat/sysmgr/hbm/FunResource.hbm.xml" />
+		<mapping resource="com/soaplat/sysmgr/hbm/GroupOperRel.hbm.xml" />
+		<mapping resource="com/soaplat/sysmgr/hbm/Group.hbm.xml" />
+		<mapping resource="com/soaplat/sysmgr/hbm/IconSet.hbm.xml" />
+
+		<!-- SRM -->
+		<!-- 数据实体 -->
+		<!-- 命名SQL -->
+		<mapping resource="com/soaplat/cmsmgr/hbm/CmsNamedQuery.hbm.xml" />
+		<mapping resource="com/soaplat/cmsmgr/hbm/HBNamedHql.hb.xml" />
+		<mapping resource="com/soaplat/cmsmgr/hbm/OfflineProg.hbm.xml" />
+		<mapping resource="com/soaplat/cmsmgr/hbm/OfflineStorage.hbm.xml" />
+		<mapping resource="com/soaplat/cmsmgr/hbm/ProductInfo.hbm.xml" />
+		<mapping resource="com/soaplat/cmsmgr/hbm/ProgAward.hbm.xml" />
+		<mapping resource="com/soaplat/cmsmgr/hbm/ProgCopyright.hbm.xml" />
+		<mapping resource="com/soaplat/cmsmgr/hbm/ProgCreator.hbm.xml" />
+		<mapping resource="com/soaplat/cmsmgr/hbm/ProgFrameInfo.hbm.xml" />
+		<mapping resource="com/soaplat/cmsmgr/hbm/ProgIndexInfo.hbm.xml" />
+		<mapping resource="com/soaplat/cmsmgr/hbm/ProgLicences.hbm.xml" />
+		<mapping resource="com/soaplat/cmsmgr/hbm/ProgPract.hbm.xml" />
+		<mapping resource="com/soaplat/cmsmgr/hbm/ProgPublishers.hbm.xml" />
+		<mapping resource="com/soaplat/cmsmgr/hbm/ProgramEditRel.hbm.xml" />
+		<mapping resource="com/soaplat/cmsmgr/hbm/ProgramFiles.hbm.xml" />
+		<mapping resource="com/soaplat/cmsmgr/hbm/ProgramInfo.hbm.xml" />
+		<mapping resource="com/soaplat/cmsmgr/hbm/PTPMREL.hbm.xml" />
+		<mapping resource="com/soaplat/cmsmgr/hbm/SysDefcat.hbm.xml" />
+		<mapping resource="com/soaplat/cmsmgr/hbm/PackageFiles.hbm.xml" />
+		<mapping resource="com/soaplat/cmsmgr/hbm/PackStyle.hbm.xml" />
+		<mapping resource="com/soaplat/cmsmgr/hbm/PackStyleFileType.hbm.xml" />
+		<mapping resource="com/soaplat/cmsmgr/hbm/PPColumnRel.hbm.xml" />
+		<mapping resource="com/soaplat/cmsmgr/hbm/ProgPackage.hbm.xml" />
+		<mapping resource="com/soaplat/cmsmgr/hbm/ProgPPRel.hbm.xml" />
+		<mapping resource="com/soaplat/cmsmgr/hbm/SrvColumn.hbm.xml" />
+		<mapping resource="com/soaplat/cmsmgr/hbm/SrvProduct.hbm.xml" />
+		<mapping resource="com/soaplat/cmsmgr/hbm/SrvProgClass.hbm.xml" />
+		<mapping resource="com/soaplat/cmsmgr/hbm/ProgType.hbm.xml" />
+		<mapping resource="com/soaplat/cmsmgr/hbm/CmsService.hbm.xml" />
+		<mapping resource="com/soaplat/cmsmgr/hbm/ProgSrvRel.hbm.xml" />
+		<mapping resource="com/soaplat/cmsmgr/hbm/PortalColumn.hbm.xml" />
+		<mapping resource="com/soaplat/cmsmgr/hbm/ProgList.hbm.xml" />
+		<mapping resource="com/soaplat/cmsmgr/hbm/ProgListDetail.hbm.xml" />
+		<mapping resource="com/soaplat/cmsmgr/hbm/PortalMod.hbm.xml" />
+		<mapping resource="com/soaplat/cmsmgr/hbm/FlowActivityOrder.hbm.xml" />
+		<mapping resource="com/soaplat/cmsmgr/hbm/Bpmc.hbm.xml" />
+		<mapping resource="com/soaplat/cmsmgr/hbm/CmsSite.hbm.xml" />
+		<mapping resource="com/soaplat/cmsmgr/hbm/PortalModType.hbm.xml" />
+		<mapping resource="com/soaplat/cmsmgr/hbm/PortalRoleOperRel.hbm.xml" />
+		<mapping resource="com/soaplat/cmsmgr/hbm/ProgListMang.hbm.xml" />
+		<mapping resource="com/soaplat/cmsmgr/hbm/ProgListMangDetail.hbm.xml" />
+		<mapping resource="com/soaplat/cmsmgr/hbm/ProgListFile.hbm.xml" />
+		<mapping resource="com/soaplat/cmsmgr/hbm/StyleRel.hbm.xml" />
+		<mapping resource="com/soaplat/cmsmgr/hbm/EncryptList.hbm.xml" />
+		<mapping resource="com/soaplat/cmsmgr/hbm/FlowAction.hbm.xml" />
+		<mapping resource="com/soaplat/cmsmgr/hbm/PortalJsRules.hbm.xml" />
+		<mapping resource="com/soaplat/cmsmgr/hbm/PortalPackage.hbm.xml" />
+		<mapping resource="com/soaplat/cmsmgr/hbm/PtpPgpRel.hbm.xml" />
+		<mapping resource="com/soaplat/cmsmgr/hbm/PackStylePortalColumn.hbm.xml" />
+		<mapping resource="com/soaplat/cmsmgr/hbm/TProductInfo.hbm.xml" />
+		<mapping resource="com/soaplat/cmsmgr/hbm/ProductProgRel.hbm.xml" />
+		<mapping resource="com/soaplat/cmsmgr/hbm/ProgProduct.hbm.xml" />
+		<mapping resource="com/soaplat/cmsmgr/hbm/FileStyle.hbm.xml" />
+		<mapping resource="com/soaplat/cmsmgr/hbm/ProgListDeleteDetail.hbm.xml" />
+		<mapping resource="com/soaplat/cmsmgr/hbm/CmsSiteProductRel.hbm.xml" />
+
+		<!-- AMS -->
+		<mapping resource="com/soaplat/amsmgr/hbm/AmsFileServer.hbm.xml" />
+		<mapping resource="com/soaplat/amsmgr/hbm/AmsFileSSchedule.hbm.xml" />
+		<mapping resource="com/soaplat/amsmgr/hbm/AmsStorage.hbm.xml" />
+		<mapping resource="com/soaplat/amsmgr/hbm/AmsStorageClass.hbm.xml" />
+		<mapping resource="com/soaplat/amsmgr/hbm/AmsStorageDir.hbm.xml" />
+		<mapping resource="com/soaplat/amsmgr/hbm/AmsStoragePrgRel.hbm.xml" />
+		<mapping resource="com/soaplat/amsmgr/hbm/AmsStorageRoute.hbm.xml" />
+		<!-- 文件删除 -->
+		<mapping resource="com/soaplat/amsmgr/hbm/AmsStorageHistory.hbm.xml" />
+		<mapping resource="com/soaplat/amsmgr/hbm/AmsStoragePolicy.hbm.xml" />
+		<mapping resource="com/soaplat/amsmgr/hbm/AmsStoragePrgRelBack.hbm.xml" />
+
+		<!-- CBS -->
+		<mapping resource="com/cbs/cbsmgr/hbm/Account.hbm.xml" />
+		<mapping resource="com/cbs/cbsmgr/hbm/Address.hbm.xml" />
+		<mapping resource="com/cbs/cbsmgr/hbm/CbsNamedQuery.hbm.xml" />
+		<mapping resource="com/cbs/cbsmgr/hbm/Customer.hbm.xml" />
+		<mapping resource="com/cbs/cbsmgr/hbm/FinancialTransaction.hbm.xml" />
+		<mapping resource="com/cbs/cbsmgr/hbm/History.hbm.xml" />
+		<mapping resource="com/cbs/cbsmgr/hbm/Invoice.hbm.xml" />
+		<mapping resource="com/cbs/cbsmgr/hbm/InvoicePeriod.hbm.xml" />
+		<mapping resource="com/cbs/cbsmgr/hbm/ProductPackage.hbm.xml" />
+		<mapping resource="com/cbs/cbsmgr/hbm/PackageItem.hbm.xml" />
+		<mapping resource="com/cbs/cbsmgr/hbm/Price.hbm.xml" />
+		<mapping resource="com/cbs/cbsmgr/hbm/Product.hbm.xml" />
+		<mapping resource="com/cbs/cbsmgr/hbm/ProductCategory.hbm.xml" />
+		<mapping resource="com/cbs/cbsmgr/hbm/SmsAccount.hbm.xml" />
+		<mapping resource="com/cbs/cbsmgr/hbm/VodCampaignCategory.hbm.xml" />
+		<mapping resource="com/cbs/cbsmgr/hbm/VodDisplayCategory.hbm.xml" />
+		<mapping resource="com/cbs/cbsmgr/hbm/VodHistory.hbm.xml" />
+		<mapping resource="com/cbs/cbsmgr/hbm/VodHistoryTemp.hbm.xml" />
+		<mapping resource="com/cbs/cbsmgr/hbm/VodPackage.hbm.xml" />
+		<mapping resource="com/cbs/cbsmgr/hbm/VodProduct.hbm.xml" />
+		<mapping resource="com/cbs/cbsmgr/hbm/VodProgramPackageRel.hbm.xml" />
+		<mapping resource="com/cbs/cbsmgr/hbm/VodSend.hbm.xml" />
+		<mapping resource="com/cbs/cbsmgr/hbm/VodSendDetail.hbm.xml" />
+		<mapping resource="com/cbs/cbsmgr/hbm/VodCbsProductRel.hbm.xml" />
+		<mapping resource="com/cbs/cbsmgr/hbm/Hardware.hbm.xml" />
+		<mapping resource="com/cbs/cbsmgr/hbm/HardwareModel.hbm.xml" />
+		<mapping resource="com/cbs/cbsmgr/hbm/SmsDistrict.hbm.xml" />
+		<mapping resource="com/cbs/cbsmgr/hbm/BillingType.hbm.xml" />
+		<mapping resource="com/cbs/cbsmgr/hbm/ContentCategory.hbm.xml" />
+		<mapping resource="com/cbs/cbsmgr/hbm/ProductType.hbm.xml" />
+		<mapping resource="com/cbs/cbsmgr/hbm/VodFlow.hbm.xml" />
+		<mapping resource="com/cbs/cbsmgr/hbm/PpSrvPdtRel.hbm.xml" />
+		<mapping resource="com/cbs/cbsmgr/hbm/CampaignCategory.hbm.xml" />
+		<mapping resource="com/cbs/cbsmgr/hbm/CbsChannelList.hbm.xml" />
+		<mapping resource="com/cbs/cbsmgr/hbm/CaSendLog.hbm.xml" />
+	</session-factory>
+</hibernate-configuration>

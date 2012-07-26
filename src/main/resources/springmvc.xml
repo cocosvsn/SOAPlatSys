@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+	xmlns:flex="http://www.springframework.org/schema/flex"
+	xmlns:task="http://www.springframework.org/schema/task"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-3.0.xsd
+		http://www.springframework.org/schema/flex http://www.springframework.org/schema/flex/spring-flex-1.5.xsd
+		http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.0.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
+ 
+ 	<!-- 配置srping自动 扫描包 -->
+ 	<aop:aspectj-autoproxy/>
+ 	<context:component-scan base-package="com.soaplat.cmsmgr" />
+<!--  	<context:property-placeholder location="classpath:config.properties" ignore-unresolvable="true"/> -->
+	
+ 	<mvc:annotation-driven/>
+ 	
+ 	<bean id="FlexProxy" class="com.sbl.common.FlexProxy">
+		<flex:remoting-destination />
+	</bean>
+ 
+	<flex:message-broker mapping-order="1" >
+		<flex:mapping pattern="/messagebroker/*"/>
+		<flex:remoting-service default-channels="my-amf"/>
+	</flex:message-broker>
+	
+ 	<bean id="viewResolver" class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver">
+		<property name="viewResolvers">
+			<list>
+				<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">  
+					<property name="prefix" value="/"/>  
+					<property name="suffix" value=".jsp"/>  
+				</bean>  
+			</list>
+		</property>
+		<property name="defaultViews">
+			<list>
+				<bean class="org.springframework.flex.http.AmfView" />
+			</list>
+		</property>
+ 	</bean>
+ 	
+<!-- 	<task:scheduled-tasks> -->
+<!--         <task:scheduled ref="productkScan" method="updateUsers" cron="${scan.interval.cron}" />   -->
+<!-- 	</task:scheduled-tasks> -->
+	
+	<bean id="logger" class="org.slf4j.LoggerFactory" factory-method="getLogger">
+		<constructor-arg value="Cms" />
+	</bean>
+	
+	<mvc:resources mapping="/images/**" location="/images/" cache-period="31556926" />
+	<mvc:resources mapping="/js/**" location="/js/" cache-period="31556926" />
+	<mvc:resources mapping="/css/**" location="/css/" cache-period="31556926" />
+	<mvc:resources mapping="/bin/**" location="/bin/" cache-period="31556926" />
+	<mvc:resources mapping="/bin2/**" location="/bin2/" cache-period="31556926" />
+</beans>

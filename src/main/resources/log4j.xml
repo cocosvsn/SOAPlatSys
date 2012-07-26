@@ -1,0 +1,128 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
+	<!-- 输出到日志文件 每天一个日志 -->
+	<appender name="Cms_filelog_daily" class="org.apache.log4j.DailyRollingFileAppender">
+		<param name="Threshold" value="debug" />
+		<param name="ImmediateFlush" value="true"/>
+		<param name="File" value="${catalina.home}/logs/cms.log" />
+		<param name="DatePattern" value="'.daily.'yyyy-MM-dd'.txt'" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d [%-5p] %l - %m%n" />
+		</layout>
+	</appender>
+	
+	<appender name="root_filelog_daily" class="org.apache.log4j.DailyRollingFileAppender">
+		<param name="Threshold" value="debug" />
+		<param name="ImmediateFlush" value="true"/>
+		<param name="File" value="${catalina.home}/logs/root.log" />
+		<param name="DatePattern" value="'.daily.'yyyy-MM-dd'.txt'" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d [%-5p] %l - %m%n" />
+		</layout>
+	</appender>
+	
+	<appender name="sys_filelog_daily" class="org.apache.log4j.DailyRollingFileAppender">
+		<param name="Threshold" value="debug" />
+		<param name="ImmediateFlush" value="true"/>
+		<param name="File" value="${catalina.home}/logs/sys.log" />
+		<param name="DatePattern" value="'.daily.'yyyy-MM-dd'.txt'" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d [%-5p] %l - %m%n" />
+		</layout>
+	</appender>
+
+	<!-- 输出到控制台中 -->
+	<appender name="console" class="org.apache.log4j.ConsoleAppender">
+		<param name="Threshold" value="debug" />
+		<param name="ImmediateFlush" value="true"/>
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d [%-5p] %l - %m%n" />
+		</layout>
+	</appender>
+
+	<appender name="telnet" class="org.apache.log4j.net.TelnetAppender">
+		<param name="Threshold" value="debug" />
+		<!-- 设置绑定的端口(默认为23) -->
+		<param name="Port" value="60000" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d [%-5p] %l - %m%n" />
+		</layout>
+	</appender>
+	
+	<!-- JDBC数据库配置 -->
+	<appender name="jdbc" class="org.apache.log4j.jdbc.JDBCAppender">
+		<param name="Threshold" value="info" />
+		<param name="URL"
+			value="jdbc:mysql:///test?useUnicode=true&amp;characterEncoding=utf-8" />
+		<param name="bufferSize" value="5" />
+		<param name="user" value="root" />
+		<param name="password" value="" />
+		<param name="driver" value="com.mysql.jdbc.Driver" />
+		<param name="sql"
+			value="INSERT INTO log4j(time, level, class, information) VALUES ('%d', '%p', '%l', '%m')" />
+	</appender>
+
+	<logger name="com.soaplat.amsmgr">
+		<level value="debug" />
+		<appender-ref ref="console" />
+		<appender-ref ref="sys_filelog_daily" />
+		<appender-ref ref="telnet" />
+	</logger>
+	<logger name="com.cbs.cbsmgr">
+		<level value="debug" />
+		<appender-ref ref="console" />
+		<appender-ref ref="sys_filelog_daily" />
+		<appender-ref ref="telnet" />
+	</logger>
+	<logger name="com.cdsmgr">
+		<level value="debug" />
+		<appender-ref ref="console" />
+		<appender-ref ref="sys_filelog_daily" />
+		<appender-ref ref="telnet" />
+	</logger>
+	<logger name="com.srmmgr">
+		<level value="debug" />
+		<appender-ref ref="console" />
+		<appender-ref ref="sys_filelog_daily" />
+		<appender-ref ref="telnet" />
+	</logger>
+	<logger name="com.sbl.common">
+		<level value="debug" />
+		<appender-ref ref="console" />
+		<appender-ref ref="sys_filelog_daily" />
+		<appender-ref ref="telnet" />
+	</logger>
+	<logger name="com.soaplat.sysmgr">
+		<level value="debug" />
+		<appender-ref ref="console" />
+		<appender-ref ref="sys_filelog_daily" />
+		<appender-ref ref="telnet" />
+	</logger>
+	<logger name="com.soaplat.transmgr">
+		<level value="debug" />
+		<appender-ref ref="console" />
+		<appender-ref ref="sys_filelog_daily" />
+		<appender-ref ref="telnet" />
+	</logger>
+	<logger name="Cms">
+		<level value="debug" />
+		<appender-ref ref="console" />
+		<appender-ref ref="Cms_filelog_daily" />
+		<appender-ref ref="telnet" />
+	</logger>
+	<logger name="operation">
+		<level value="debug" />
+		<appender-ref ref="console" />
+		<!-- appender-ref ref="filelog_daily" / -->
+		<appender-ref ref="telnet" />
+	</logger>
+	<logger name="junit.test">
+		<level value="debug"/>
+		<appender-ref ref="console"/>
+	</logger>
+	<root>
+		<level value="warn"></level>
+		<appender-ref ref="root_filelog_daily" />
+	</root>
+</log4j:configuration>

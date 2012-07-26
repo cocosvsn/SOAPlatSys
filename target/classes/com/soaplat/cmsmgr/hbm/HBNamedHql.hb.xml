@@ -1,0 +1,818 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+		"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.soaplat.cmsmgr.bean">
+
+	<!-- 查询报纸的两个栏目, 现不灵活, 写死 -->
+	<query name="query.ProgListMang.by.scheduledate">
+		<![CDATA[
+			from ProgListMang as p where p.scheduledate in (:scheduledate) order by p.scheduledate
+		]]>
+	</query>
+
+	<!-- 查询所有有效栏目 -->
+	<query name="query.PortalColumn.by.isleaf.validFlag">
+		<![CDATA[
+			from PortalColumn as p where p.isleaf = 'Y' and p.validFlag = 0 order by p.countnumb
+		]]>
+	</query>
+	
+	<!-- 根据栏目序列, 查询该栏目的所有有效栏目 -->
+	<query name="query.Child.PortalColumn.by.seq">
+		<![CDATA[
+			from PortalColumn as p where p.defcatseq like :seq and p.validFlag <> 1 order by p.countnumb
+		]]>
+	</query>
+	
+	<!-- 根据栏目code, 有效标识, 查询栏目 -->
+	<query name="query.PortalColumn.by.columnCode.validFlag">
+		<![CDATA[
+			from PortalColumn as p where p.defcatcode in (:columnCode) and p.validFlag = :validFlag order by p.countnumb
+		]]>
+	</query>
+	
+	<!-- 查询编单明细 -->
+	<query name="query.ProgListDetail.by.scheduledate.and.columnclassid">
+		<![CDATA[
+			select new com.soaplat.cmsmgr.bean.ProgListDetail(p.proglistdetailid, p.scheduledate, p.columnclassid, p.productid, p.broadcastpolicy, p.ETitle, p.sumfilesize, p.lengthPlay, p.pop, p.dealInfo, p.dealDate, p.byint, p.bystr, p.bydate, p.productCategoryId, p.scheduleTag, p.jsFileID, p.productInfoID, pp.state, pp.dealstate, pp.productname, p.lnum) from ProgListDetail as p, ProgPackage as pp where p.productid = pp.productid and p.scheduledate = :scheduledate and p.columnclassid = :columnclassid order by p.lnum
+		]]>
+	</query>  
+	
+	<!-- 查询节目包服务类型Code -->
+	<query name="query.ProgListDetail.ETitle.by.productid">
+		<![CDATA[
+			select p.code from ProductCategory as p where p.productCategoryId in (select pp.productCategoryId from PpSrvPdtRel as pp where pp.productid = :productid) order by p.code
+		]]>
+	</query> 
+	
+	<!-- 查询栏目编单 -->
+	<query name="query.ProgListMangDetail.by.productid">
+		<![CDATA[
+			from ProgListMangDetail as p where p.scheduledate = :scheduledate and p.columnclassid = :columnclassid
+		]]>
+	</query> 
+	
+	<!-- 查询活动顺序 -->
+	<query name="query.FlowActivityOrder.by.flowactivityidparent">
+		<![CDATA[
+			select p.flowactivityidchild from FlowActivityOrder as p where p.flowactivityidparent = :currAct and p.state2 = :state
+		]]>
+	</query> 
+	
+	<!-- 查询品牌下的所有栏目 -->
+	<query name="query.PortalColumn.by.siteCode">
+		<![CDATA[
+			from PortalColumn as p where p.siteCode = :siteCode and p.validFlag = 0 and p.isleaf = 'Y' order by p.countnumb
+		]]>
+	</query>
+	
+	<!-- 查询栏目编单下所有节目包信息, 用于生成节目预告. 去掉在HQL语句中的判断, 在程序中增条件过滤   and pd.scheduleTag = 'Y'-->
+	<query name="query.ProgPackage.by.scheduleDate.columnID">
+		<![CDATA[
+			select new com.soaplat.cmsmgr.bean.ProgPackage(p.productid, p.styleid, p.productname, p.description, p.category, p.titlebrief, p.epicodename, p.epicodeid, pd.scheduleTag, p.progtype, p.epicodenumber, p.audiolanguage, p.director, p.actors, p.countrydist, p.ppxml, p.inputmanid, p.inputtime, p.remark, pd.productInfoID) from ProgPackage as p, ProgListDetail as pd where pd.scheduledate = :scheduleDate and pd.columnclassid = :columnID and pd.productid = p.productid order by pd.lnum
+		]]>
+	</query>
+	
+	<!-- 查询节目包所有文件信息 -->
+	<query name="query.ProgramFiles.by.progPackageID.fileTypeIds">
+		<![CDATA[
+			from ProgramFiles as p where p.progfileid in (select pf.progfileid from PackageFiles as pf where pf.productid = :progPackageID) and p.filetypeid in (:fileTypeIds) order by p.progrank desc
+		]]>
+	</query>
+	
+	<!-- 查询节目包所有文件信息 -->
+	<query name="query.ProgramFiles.by.progPackageID">
+		<![CDATA[
+			from ProgramFiles as p where p.progfileid in (select pf.progfileid from PackageFiles as pf where pf.productid = :progPackageID) order by p.progrank desc
+		]]>
+	</query>
+	
+	<!-- 查询节目包产品信息 -->
+	<query name="query.TProductInfo.by.progPackageId">
+		<![CDATA[
+			from TProductInfo as p where p.progPackageId = :progPackageId and p.validDate <= :validDate order by p.validDate desc
+		]]>
+	</query>
+	
+	<!-- 根据keyId查询有效包月产品信息 -->
+	<query name="query.ProgProduct.by.keyId">
+		<![CDATA[
+			from ProgProduct as p where p.keyId in (:keyId) order by p.valiDate
+		]]>
+	</query>
+	
+	<!-- 查询所有有效包月产品信息 -->
+	<query name="query.all.validate.ProgProduct">
+		<![CDATA[
+			from ProgProduct as p where p.keyId not in (:keyIds) and p.valiDate <= :valiDate order by p.valiDate
+		]]>
+	</query>
+	
+	<!-- 查询节目包所有有效包月产品关系信息 -->
+	<query name="query.all.validate.ProductProgRel.progPackageId.valiDate">
+		<![CDATA[
+			from ProductProgRel as p where p.progPackageId = :progPackageId and p.valiDate <= :valiDate order by p.valiDate desc
+		]]>
+	</query>
+	
+	<!-- 查询节目包所有有效包月产品关系信息 -->
+	<query name="query.all.validate.ProductProgRelVo.progPackageId.valiDate">
+		<![CDATA[
+			select new com.soaplat.cmsmgr.dto.ProductProgRelVo(p.id, p.progPackageId, p.keyName, p.keyId, pp.price, p.valiDate, p.operator, p.inputDate, p.remark) from ProductProgRel as p, ProgProduct as pp where p.keyId = pp.keyId and p.valiDate <= :valiDate and p.progPackageId = :progPackageId order by p.valiDate desc
+		]]>
+	</query>
+	
+	<!-- 查询文件样式信息 -->
+	<query name="query.FileStyle.by.styleCode.styleId">
+		<![CDATA[
+			from FileStyle as p where p.styleCode = :styleCode and p.styleId = :styleId and p.validTag = 'Y'
+		]]>
+	</query>
+	
+	<!-- 根据产品ID查询编单明细信息 -->
+	<query name="query.ProgListDetail.by.productInfoId">
+		<![CDATA[
+			from ProgListDetail as p where p.productInfoID = :productInfoID
+		]]>
+	</query>
+	
+	<!-- 根据编单日期查询所有栏目编单信息 -->
+	<query name="query.ProgListMangDetail.by.scheduleDate">
+		<![CDATA[
+			select new com.soaplat.cmsmgr.bean.ProgListMangDetail(p.mangdetailid, p.scheduledate, p.columnclassid, pc.columnname, f.actionname, p.idAct, p.pop, p.inputmanid, p.inputtime, p.remark) from ProgListMangDetail as p, PortalColumn as pc, FlowAction as f where p.scheduledate in (:scheduleDateStr) and p.columnclassid = pc.columnclassid and p.idAct = f.actionid order by p.inputtime desc
+		]]>
+	</query>
+	
+	<!-- 根据编单日期, 栏目ID查询所有编单明细信息 -->
+	<query name="query.ProgListDetail.by.scheduleDate.columnId">
+		<![CDATA[
+			from ProgListDetail as p where p.scheduledate = :scheduleDateStr and p.columnclassid = :columnId
+		]]>
+	</query>
+	
+	<!-- 查询节目包中主文件ID -->
+	<query name="query.ProgramFiles.progfileid.by.progPackageId.progrank">
+		<![CDATA[
+			select p.progfileid from ProgramFiles as p where p.progfileid in ( select pf.progfileid from PackageFiles as pf where pf.productid = :progPackageId) and p.progrank = 1
+		]]>
+	</query>
+	
+	<!-- 查询节目包中主文件contentID -->
+	<query name="query.ProgramFiles.contentId.by.progPackageId.progrank">
+		<![CDATA[
+			select p.contentId from ProgramFiles as p where p.progfileid in ( select pf.progfileid from PackageFiles as pf where pf.productid = :progPackageId) and p.progrank = 1
+		]]>
+	</query>
+	
+	<!-- 根据存储等级Code查询该存储等级的存储体ID -->
+	<query name="query.StorageID.by.storageClassCode">
+		<![CDATA[
+			select s.stglobalid from AmsStorage as s, AmsStorageClass as sc where sc.stclasscode = :storageClassCode and sc.storagevalid = '是' and s.stclassglobalid = sc.stclassglobalid
+		]]>
+	</query>
+	
+	<!-- 根据节目包ID和存储体ID查询节目包视频文件存储信息 -->
+	<query name="query.ProgPackage.Storage.info.by.progPackageId.storageId">
+		<![CDATA[
+			select
+				s, sd, sr
+			from
+				AmsStorage as s,
+				AmsStorageDir as sd,
+				AmsStoragePrgRel as sr
+			where 
+					sr.prglobalid = :progPackageId
+				and sr.ftypeglobalid = 'H264'
+				and sr.stglobalid = :storageId
+				and sr.stglobalid = s.stglobalid
+				and sr.stdirglobalid = sd.stdirglobalid
+		]]>
+	</query>
+	
+	<!-- 根据编单日期和节目包ID查询所应用到产品信息的KeyId -->
+	<query name="query.TProductInfo.keyId.by.scheduleDate.progPackageId">
+		<![CDATA[
+			select t.keyId from TProductInfo as t, ProgListDetail as p where p.scheduledate = :scheduleDate and p.productid = :progPackageId and t.id = p.productInfoID 
+		]]>
+	</query>
+	
+	<!-- 根据节目包ID查询该节目包的页面包装信息 -->
+	<query name="query.PtpPgpRel.by.progPackageId">
+		<![CDATA[
+			select new com.soaplat.cmsmgr.bean.PtpPgpRel(p.relid, p.ptpid, p.productid, pp.epicodecount, p.epicodeid, pp.columnclassid, p.inputtime, pp.ptpname) from PtpPgpRel as p, PortalPackage as pp where p.productid = :progPackageId and p.ptpid = pp.ptpid
+		]]>
+	</query>
+	
+	<!-- 根据编单日期查询栏目编单明细下所有节目包信息, 用于节目包XML生成. -->
+	<query name="query.ProgPackage.by.scheduleDate">
+		<![CDATA[
+			select new com.soaplat.cmsmgr.bean.ProgPackage(p.productid, p.productname, p.description, p.ppxml, c.columnclassid, c.columnname, c.defcatcode, pd.productInfoID, p.state, pi.encryptState) from ProgPackage as p, ProgListDetail as pd, PortalColumn as c, TProductInfo as pi where pd.scheduledate = :scheduleDate and pd.columnclassid = c.columnclassid and pd.productid = p.productid and pi.id = pd.productInfoID order by p.updatetime
+		]]>
+	</query>
+	
+	<!-- 查询所有有效品牌信息 -->
+	<query name="query.all.validate.CmsSite">
+		<![CDATA[
+			from CmsSite as c
+		]]>
+	</query>
+	
+	<!-- 根据节目包ID查询节目信息和主文件信息 -->
+	<query name="query.ProgramFilesVo.by.progPackageId">
+		<![CDATA[
+			select new com.soaplat.cmsmgr.dto.EncryptProgVo(pp.productid, pp.productname, pp.state, pp.dealstate, pi.programid, pi.progtype, pi.dsflag, pf.progfileid, pf.filetypeid, pf.filecode, pf.filename, pf.progrank, pf.contentId, pf.progstatus, pf.encodestatus) from ProgPackage as pp, ProgramFiles as pf, ProgramInfo as pi, ProgPPRel as pr where	pp.productid = :progPackageId and pp.productid = pr.productid and pr.programid = pi.programid and pi.programid = pf.programid and pf.progrank = 1 order by pi.inputtime desc
+		]]>
+	</query>
+	
+	<!-- 根据文件ID, 文件Code和存储等级Code查询指定存储等级上的节目包主文件位置信息 -->
+	<query name="query.positionInfo.by.programFileId.fileCode.classCode">
+		<![CDATA[
+			select s, sd, sr from AmsStorage as s, AmsStorageDir as sd, AmsStorageClass as sc, AmsStoragePrgRel as sr where sc.stclasscode = :classCode and s.stclassglobalid = sc.stclassglobalid and sd.filecode = :fileCode and sd.stglobalid = s.stglobalid and sr.stglobalid = s.stglobalid and sr.progfileid = :programFileId order by sr.inputtime desc
+		]]>
+	</query>
+	
+	<!-- 根据文件ID, 文件Code和存储等级Code查询指定存储等级上的节目包主文件位置信息 -->
+	<query name="query.AmsStoragePrgRel.by.filePath.fileName">
+		<![CDATA[
+			from AmsStoragePrgRel as a where a.filepath = :filePath and a.filename = :fileName order by a.inputtime desc
+		]]>
+	</query>
+	
+	<!-- 根据流程活动ID, 日期区间查询ProgListMang表信息 -->
+	<query name="query.ProgListMang.by.currentAction.scheduleDate">
+		<![CDATA[
+			select new com.soaplat.cmsmgr.bean.ProgListMang(p.scheduledate, p.idAct, p.inputmanid, p.inputtime, f.actionname) from ProgListMang as p, FlowAction as f where p.idAct in (:currentAction) and p.scheduledate between :timeStart and :timeEnd and p.idAct = f.actionid order by p.scheduledate
+		]]>
+	</query>
+	
+	<!-- 根据编单日期ID, 查询该日期下所有栏目 -->
+	<query name="query.PortalColumn.by.scheduleDate">
+		<![CDATA[
+			select new com.soaplat.cmsmgr.bean.PortalColumn(p.columnclassid, p.columnname, p.siteCode, cs.sitename) from PortalColumn as p, CmsSite as cs where p.columnclassid in (select d.columnclassid from ProgListMangDetail as d where d.scheduledate = :scheduleDate) and p.siteCode = cs.siteCode order by p.siteCode
+		]]>
+	</query>
+	
+	<!-- 根据编单日期ID, 查询该日期下所有栏目 -->
+	<query name="query.PortalColumn.by.scheduleDate.siteCode">
+		<![CDATA[
+			select new com.soaplat.cmsmgr.bean.PortalColumn(p.columnclassid, p.columnname, p.siteCode, cs.sitename, p.publishfilename, p.archivedays) from PortalColumn as p, CmsSite as cs where p.columnclassid in (select d.columnclassid from ProgListMangDetail as d where d.scheduledate = :scheduleDate) and p.siteCode = cs.siteCode and cs.siteCode = :siteCode order by p.siteCode
+		]]>
+	</query>
+	
+	<!-- 根据编单日期ID, 查询该日期下所有栏目 -->
+	<query name="query.PortalColumn.by.scheduleDate.-siteCode">
+		<![CDATA[
+			select new com.soaplat.cmsmgr.bean.PortalColumn(p.columnclassid, p.columnname, p.siteCode, p.siteCode, p.publishfilename, p.archivedays) from PortalColumn as p where p.columnclassid in (select d.columnclassid from ProgListMangDetail as d where d.scheduledate = :scheduleDate) order by p.siteCode
+		]]>
+	</query>
+	
+	<!-- 根据编单日期ID, 查询该日期下所有编单明细已应用的产品信息中未加密的产品信息数量 -->
+	<query name="query.TProductInfo.count.by.scheduleDate">
+		<![CDATA[
+			select count(*) from TProductInfo as t where t.id in (select p.productInfoID from ProgListDetail as p where p.scheduledate = :scheduleDate) and (t.keyFileId is null or t.encryptState < 9)
+		]]>
+	</query>
+	
+	<!-- 根据编单日期ID, 节目包ID. 查询编单明细表信息 -->
+	<query name="query.ProgListDetail.by.scheduleDate.progPackageId">
+		<![CDATA[
+			from ProgListDetail as p where p.scheduledate = :scheduleDate and p.productid = :progPackageId
+		]]>
+	</query>
+	
+	<!-- 根据编单日期ID, 查询是否存在JsFileId属性为null的编单明细数量 -->
+	<query name="query.ProgListDetail.count.by.scheduleDate.jsFileId">
+		<![CDATA[
+			select count(*) from ProgListDetail as p where p.scheduledate = :scheduleDate and p.jsFileID is null
+		]]>
+	</query>
+	
+	<!-- 根据编单日期ID, 栏目ID, 查询栏目编单活动名称 -->
+	<query name="query.FlowAction.by.scheduleDate.ColumnId">
+		<![CDATA[
+			from FlowAction as f where f.actionid = (select p.idAct from ProgListMangDetail as p where p.scheduledate = :scheduleDate and p.columnclassid = :columnId)
+		]]>
+	</query>
+	
+	<!-- 根据编单日期ID, 查询前台页面显示所需要的对象集合 -->
+	<!-- select pd.proglistdetailid, pd.scheduledate, pd.columnclassid, pd.productid, pd.productName, pp.state, pp.dealstate, pd.scheduleTag, pd.jsFileID, pd.productInfoID, pi.productName from ProgListDetail as pd, ProgPackage as pp, TProductInfo as pi where pd.scheduledate = :scheduleDate and pd.productid = pp.productid and pd.productInfoID = pi.id -->
+	<query name="query.ProgListDetails.Views.by.scheduleDate">
+		<![CDATA[
+			select new com.soaplat.cmsmgr.dto.ProgListDetailVO(pp.productid, pp.productname, pc.columnclassid, pc.columnname, pp.state, pi.encryptState, pi.id, pi.productName) from ProgListDetail as pd, ProgPackage as pp, TProductInfo as pi, PortalColumn as pc where pd.scheduledate = :scheduleDate and pd.productid = pp.productid and pd.productInfoID = pi.id and pd.columnclassid = pc.columnclassid order by pd.proglistdetailid desc
+		]]>
+	</query>
+	
+	<!-- 根据节目包ID, 存储等级Code, 文件类型Code, 查询文件位置表记录, 用于查询一级库海报, 字幕等小文件位置表记录, 节目包维护时用 -->
+	<sql-query name="query.AmsStoragePrgRel.by.progPackageId.classCode.fileCode">
+		<![CDATA[
+			SELECT CLAS.STCLASSGLOBALID, CLAS.STCLASSCODE, CLAS.STCLASSNAME, S.STGLOBALID, S.STORAGEIP, S.LOGINNAME, S.LOGINPWD, S.STORAGEACCSTYPE, DIR.STDIRGLOBALID, DIR.FILECODE, DIR.STORAGEDIRNAME, REL.RELID, REL.PRGLOBALID, REL.FILENAME, REL.PROGFILEID, REL.FILEPATH, S.MAPPATH FROM SOAPLATDB.TSOAAMSSTORAGECLASS CLAS INNER JOIN SOAPLATDB.TSOAAMSSTORAGE S ON CLAS.STCLASSGLOBALID = S.STCLASSGLOBALID INNER JOIN SOAPLATDB.TSOAAMSSTORAGEDIR DIR ON S.STGLOBALID = DIR.STGLOBALID INNER JOIN SOAPLATDB.TSOAAMSSTORAGEPRGREL REL ON DIR.STDIRGLOBALID = REL.STDIRGLOBALID WHERE REL.PRGLOBALID = :progPackageId AND CLAS.STCLASSCODE = :classCode AND REL.PROGFILEID in (:programFileIds) AND DIR.DIRVALID = '是'
+		]]>
+	</sql-query>
+	
+	<!-- 根据编单日期ID, 查询当天和以后的编单明细节目包ID -->
+	<query name="query.ProgListDetail.progPackageIds.by.scheduleDate">
+		<![CDATA[
+			select distinct p.productid from ProgListDetail as p where p.scheduledate >= :scheduleDate
+		]]>
+	</query>
+	
+	<!-- 根据节目包ID, 文件Code查询文件ID -->
+	<query name="query.ProgramFiles.progfileid.by.progPackageId.fileCode">
+		<![CDATA[
+			select p.progfileid from ProgramFiles as p where p.progfileid in ( select pf.progfileid from PackageFiles as pf where pf.productid = :progPackageId) and p.filecode in (:fileCodes)
+		]]>
+	</query>
+	
+	<!-- 根据编单日期ID, 查询该编单日期下所需强制删除的节目列表 -->
+	<query name="query.ProgListDeleteDetailVo.by.scheduleDate">
+		<!-- select new com.soaplat.cmsmgr.dto.ProgListDeleteDetailVo(p.id, p.progPackageId, p.progPackageName, c.sitename, c.siteCode, p.inputTime) from ProgListDeleteDetail as p, CmsSite as c where p.scheduleDate = :scheduleDate and p.siteCode = c.siteCode order by p.inputTime desc -->
+		<![CDATA[
+			from ProgListDeleteDetail as p where p.scheduleDate = :scheduleDate order by p.inputTime desc
+		]]>
+	</query>
+	
+	<!-- 根据节目包ID, 存储体ID查询位置表记录 -->
+	<query name="query.AmsStoragePrgRel.by.progPackageId.storageId">
+		<![CDATA[
+			from AmsStoragePrgRel as rel where rel.prglobalid = :progPackageId and rel.stglobalid = :storageId order by rel.ftypeglobalid
+		]]>
+	</query>
+	
+	<!-- 根据编单细表的节目包ID查询该节目包曾经编单过的所有栏目 -->
+	<query name="query.PortalColumn.by.progPackageId">
+		<![CDATA[
+			from PortalColumn as pc where pc.columnclassid in (select pld.columnclassid from ProgListDetail as pld where pld.productid = :progPackageId)
+		]]>
+	</query>
+	
+	<!-- 根据栏目Code查询该栏目所能应用的样式ID列表 -->
+	<query name="query.PackStylePortalColumn.PackStyleID.by.defcatcode">
+		<![CDATA[
+			select p.styleid from PackStylePortalColumn as p where p.defcatcode = :defcatcode
+		]]>
+	</query>
+	
+	<!-- 根据品牌ID, 查询该品牌所所包含的产品信息 -->
+	<query name="query.ProgProduct.by.siteId">
+		<![CDATA[
+			from ProgProduct as p where p.id in (select c.productId from CmsSiteProductRel as c where c.cmsSiteId = :siteId)
+		]]>
+	</query>
+	
+	<!-- 根据栏目编号, 查询该栏目绑定的产品信息 -->
+	<query name="query.ProgProduct.by.columnId">
+		<![CDATA[
+			from ProgProduct as p where p.id in (select c.productId from CmsSiteProductRel as c where c.cmsSiteId = :columnId)
+		]]>
+	</query>
+	
+	<!-- 根据KeyID集合, 查询产品ID所属品牌的品牌Code集合 -->
+	<query name="query.CmsSite.siteCode.by.keyIds">
+		<![CDATA[
+			select distinct c.siteCode from CmsSite as c where c.siteid in (select r.cmsSiteId from CmsSiteProductRel as r where r.productId in (select p.id from ProgProduct as p where p.keyId in (:keyIds)))
+		]]>
+	</query>
+	
+	<!-- 根据编单日期和节目包ID, 查询节目包当天在哪些品牌下编单 -->
+	<query name="query.CmsSite.siteCode.by.scheduleDate.progPackageId">
+		<![CDATA[
+			select distinct p.siteCode from PortalColumn as p where p.columnclassid in (select pld.columnclassid from ProgListDetail as pld where pld.scheduledate = :scheduleDate and pld.productid =:progPackageId)
+		]]>
+	</query>
+	
+	<!-- 根据编单日期集合, 查询该集合中的编单总表的活动集合 -->
+	<query name="query.ProgListMang.idAct.by.scheduleDates">
+		<![CDATA[
+			select distinct p.idAct from ProgListMang as p where p.scheduledate in (:scheduleDates)
+		]]>
+	</query>
+	
+	<!-- 根据节目包ID, 查询该节目包编单日期集合 -->
+	<query name="query.ProgListDetail.scheduleDate.by.progPackageId">
+		<![CDATA[
+			select distinct p.scheduledate from ProgListDetail as p where p.productid = :progPackageId
+		]]>
+	</query>
+	
+	<!-- 根据节目包ID, 查询该节目包主文件ContentID -->
+	<query name="query.ProgramFiles.ContentID.by.progPackageIds">
+		<![CDATA[
+			select distinct pf.contentId from ProgramFiles as pf where pf.progfileid in (select p.progfileid from PackageFiles as p where p.productid in (:progPackageIds)) and pf.progrank = 1
+		]]>
+	</query>
+	
+	<!-- 根据编单日期, 查询当前已经编单的节目包ID集合 -->
+	<query name="query.ProgListDetail.progPackageId.by.scheduleDate">
+		<![CDATA[
+			select distinct p.productid from ProgListDetail as p where p.scheduledate = :scheduleDate
+		]]>
+	</query>
+	
+	<!-- 查询终端使用的有效栏目, 用于生成栏目JS -->
+	<query name="query.PortalColumn.by.validFlag">
+		<![CDATA[
+			from PortalColumn as p where p.validFlag <> 1 order by p.countnumb
+		]]>
+	</query>
+	
+	<!-- 查询某月已初始化的编单总表记录 -->
+	<query name="query.ProgListMang.by.scheduledate.like">
+		<![CDATA[
+			from ProgListMang as p where p.scheduledate like :scheduleDate
+		]]>
+	</query>
+	
+	<!-- 根据节目包编号, 查询该节目包有效的最新历史订价信息 -->
+	<query name="query.ProductInfo.by.progPackageId">
+		<![CDATA[
+			from TProductInfo as p where p.progPackageId = :progPackageId order by inputTime desc
+		]]>
+	</query>
+	
+	<!-- 根据上线日期区间, 编单细表中的节目包集合 -->
+	<query name="query.ProglistDetail.by.scheduleDate.Area">
+		<![CDATA[
+			from ProgListDetail as p where p.scheduledate between :startTime and :endTime order by p.scheduledate
+		]]>
+	</query>
+	
+	<!-- 根据节目包名称, 查询节目包 -->
+	<query name="query.ProgPackage.by.progPackageName">
+		<![CDATA[
+			from ProgPackage as p where p.productname like :progPackageName
+		]]>
+	</query>
+	
+	<!-- 根据节目包名称查询产品订价信息 -->
+	<query name="query.TProductInfo.by.progPackageName">
+		<![CDATA[
+			from TProductInfo as pi where pi.progPackageId in (select p.productid from ProgPackage p where p.productname like :progPackageName) 
+		]]>
+	</query>
+	
+	<!-- 根据编单日期, 查询当天编单节目包可用于加密的产品信息 -->
+	<query name="query.TProductInfo.by.scheduleDate">
+		<![CDATA[
+			from TProductInfo as pi where pi.progPackageId in (select p.productid from ProgListDetail p, ProgListMang m where p.scheduledate = :scheduleDate and p.scheduledate = m.scheduledate and m.idAct not in ('FU00000077', 'FU00000107', 'FU00000078')) and pi.encryptState < 9 and pi.encryptState not in (1,8)
+		]]>
+	</query>
+	
+	<!-- 根据产品ID查询所属的品牌 -->
+	<query name="query.CmsSite.by.productId">
+		<![CDATA[
+			from CmsSite as s where s.siteid in (select r.cmsSiteId from CmsSiteProductRel as r where r.productId = :productId)
+		]]>
+	</query>
+	
+	<!-- 根据产品ID查询所属的栏目 -->
+	<query name="query.PortalColumn.by.productId">
+		<![CDATA[
+			from PortalColumn as s where s.columnclassid in (select r.cmsSiteId from CmsSiteProductRel as r where r.productId = :productId)
+		]]>
+	</query>
+	
+	<!-- 根据keyId查询该产品号绑定的节目包ID集合 -->
+	<sql-query name="query.ProgPackage.progPackageId.by.keyIds.siteId">
+		<![CDATA[
+SELECT
+   CMSADMIN.TPRODUCTPROGREL.PRODUCTID
+FROM
+   CMSADMIN.TPRODUCTPROGREL INNER JOIN CMSADMIN.TCMSPROGPACKAGE ON CMSADMIN.TCMSPROGPACKAGE.PRODUCTID = CMSADMIN.TPRODUCTPROGREL.PRODUCTID
+   INNER JOIN CMSADMIN.TCMSSITE ON CMSADMIN.TCMSPROGPACKAGE.SITECODE = CMSADMIN.TCMSSITE.SITECODE
+WHERE
+   CMSADMIN.TPRODUCTPROGREL.KEYID IN (:keyIds) AND CMSADMIN.TCMSSITE.SITEID = :siteId
+		]]>
+	</sql-query>
+	
+	<!-- 根据keyId 栏目编号, 查询指定栏目包含该产品号的节目包ID集合 -->
+	<sql-query name="query.ProgPackage.progPackageId.by.keyIds.columnId">
+		<![CDATA[
+SELECT
+   CMS.TPROGLISTDETAIL.PRODUCTID
+FROM CMS.TPROGLISTDETAIL
+   INNDER JOIN CMS.TPRODUCTPROGREL ON CMS.TPRODUCTPROGREL.PRODUCTID = CMS.TPROGLISTDETAIL.PRODUCTID
+WHERE
+   CMS.TPRODUCTPROGREL.KEYID IN (:keyIds) AND
+   CMS.TPROGLISTDETAIL.COLUMNCLASSID = :columnId
+		]]>
+	</sql-query>
+	
+	<!-- 根据产品编号集合, 查询所有的keyId -->
+	<query name="query.ProgProduct.keyId.by.id">
+		<![CDATA[
+			select p.keyId from ProgProduct as p where p.id in (:ids)
+		]]>
+	</query>
+	
+	<!-- 根据样式类型查询该类型的所有样式信息 -->
+	<query name="query.PackStyle.by.styleType">
+		<![CDATA[
+			select ps.styleid, ps.stylename from PackStyle as ps where ps.styletype = :styleType
+		]]>
+	</query>
+	
+	<!-- 根据编单日期区间和存储体等级Code查询出该区间可以删除的节目包及文件信息集合 -->
+	<sql-query name="query.file.by.scheduleDate.storageClassCode.Online">
+		<![CDATA[
+SELECT 
+   DISTINCT PD.PROGLISTDETAILID AS 编单号, PK.PRODUCTID AS 节目包编号, PK.PRODUCTNAME AS 节目包名称, PI.PRODUCTINFONAME AS 产品名称,
+   C.STCLASSNAME AS 存储库, "TO_CHAR"(PK.SUBSCRIBERETIME, 'yyyy-MM-dd') AS 版权期终, "TO_CHAR"(PK.INPUTTIME, 'yyyy-MM-dd') AS 节目包录入时间, 
+   "SUM"(PF.CONTENTFILESIZE) AS 节目包大小,
+   (CASE WHEN PK.PRODUCTID IN (SELECT PLD.PRODUCTID FROM CMSADMIN.TPROGLISTDETAIL PLD WHERE PLD.SCHEDULEDATE > :safeScheduleDate) THEN '否' ELSE '是' END) AS 是否可删除, C.STCLASSCODE, ST.SITENAME AS 品牌名称, PS.STYLENAME AS 样式名称
+FROM 
+   CMSADMIN.TPROGLISTDETAIL PD INNER JOIN CMSADMIN.TCMSPROGPACKAGE PK ON PD.PRODUCTID = PK.PRODUCTID 
+   INNER JOIN SOAPLATDB.TSOAAMSSTORAGEPRGREL REL ON PK.PRODUCTID = REL.PRGLOBALID
+   INNER JOIN SOAPLATDB.TSOAAMSSTORAGEDIR DIR ON REL.STDIRGLOBALID = DIR.STDIRGLOBALID
+   INNER JOIN SOAPLATDB.TSOAAMSSTORAGE S ON REL.STGLOBALID = S.STGLOBALID
+   INNER JOIN SOAPLATDB.TSOAAMSSTORAGECLASS C ON C.STCLASSGLOBALID = S.STCLASSGLOBALID
+   INNER JOIN CMSADMIN.TPRODUCTINFO PI ON PD.PRODUCTINFOID = PI.PRODUCTINFOID
+   INNER JOIN CMSADMIN.TCMSPACKSTYLE PS ON PK.STYLEID = PS.STYLEID
+   LEFT JOIN CMSADMIN.TCMSSITE ST ON PK.SITECODE = ST.SITECODE
+   LEFT JOIN CMSADMIN.TCMSPROGRAMFILES PF ON PF.FILENAME = REL.FILENAME
+WHERE 
+   PD.SCHEDULEDATE BETWEEN :startScheduleDate AND :endScheduleDate AND C.STCLASSCODE = :storageClassCode AND DIR.FILECODE NOT IN ('KEY','Clip')
+GROUP BY 
+   PD.PROGLISTDETAILID, PK.PRODUCTID, PK.PRODUCTNAME, PK.STATE, PK.DEALSTATE, PI.PRODUCTINFONAME, C.STCLASSNAME, PK.SUBSCRIBERETIME, "TO_CHAR"(PK.INPUTTIME, 'yyyy-MM-dd'), ST.SITENAME, PS.STYLENAME, C.STCLASSCODE
+ORDER BY PK.PRODUCTID
+		]]>
+	</sql-query>
+	
+	<!-- 根据编单日期区间和存储体等级Code查询出该区间可以删除的节目包及文件信息集合 -->
+	<sql-query name="query.file.by.scheduleDate.storageClassCode.CaOnline">
+		<![CDATA[
+SELECT 
+   DISTINCT PD.PROGLISTDETAILID AS 编单号, PK.PRODUCTID AS 节目包编号, PK.PRODUCTNAME AS 节目包名称, PI.PRODUCTINFONAME AS 产品名称,
+   C.STCLASSNAME AS 存储库, "TO_CHAR"(PK.SUBSCRIBERETIME, 'yyyy-MM-dd') AS 版权期终, "TO_CHAR"(PK.INPUTTIME, 'yyyy-MM-dd') AS 节目包录入时间, 
+   "SUM"(PF.CONTENTFILESIZE) AS 节目包大小,
+   (CASE WHEN PK.PRODUCTID IN (SELECT PLD.PRODUCTID FROM CMSADMIN.TPROGLISTDETAIL PLD WHERE PLD.SCHEDULEDATE > :safeScheduleDate) THEN '否' 
+   WHEN 1 < (SELECT "COUNT"(*) FROM SOAPLATDB.TSOAAMSSTORAGEPRGREL INNER JOIN SOAPLATDB.TSOAAMSSTORAGEDIR 
+   	ON SOAPLATDB.TSOAAMSSTORAGEPRGREL.STDIRGLOBALID = SOAPLATDB.TSOAAMSSTORAGEDIR.STDIRGLOBALID WHERE SOAPLATDB.TSOAAMSSTORAGEPRGREL.PRGLOBALID = PK.PRODUCTID 
+   	AND SOAPLATDB.TSOAAMSSTORAGEPRGREL.STGLOBALID IN ('20090903143323000954') AND SOAPLATDB.TSOAAMSSTORAGEDIR.FILECODE <> 'Clip') THEN '否' ELSE '是' END) AS 是否可删除, C.STCLASSCODE, ST.SITENAME AS 品牌名称, PS.STYLENAME AS 样式名称
+FROM 
+   CMSADMIN.TPROGLISTDETAIL PD INNER JOIN CMSADMIN.TCMSPROGPACKAGE PK ON PD.PRODUCTID = PK.PRODUCTID 
+   INNER JOIN SOAPLATDB.TSOAAMSSTORAGEPRGREL REL ON PK.PRODUCTID = REL.PRGLOBALID
+   INNER JOIN SOAPLATDB.TSOAAMSSTORAGEDIR DIR ON REL.STDIRGLOBALID = DIR.STDIRGLOBALID
+   INNER JOIN SOAPLATDB.TSOAAMSSTORAGE S ON REL.STGLOBALID = S.STGLOBALID
+   INNER JOIN SOAPLATDB.TSOAAMSSTORAGECLASS C ON C.STCLASSGLOBALID = S.STCLASSGLOBALID
+   INNER JOIN CMSADMIN.TPRODUCTINFO PI ON PD.PRODUCTINFOID = PI.PRODUCTINFOID
+   INNER JOIN CMSADMIN.TCMSPACKSTYLE PS ON PK.STYLEID = PS.STYLEID
+   LEFT JOIN CMSADMIN.TCMSSITE ST ON PK.SITECODE = ST.SITECODE
+   LEFT JOIN CMSADMIN.TCMSPROGRAMFILES PF ON PF.FILENAME = REL.FILENAME
+WHERE 
+   PD.SCHEDULEDATE BETWEEN :startScheduleDate AND :endScheduleDate AND C.STCLASSCODE = :storageClassCode
+GROUP BY 
+   PD.PROGLISTDETAILID, PK.PRODUCTID, PK.PRODUCTNAME, PK.STATE, PK.DEALSTATE, PI.PRODUCTINFONAME, C.STCLASSNAME, PK.SUBSCRIBERETIME, "TO_CHAR"(PK.INPUTTIME, 'yyyy-MM-dd'), ST.SITENAME, PS.STYLENAME, C.STCLASSCODE
+ORDER BY PK.PRODUCTID
+		]]>
+	</sql-query>
+	
+		<!-- 根据编单日期区间和存储体等级Code查询出该区间可以删除的节目包及文件信息集合 -->
+	<sql-query name="query.file.by.scheduleDate.storageClassCode.NearOnline">
+		<![CDATA[
+SELECT
+   DISTINCT CMSADMIN.TPROGLISTDETAIL.PROGLISTDETAILID AS 编单号, 
+   CMSADMIN.TCMSPROGPACKAGE.PRODUCTID AS 节目包编号, 
+   CMSADMIN.TCMSPROGPACKAGE.PRODUCTNAME AS 节目包名称, 
+   CMSADMIN.TPRODUCTINFO.PRODUCTINFONAME AS 产品名称,
+   SOAPLATDB.TSOAAMSSTORAGECLASS.STCLASSNAME AS 存储库, 
+   "TO_CHAR"(CMSADMIN.TCMSPROGPACKAGE.SUBSCRIBERETIME, 'yyyy-MM-dd') AS 版权期终, 
+   "TO_CHAR"(CMSADMIN.TCMSPROGPACKAGE.INPUTTIME, 'yyyy-MM-dd') AS 节目包录入时间, 
+   CMSADMIN.TCMSPROGRAMFILES.CONTENTFILESIZE AS 节目包大小,
+   (CASE WHEN CMSADMIN.TCMSPROGPACKAGE.PRODUCTID IN (SELECT PLD.PRODUCTID FROM CMSADMIN.TPROGLISTDETAIL PLD WHERE PLD.SCHEDULEDATE > :safeScheduleDate) THEN '否' 
+	WHEN 0 < (SELECT "COUNT"(*) FROM SOAPLATDB.TSOAAMSSTORAGEPRGREL INNER JOIN SOAPLATDB.TSOAAMSSTORAGEDIR 
+   	ON SOAPLATDB.TSOAAMSSTORAGEPRGREL.STDIRGLOBALID = SOAPLATDB.TSOAAMSSTORAGEDIR.STDIRGLOBALID WHERE SOAPLATDB.TSOAAMSSTORAGEPRGREL.PRGLOBALID = CMSADMIN.TCMSPROGPACKAGE.PRODUCTID 
+	AND SOAPLATDB.TSOAAMSSTORAGEPRGREL.STGLOBALID IN ('20090903143323000954', '20090903143323000955') AND SOAPLATDB.TSOAAMSSTORAGEDIR.FILECODE <> 'Clip') THEN '否' ELSE '是' END) AS 是否可删除, 
+   SOAPLATDB.TSOAAMSSTORAGECLASS.STCLASSCODE, CMSADMIN.TCMSSITE.SITENAME AS 品牌名称, CMSADMIN.TCMSPACKSTYLE.STYLENAME AS 样式名称
+FROM
+   CMSADMIN.TCMSPACKAGEFILES INNER JOIN CMSADMIN.TPROGLISTDETAIL ON CMSADMIN.TPROGLISTDETAIL.PRODUCTID = CMSADMIN.TCMSPACKAGEFILES.PRODUCTID
+   INNER JOIN CMSADMIN.TPRODUCTINFO ON CMSADMIN.TPRODUCTINFO.PRODUCTINFOID = CMSADMIN.TPROGLISTDETAIL.PRODUCTINFOID
+   INNER JOIN CMSADMIN.TCMSPROGRAMFILES ON CMSADMIN.TCMSPACKAGEFILES.PROGFILEID = CMSADMIN.TCMSPROGRAMFILES.PROGFILEID
+   INNER JOIN CMSADMIN.TCMSPROGPACKAGE ON CMSADMIN.TCMSPROGPACKAGE.PRODUCTID = CMSADMIN.TPROGLISTDETAIL.PRODUCTID 
+   INNER JOIN SOAPLATDB.TSOAAMSSTORAGEPRGREL ON CMSADMIN.TCMSPACKAGEFILES.PROGRAMID = SOAPLATDB.TSOAAMSSTORAGEPRGREL.PRGLOBALID
+   INNER JOIN SOAPLATDB.TSOAAMSSTORAGEDIR ON SOAPLATDB.TSOAAMSSTORAGEPRGREL.STDIRGLOBALID = SOAPLATDB.TSOAAMSSTORAGEDIR.STDIRGLOBALID
+   INNER JOIN SOAPLATDB.TSOAAMSSTORAGE ON SOAPLATDB.TSOAAMSSTORAGEPRGREL.STGLOBALID = SOAPLATDB.TSOAAMSSTORAGE.STGLOBALID
+   INNER JOIN SOAPLATDB.TSOAAMSSTORAGECLASS ON SOAPLATDB.TSOAAMSSTORAGE.STCLASSGLOBALID = SOAPLATDB.TSOAAMSSTORAGECLASS.STCLASSGLOBALID
+   INNER JOIN CMSADMIN.TCMSPACKSTYLE ON CMSADMIN.TCMSPROGPACKAGE.STYLEID = CMSADMIN.TCMSPACKSTYLE.STYLEID
+   LEFT JOIN CMSADMIN.TCMSSITE ON CMSADMIN.TCMSPROGPACKAGE.SITECODE = CMSADMIN.TCMSSITE.SITECODE
+WHERE
+   SOAPLATDB.TSOAAMSSTORAGECLASS.STCLASSCODE = :storageClassCode AND
+   CMSADMIN.TPROGLISTDETAIL.SCHEDULEDATE BETWEEN :startScheduleDate AND :endScheduleDate AND 
+   CMSADMIN.TCMSPROGPACKAGE.PRODUCTID NOT IN (SELECT PLD.PRODUCTID FROM CMSADMIN.TPROGLISTDETAIL PLD WHERE PLD.SCHEDULEDATE > :safeScheduleDate) AND
+   CMSADMIN.TCMSPROGRAMFILES.PROGRANK = 1 AND
+   CMSADMIN.TCMSPACKAGEFILES.PROGRAMID IS NOT NULL
+		]]>
+	</sql-query>
+	
+	<!-- 查询所有有效存储体等级 需要配置备注为是 -->
+	<sql-query name="query.Storages">
+		<![CDATA[
+			SELECT SOAPLATDB.TSOAAMSSTORAGECLASS.STCLASSNAME, SOAPLATDB.TSOAAMSSTORAGECLASS.STCLASSCODE FROM SOAPLATDB.TSOAAMSSTORAGE INNER JOIN SOAPLATDB.TSOAAMSSTORAGECLASS ON SOAPLATDB.TSOAAMSSTORAGECLASS.STCLASSGLOBALID = SOAPLATDB.TSOAAMSSTORAGE.STCLASSGLOBALID WHERE SOAPLATDB.TSOAAMSSTORAGE.REMARK = '是' ORDER BY SOAPLATDB.TSOAAMSSTORAGECLASS.STCLASSGLOBALID DESC
+		]]>
+	</sql-query>
+	
+	<!-- 查询可以删除的节目包文件信息 -->
+	<sql-query name="query.FileInfo.by.progListIds.storageClassCode.safeScheduleDate.Online">
+		<![CDATA[
+SELECT 
+   DISTINCT S.STORAGEACCSTYPE, S.LOGINNAME, S.LOGINPWD, S.STORAGEIP, S.MAPPATH, DIR.STORAGEDIRNAME, REL.FILEPATH, REL.FILENAME, DIR.FILECODE, REL.RELID, DIR.STDIRGLOBALID, C.STCLASSGLOBALID, S.STGLOBALID, PK.PRODUCTID, PI.PRODUCTINFOID, PF.PROGFILEID, PD.PROGLISTDETAILID, PF.PROGRANK, PF.PROGRAMID
+FROM 
+   CMSADMIN.TPROGLISTDETAIL PD INNER JOIN CMSADMIN.TCMSPROGPACKAGE PK ON PD.PRODUCTID = PK.PRODUCTID 
+   INNER JOIN SOAPLATDB.TSOAAMSSTORAGEPRGREL REL ON PK.PRODUCTID = REL.PRGLOBALID
+   INNER JOIN SOAPLATDB.TSOAAMSSTORAGEDIR DIR ON REL.STDIRGLOBALID = DIR.STDIRGLOBALID
+   INNER JOIN SOAPLATDB.TSOAAMSSTORAGE S ON REL.STGLOBALID = S.STGLOBALID
+   INNER JOIN SOAPLATDB.TSOAAMSSTORAGECLASS C ON C.STCLASSGLOBALID = S.STCLASSGLOBALID
+   INNER JOIN CMSADMIN.TPRODUCTINFO PI ON PD.PRODUCTINFOID = PI.PRODUCTINFOID
+   LEFT JOIN CMSADMIN.TCMSPROGRAMFILES PF ON PF.FILENAME = REL.FILENAME
+WHERE 
+   PD.PROGLISTDETAILID IN (:progListIds) AND C.STCLASSCODE = :storageClassCode AND PD.PRODUCTID NOT IN (SELECT PLD.PRODUCTID FROM CMSADMIN.TPROGLISTDETAIL PLD WHERE PLD.SCHEDULEDATE > :safeScheduleDate) AND DIR.FILECODE <> 'KEY' AND REL.ISDEL IS NULL
+		]]>
+	</sql-query>
+	
+	<!-- 查询可以删除的节目包文件信息 -->
+	<sql-query name="query.FileInfo.by.progListIds.storageClassCode.safeScheduleDate.CaOnline">
+		<![CDATA[
+SELECT 
+   DISTINCT S.STORAGEACCSTYPE, S.LOGINNAME, S.LOGINPWD, S.STORAGEIP, S.MAPPATH, DIR.STORAGEDIRNAME, REL.FILEPATH, REL.FILENAME, DIR.FILECODE, REL.RELID, DIR.STDIRGLOBALID, C.STCLASSGLOBALID, S.STGLOBALID, PK.PRODUCTID, PI.PRODUCTINFOID, PF.PROGFILEID, PD.PROGLISTDETAILID, PF.PROGRANK, PF.PROGRAMID
+FROM 
+   CMSADMIN.TPROGLISTDETAIL PD INNER JOIN CMSADMIN.TCMSPROGPACKAGE PK ON PD.PRODUCTID = PK.PRODUCTID 
+   INNER JOIN SOAPLATDB.TSOAAMSSTORAGEPRGREL REL ON PK.PRODUCTID = REL.PRGLOBALID
+   INNER JOIN SOAPLATDB.TSOAAMSSTORAGEDIR DIR ON REL.STDIRGLOBALID = DIR.STDIRGLOBALID
+   INNER JOIN SOAPLATDB.TSOAAMSSTORAGE S ON REL.STGLOBALID = S.STGLOBALID
+   INNER JOIN SOAPLATDB.TSOAAMSSTORAGECLASS C ON C.STCLASSGLOBALID = S.STCLASSGLOBALID
+   INNER JOIN CMSADMIN.TPRODUCTINFO PI ON PD.PRODUCTINFOID = PI.PRODUCTINFOID
+   LEFT JOIN CMSADMIN.TCMSPROGRAMFILES PF ON PF.FILENAME = REL.FILENAME
+WHERE 
+   PD.PROGLISTDETAILID IN (:progListIds) AND PD.PRODUCTID NOT IN (SELECT PLD.PRODUCTID FROM CMSADMIN.TPROGLISTDETAIL PLD WHERE PLD.SCHEDULEDATE > :safeScheduleDate)
+   AND (C.STCLASSCODE = :storageClassCode OR (C.STCLASSCODE = 'Online' AND DIR.FILECODE = 'KEY')) AND REL.ISDEL IS NULL
+		]]>
+	</sql-query>
+	
+	<!-- 查询可以删除的节目包文件信息 -->
+	<sql-query name="query.FileInfo.by.progListIds.storageClassCode.safeScheduleDate.NearOnline">
+		<![CDATA[
+SELECT
+   DISTINCT SOAPLATDB.TSOAAMSSTORAGE.STORAGEACCSTYPE, 
+   SOAPLATDB.TSOAAMSSTORAGE.LOGINNAME, 
+   SOAPLATDB.TSOAAMSSTORAGE.LOGINPWD, 
+   SOAPLATDB.TSOAAMSSTORAGE.STORAGEIP, 
+   SOAPLATDB.TSOAAMSSTORAGE.MAPPATH, 
+   SOAPLATDB.TSOAAMSSTORAGEDIR.STORAGEDIRNAME, 
+   SOAPLATDB.TSOAAMSSTORAGEPRGREL.FILEPATH, 
+   SOAPLATDB.TSOAAMSSTORAGEPRGREL.FILENAME, 
+   SOAPLATDB.TSOAAMSSTORAGEDIR.FILECODE, 
+   SOAPLATDB.TSOAAMSSTORAGEPRGREL.RELID, 
+   SOAPLATDB.TSOAAMSSTORAGEDIR.STDIRGLOBALID, 
+   SOAPLATDB.TSOAAMSSTORAGECLASS.STCLASSGLOBALID, 
+   SOAPLATDB.TSOAAMSSTORAGE.STGLOBALID, 
+   CMSADMIN.TCMSPROGPACKAGE.PRODUCTID, 
+   CMSADMIN.TPROGLISTDETAIL.PRODUCTINFOID, 
+   CMSADMIN.TCMSPROGRAMFILES.PROGFILEID, 
+   CMSADMIN.TPROGLISTDETAIL.PROGLISTDETAILID, 
+   CMSADMIN.TCMSPROGRAMFILES.PROGRANK, 
+   CMSADMIN.TCMSPROGRAMFILES.PROGRAMID
+FROM
+   CMSADMIN.TCMSPACKAGEFILES INNER JOIN CMSADMIN.TPROGLISTDETAIL ON CMSADMIN.TPROGLISTDETAIL.PRODUCTID = CMSADMIN.TCMSPACKAGEFILES.PRODUCTID
+   INNER JOIN CMSADMIN.TCMSPROGRAMFILES ON CMSADMIN.TCMSPACKAGEFILES.PROGFILEID = CMSADMIN.TCMSPROGRAMFILES.PROGFILEID
+   INNER JOIN CMSADMIN.TCMSPROGPACKAGE ON CMSADMIN.TCMSPROGPACKAGE.PRODUCTID = CMSADMIN.TPROGLISTDETAIL.PRODUCTID 
+   INNER JOIN SOAPLATDB.TSOAAMSSTORAGEPRGREL ON CMSADMIN.TCMSPACKAGEFILES.PROGRAMID = SOAPLATDB.TSOAAMSSTORAGEPRGREL.PRGLOBALID
+   INNER JOIN SOAPLATDB.TSOAAMSSTORAGEDIR ON SOAPLATDB.TSOAAMSSTORAGEPRGREL.STDIRGLOBALID = SOAPLATDB.TSOAAMSSTORAGEDIR.STDIRGLOBALID
+   INNER JOIN SOAPLATDB.TSOAAMSSTORAGE ON SOAPLATDB.TSOAAMSSTORAGEPRGREL.STGLOBALID = SOAPLATDB.TSOAAMSSTORAGE.STGLOBALID
+   INNER JOIN SOAPLATDB.TSOAAMSSTORAGECLASS ON SOAPLATDB.TSOAAMSSTORAGE.STCLASSGLOBALID = SOAPLATDB.TSOAAMSSTORAGECLASS.STCLASSGLOBALID
+WHERE
+   SOAPLATDB.TSOAAMSSTORAGECLASS.STCLASSCODE = :storageClassCode AND
+   CMSADMIN.TPROGLISTDETAIL.PROGLISTDETAILID IN (:progListIds) AND 
+   CMSADMIN.TCMSPROGPACKAGE.PRODUCTID NOT IN (SELECT PLD.PRODUCTID FROM CMSADMIN.TPROGLISTDETAIL PLD WHERE PLD.SCHEDULEDATE > :safeScheduleDate) AND
+   CMSADMIN.TCMSPROGRAMFILES.PROGRANK = 1 AND SOAPLATDB.TSOAAMSSTORAGEPRGREL.ISDEL IS NULL AND 
+   CMSADMIN.TCMSPACKAGEFILES.PROGRAMID IS NOT NULL 
+		]]>
+	</sql-query>
+	
+	<!-- 查询片花被其它节目包包含的数量 -->
+	<sql-query name="query.Clip.container.of.others.count">
+		<![CDATA[
+			SELECT "COUNT"(*) FROM CMSADMIN.TCMSPROGPACKAGE PK INNER JOIN CMSADMIN.TCMSPACKAGEFILES PF ON PK.PRODUCTID = PF.PRODUCTID WHERE PK.STATE = 3 AND PK.PRODUCTID <> :progPackageId AND PF.PROGFILEID = (SELECT CMSADMIN.TCMSPACKAGEFILES.PROGFILEID FROM CMSADMIN.TCMSPACKAGEFILES INNER JOIN CMSADMIN.TCMSPROGRAMFILES ON CMSADMIN.TCMSPACKAGEFILES.PROGFILEID = CMSADMIN.TCMSPROGRAMFILES.PROGFILEID WHERE CMSADMIN.TCMSPACKAGEFILES.PRODUCTID = :progPackageId AND CMSADMIN.TCMSPROGRAMFILES.FILECODE = 'Clip')
+		]]>
+	</sql-query>
+	
+	<!-- 根据当前日期和节目包编号查询该节目包是否存在于当天及以后的编单中 -->
+	<sql-query name="query.ProgListDetail.scheduleDate.by.scheduleDate.progPackageId">
+		<![CDATA[
+			SELECT CMSADMIN.TPROGLISTDETAIL.SCHEDULEDATE FROM CMSADMIN.TPROGLISTDETAIL WHERE CMSADMIN.TPROGLISTDETAIL.SCHEDULEDATE >= :scheduleDate AND CMSADMIN.TPROGLISTDETAIL.PRODUCTINFOID IN (SELECT CMSADMIN.TPRODUCTINFO.PRODUCTINFOID FROM CMSADMIN.TPRODUCTINFO WHERE CMSADMIN.TPRODUCTINFO.PRODUCTID = :progPackageId)
+		]]>
+	</sql-query>
+	
+	<!-- 根据当前日期和节目包编号查询该节目包是否存在于当天及以后的编单中 -->
+	<sql-query name="query.ProgPackage.size.progPackageId">
+		<![CDATA[
+			SELECT "SUM"(CMSADMIN.TCMSPROGRAMFILES.CONTENTFILESIZE) FROM CMSADMIN.TCMSPROGRAMFILES INNER JOIN CMSADMIN.TCMSPACKAGEFILES ON CMSADMIN.TCMSPROGRAMFILES.PROGFILEID = CMSADMIN.TCMSPACKAGEFILES.PROGFILEID WHERE CMSADMIN.TCMSPACKAGEFILES.PRODUCTID = :progPackageId
+		]]>
+	</sql-query>
+	
+	<!-- 根据编单日期, 统计各品牌播发量大小 -->
+	<sql-query name="query.Prog.size.scheduleDate">
+		<![CDATA[
+SELECT 
+   CMSADMIN.TCMSSITE.SITENAME, "SUM"(CMSADMIN.TCMSPROGPACKAGE.FILESIZEHI) 
+FROM 
+   CMSADMIN.TPROGLISTDETAIL LEFT JOIN CMSADMIN.TCMSPROGPACKAGE ON CMSADMIN.TPROGLISTDETAIL.PRODUCTID = CMSADMIN.TCMSPROGPACKAGE.PRODUCTID
+   LEFT JOIN CMSADMIN.TPORTALCOLUMN ON CMSADMIN.TPORTALCOLUMN.COLUMNCLASSID = CMSADMIN.TPROGLISTDETAIL.COLUMNCLASSID
+   LEFT JOIN CMSADMIN.TCMSSITE ON CMSADMIN.TPORTALCOLUMN.SITECODE = CMSADMIN.TCMSSITE.SITECODE 
+WHERE 
+   CMSADMIN.TPROGLISTDETAIL.SCHEDULEDATE = :scheduleDate
+GROUP BY
+   CMSADMIN.TCMSSITE.SITENAME
+		]]>
+	</sql-query>
+	
+	<!-- 根据栏目Code查询指定栏目有效的下一级子栏目个数 -->
+	<sql-query name="query.count.of.child.PortalColumn">
+		<![CDATA[
+		SELECT "COUNT"(*) FROM CMSADMIN.TPORTALCOLUMN P WHERE P.PARENTSID = :columnCode AND P.VALID_FLAG <> 1
+		]]>
+	</sql-query>
+	
+	<!-- 根据栏目ID查询到栏目未完成的编单日期和所处的流程 -->
+	<sql-query name="query.scheduleDate.action.by.PortalColumn.id">
+		<![CDATA[
+SELECT CMSADMIN.TPROGLISTMANG.SCHEDULEDATE, CMSADMIN.TFLOWACTION.ACTIONNAME FROM CMSADMIN.TCMSPROGPACKAGE LEFT JOIN CMSADMIN.TPROGLISTDETAIL
+   ON CMSADMIN.TCMSPROGPACKAGE.PRODUCTID = CMSADMIN.TPROGLISTDETAIL.PRODUCTID 
+   LEFT JOIN CMSADMIN.TPROGLISTMANG ON CMSADMIN.TPROGLISTDETAIL.SCHEDULEDATE = CMSADMIN.TPROGLISTMANG.SCHEDULEDATE
+   LEFT JOIN CMSADMIN.TFLOWACTION ON CMSADMIN.TPROGLISTMANG.ID_ACT = CMSADMIN.TFLOWACTION.ACTIONID
+WHERE CMSADMIN.TPROGLISTDETAIL.COLUMNCLASSID = :columnId
+   AND CMSADMIN.TPROGLISTMANG.ID_ACT <> 'FU00000087'
+		]]>
+<!--    AND CMSADMIN.TPROGLISTMANG.SCHEDULEDATE NOT IN ( -->
+<!--       SELECT SCHEDULEDATE FROM CMSADMIN.TPROGLISTFILE WHERE CMSADMIN.TPROGLISTFILE.FILETYPE = 9 -->
+<!--    ) -->
+	</sql-query>
+	
+	<!-- 根据栏目ID查询到栏目未完成的编单日期和所处的流程 -->
+	<sql-query name="query.count.of.prog.list.detail.by.columnCode">
+		<![CDATA[
+SELECT 
+   PLD.COLUMNCLASSID 
+FROM 
+   CMSADMIN.TPROGLISTMANGDETAIL PLD 
+WHERE PLD.COLUMNCLASSID IN 
+(
+	SELECT PC.COLUMNCLASSID FROM CMSADMIN.TPORTALCOLUMN PC WHERE PC.DEFCATCODE = :columnCode
+)
+		]]>
+	</sql-query>
+	
+	<!-- 按产品统计节目包强制保留大小 -->
+	<sql-query name="query.count.of.forced.reserves.package.by.product">
+		<![CDATA[
+SELECT
+   CMSADMIN.TPROGPRODUCT.KEYNAME,
+   CMSADMIN.TPROGPRODUCT.KEYID,
+   "SUM"(CMSADMIN.TCMSPROGPACKAGE.FILESIZEHI)
+FROM
+   CMSADMIN.TCMSPROGPACKAGE
+   INNER JOIN CMSADMIN.TPROGLISTDETAIL ON CMSADMIN.TPROGLISTDETAIL.PRODUCTID = CMSADMIN.TCMSPROGPACKAGE.PRODUCTID
+   INNER JOIN CMSADMIN.TPRODUCTPROGREL ON CMSADMIN.TCMSPROGPACKAGE.PRODUCTID = CMSADMIN.TPRODUCTPROGREL.PRODUCTID
+   INNER JOIN CMSADMIN.TPROGPRODUCT ON CMSADMIN.TPROGPRODUCT.KEYID = CMSADMIN.TPRODUCTPROGREL.KEYID
+   INNER JOIN CMSADMIN.TPORTALCOLUMN ON CMSADMIN.TPORTALCOLUMN.COLUMNCLASSID = CMSADMIN.TPROGLISTDETAIL.COLUMNCLASSID
+WHERE
+   CMSADMIN.TCMSPROGPACKAGE.PRODUCTID NOT IN (select DD.PRODUCTID from CMSADMIN.TPROGLISTDELETEDETAIL DD)
+   AND CMSADMIN.TCMSPROGPACKAGE.PTGLOBALID = 'Y'
+GROUP BY
+   CMSADMIN.TPROGPRODUCT.KEYNAME, CMSADMIN.TPROGPRODUCT.KEYID
+ORDER BY
+   CMSADMIN.TPROGPRODUCT.KEYNAME ASC
+		]]>
+	</sql-query>
+	
+	<!-- 根据编单日期, 角色编号, 查询栏目树 -->
+<!--	<sql-query name="query.PortalColumn.by.roles.scheduleDate">-->
+<!--		<![CDATA[-->
+<!--			SELECT p.COLUMNCLASSID, p.COLUMNNAME, p.DEFCATCODE, p.SITECODE, p.ISLEAF, p.DEFCATLEVEL, p.ROOTID, p.PARENTSID, p.DISPLAYORDER, p.DEFCATSEQ, p.SCHEDULE_TAG, p.VALID_FLAG, p.REMARK, p.ISPUBLISH, p.UPDATEDATE, p.ARCHIVEDAYS, p.INPUTMANID, p.INPUTTIME, p.FOCUS_IMG_NAME, p.BLUR_IMG_NAME, CASE d.ID_ACT WHEN 'FU00000077' THEN 1 ELSE 0 END FROM CMSADMIN.TPORTALROLEOPERREL r RIGHT JOIN CMSADMIN.TPORTALCOLUMN p ON r.COLUMNCLASSID = p.COLUMNCLASSID LEFT JOIN CMSADMIN.TPROGLISTMANGDETAIL d ON p.COLUMNCLASSID = d.COLUMNCLASSID WHERE r.ROLEID in (:roles) AND d.SCHEDULEDATE = :scheduleDate OR p.ISLEAF = 'N'-->
+<!--		]]>-->
+<!--	</sql-query>-->
+</hibernate-mapping>
+<!--	<query name="">-->
+<!--		<![CDATA[-->
+<!--	SELECT PI FROM CMSADMIN.TCMSPROGPACKAGE PK RIGHT JOIN CMSADMIN.TPRODUCTINFO PI ON PK.PRODUCTID = PI.PRODUCTID WHERE PK.PRODUCTNAME LIKE :progPackageName		-->
+<!--		]]>-->
+<!--	</query>-->
+
+<!--SELECT -->
+<!--   DISTINCT PD.PROGLISTDETAILID AS 编单号, PK.PRODUCTID AS 节目包编号, PK.PRODUCTNAME AS 节目包名称, PI.PRODUCTINFONAME AS 产品名称, C.STCLASSNAME AS 存储库, "TO_CHAR"(PK.SUBSCRIBERETIME, 'yyyy-MM-dd') AS 版权期终, "TO_CHAR"(PK.INPUTTIME, 'yyyy-MM-dd') AS 节目包录入时间, -->
+<!--   "SUM"(PF.CONTENTFILESIZE) AS 节目包大小,-->
+<!--   (CASE WHEN PK.PRODUCTID IN (SELECT PLD.PRODUCTID FROM CMSADMIN.TPROGLISTDETAIL PLD WHERE PLD.SCHEDULEDATE > :safeScheduleDate) THEN '否' -->
+<!--   WHEN 0 < (SELECT "COUNT"(*) FROM SOAPLATDB.TSOAAMSSTORAGEPRGREL WHERE SOAPLATDB.TSOAAMSSTORAGEPRGREL.PRGLOBALID = PK.PRODUCTID -->
+<!--   AND SOAPLATDB.TSOAAMSSTORAGEPRGREL.STGLOBALID IN ('20090903143323000954', '20090903143323000955')) THEN '否' ELSE '是' END) AS 是否可删除, C.STCLASSCODE-->
+<!--FROM -->
+<!--   CMSADMIN.TPROGLISTDETAIL PD INNER JOIN CMSADMIN.TCMSPROGPACKAGE PK ON PD.PRODUCTID = PK.PRODUCTID -->
+<!--   INNER JOIN SOAPLATDB.TSOAAMSSTORAGEPRGREL REL ON PK.PRODUCTID = REL.PRGLOBALID-->
+<!--   INNER JOIN SOAPLATDB.TSOAAMSSTORAGEDIR DIR ON REL.STDIRGLOBALID = DIR.STDIRGLOBALID-->
+<!--   INNER JOIN SOAPLATDB.TSOAAMSSTORAGE S ON REL.STGLOBALID = S.STGLOBALID-->
+<!--   INNER JOIN SOAPLATDB.TSOAAMSSTORAGECLASS C ON C.STCLASSGLOBALID = S.STCLASSGLOBALID-->
+<!--   INNER JOIN CMSADMIN.TPRODUCTINFO PI ON PD.PRODUCTINFOID = PI.PRODUCTINFOID-->
+<!--   LEFT JOIN CMSADMIN.TCMSPROGRAMFILES PF ON PF.FILENAME = REL.FILENAME-->
+<!--WHERE -->
+<!--   PD.SCHEDULEDATE BETWEEN :startScheduleDate AND :endScheduleDate AND C.STCLASSCODE = :storageClassCode-->
+<!--GROUP BY -->
+<!--   PD.PROGLISTDETAILID, PK.PRODUCTID, PK.PRODUCTNAME, PK.STATE, PK.DEALSTATE, PI.PRODUCTINFONAME, C.STCLASSNAME, PK.SUBSCRIBERETIME, "TO_CHAR"(PK.INPUTTIME, 'yyyy-MM-dd'), C.STCLASSCODE-->
+<!--ORDER BY PK.PRODUCTID-->
+

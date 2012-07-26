@@ -1,0 +1,334 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	     xmlns:aop="http://www.springframework.org/schema/aop"
+	     xmlns:tx="http://www.springframework.org/schema/tx"
+	     xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+           http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd
+           http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd">
+
+	<bean id="getcbspk" class="com.cbs.cbsmgr.common.GetCbsPKImpl"/>
+	
+	<!-- 定义业务逻辑 -->
+	<bean  id="accountManager" class="com.cbs.cbsmgr.managerimpl.AccountManagerImpl">
+		<property name="baseDAO">
+			<ref bean="baseDAO"/>
+		</property>
+		<property name="getcbspk">
+			<ref bean="getcbspk"/>
+		</property>
+	</bean>
+
+	<bean  id="addressManager" class="com.cbs.cbsmgr.managerimpl.AddressManagerImpl">
+		<property name="baseDAO">
+			<ref bean="baseDAO"/>
+		</property>
+		<property name="getcbspk">
+			<ref bean="getcbspk"/>
+		</property>
+	</bean>
+	
+	<bean  id="billingTypeManager" class="com.cbs.cbsmgr.managerimpl.BillingTypeManagerImpl">
+		<property name="baseDAO">
+			<ref bean="baseDAO"/>
+		</property>
+		<property name="getcbspk">
+			<ref bean="getcbspk"/>
+		</property>
+	</bean>
+
+	<bean  id="contentCategoryManager" class="com.cbs.cbsmgr.managerimpl.ContentCategoryManagerImpl">
+		<property name="baseDAO">
+			<ref bean="baseDAO"/>
+		</property>
+		<property name="getcbspk">
+			<ref bean="getcbspk"/>
+		</property>
+	</bean>
+
+	<bean  id="financialTransactionManager" class="com.cbs.cbsmgr.managerimpl.FinancialTransactionManagerImpl">
+		<property name="baseDAO">
+			<ref bean="baseDAO"/>
+		</property>
+		<property name="getcbspk">
+			<ref bean="getcbspk"/>
+		</property>
+	</bean>
+
+	<bean  id="historyManager" class="com.cbs.cbsmgr.managerimpl.HistoryManagerImpl">
+		<property name="baseDAO">
+			<ref bean="baseDAO"/>
+		</property>
+		<property name="getcbspk">
+			<ref bean="getcbspk"/>
+		</property>
+	</bean>
+	
+	<bean  id="invoiceManager" class="com.cbs.cbsmgr.managerimpl.InvoiceManagerImpl">
+		<property name="baseDAO">
+			<ref bean="baseDAO"/>
+		</property>
+		<property name="getcbspk">
+			<ref bean="getcbspk"/>
+		</property>
+	</bean>
+	
+	<bean  id="invoicePeriodManager" class="com.cbs.cbsmgr.managerimpl.InvoicePeriodManagerImpl">
+		<property name="baseDAO">
+			<ref bean="baseDAO"/>
+		</property>
+		<property name="getcbspk">
+			<ref bean="getcbspk"/>
+		</property>
+	</bean>
+
+	<bean  id="packageManager" class="com.cbs.cbsmgr.managerimpl.ProductPackageManagerImpl">
+		<property name="baseDAO">
+			<ref bean="baseDAO"/>
+		</property>
+		<property name="getcbspk">
+			<ref bean="getcbspk"/>
+		</property>
+	</bean>
+	
+	<bean  id="packageItemManager" class="com.cbs.cbsmgr.managerimpl.PackageItemManagerImpl">
+		<property name="baseDAO">
+			<ref bean="baseDAO"/>
+		</property>
+		<property name="getcbspk">
+			<ref bean="getcbspk"/>
+		</property>
+	</bean>
+	
+	<bean  id="priceManager" class="com.cbs.cbsmgr.managerimpl.PriceManagerImpl">
+		<property name="baseDAO">
+			<ref bean="baseDAO"/>
+		</property>
+		<property name="getcbspk">
+			<ref bean="getcbspk"/>
+		</property>
+	</bean>
+	
+	<bean  id="productManager" class="com.cbs.cbsmgr.managerimpl.ProductManagerImpl">
+		<property name="baseDAO">
+			<ref bean="baseDAO"/>
+		</property>
+		<property name="getcbspk">
+			<ref bean="getcbspk"/>
+		</property>
+	</bean>
+
+	<bean  id="productCategoryManager" class="com.cbs.cbsmgr.managerimpl.ProductCategoryManagerImpl">
+		<property name="baseDAO">
+			<ref bean="baseDAO"/>
+		</property>
+		<property name="getcbspk">
+			<ref bean="getcbspk"/>
+		</property>
+	</bean>
+	
+	<bean  id="productTypeManager" class="com.cbs.cbsmgr.managerimpl.ProductTypeManagerImpl">
+		<property name="baseDAO">
+			<ref bean="baseDAO"/>
+		</property>
+		<property name="getcbspk">
+			<ref bean="getcbspk"/>
+		</property>
+	</bean>
+
+	<bean  id="smsAccountManager" class="com.cbs.cbsmgr.managerimpl.SmsAccountManagerImpl">
+		<property name="baseDAO">
+			<ref bean="baseDAO"/>
+		</property>
+		<property name="getcbspk">
+			<ref bean="getcbspk"/>
+		</property>
+	</bean>
+	
+	<bean  id="vodCampaignCategoryManager" class="com.cbs.cbsmgr.managerimpl.VodCampaignCategoryManagerImpl">
+		<property name="baseDAO">
+			<ref bean="baseDAO"/>
+		</property>
+		<property name="getcbspk">
+			<ref bean="getcbspk"/>
+		</property>
+	</bean>
+	
+	<bean  id="vodHistoryManager" class="com.cbs.cbsmgr.managerimpl.VodHistoryManagerImpl">
+		<property name="baseDAO">
+			<ref bean="baseDAO"/>
+		</property>
+		<property name="getcbspk">
+			<ref bean="getcbspk"/>
+		</property>
+	</bean>
+	
+	<bean  id="vodHistoryTempManager" class="com.cbs.cbsmgr.managerimpl.VodHistoryTempManagerImpl">
+		<property name="baseDAO">
+			<ref bean="baseDAO"/>
+		</property>
+		<property name="getcbspk">
+			<ref bean="getcbspk"/>
+		</property>
+	</bean>
+	
+	<bean  id="vodDisplayCategoryManager" class="com.cbs.cbsmgr.managerimpl.VodDisplayCategoryManagerImpl">
+		<property name="baseDAO">
+			<ref bean="baseDAO"/>
+		</property>
+		<property name="getcbspk">
+			<ref bean="getcbspk"/>
+		</property>
+	</bean>
+	
+	<bean  id="vodPackageManager" class="com.cbs.cbsmgr.managerimpl.VodPackageManagerImpl">
+		<property name="baseDAO">
+			<ref bean="baseDAO"/>
+		</property>
+		<property name="getcbspk">
+			<ref bean="getcbspk"/>
+		</property>
+	</bean>
+	
+	<bean  id="vodProductManager" class="com.cbs.cbsmgr.managerimpl.VodProductManagerImpl">
+		<property name="baseDAO">
+			<ref bean="baseDAO"/>
+		</property>
+		<property name="getcbspk">
+			<ref bean="getcbspk"/>
+		</property>
+	</bean>
+	
+	<bean  id="vodProgramPackageRelManager" class="com.cbs.cbsmgr.managerimpl.VodProgramPackageRelManagerImpl">
+		<property name="baseDAO">
+			<ref bean="baseDAO"/>
+		</property>
+		<property name="getcbspk">
+			<ref bean="getcbspk"/>
+		</property>
+	</bean>
+	
+	<bean  id="vodSendManager" class="com.cbs.cbsmgr.managerimpl.VodSendManagerImpl">
+		<property name="baseDAO">
+			<ref bean="baseDAO"/>
+		</property>
+		<property name="getcbspk">
+			<ref bean="getcbspk"/>
+		</property>
+	</bean>
+	
+	<bean  id="vodSendDetailManager" class="com.cbs.cbsmgr.managerimpl.VodSendDetailManagerImpl">
+		<property name="baseDAO">
+			<ref bean="baseDAO"/>
+		</property>
+		<property name="getcbspk">
+			<ref bean="getcbspk"/>
+		</property>
+	</bean>
+	
+	<bean  id="vodCbsProductRelManager" class="com.cbs.cbsmgr.managerimpl.VodCbsProductRelManagerImpl">
+		<property name="baseDAO">
+			<ref bean="baseDAO"/>
+		</property>
+		<property name="getcbspk">
+			<ref bean="getcbspk"/>
+		</property>
+	</bean>
+	
+	<bean  id="vodFlowManager" class="com.cbs.cbsmgr.managerimpl.VodFlowManagerImpl">
+		<property name="baseDAO">
+			<ref bean="baseDAO"/>
+		</property>
+		<property name="getcbspk">
+			<ref bean="getcbspk"/>
+		</property>
+	</bean>
+	
+	
+	<bean  id="hardwareManager" class="com.cbs.cbsmgr.managerimpl.HardwareManagerImpl">
+		<property name="baseDAO">
+			<ref bean="baseDAO"/>
+		</property>
+		<property name="getcbspk">
+			<ref bean="getcbspk"/>
+		</property>
+	</bean>
+	
+	<bean  id="hardwareModelManager" class="com.cbs.cbsmgr.managerimpl.HardwareModelManagerImpl">
+		<property name="baseDAO">
+			<ref bean="baseDAO"/>
+		</property>
+		<property name="getcbspk">
+			<ref bean="getcbspk"/>
+		</property>
+	</bean>
+	
+	<bean  id="smsDistrictManager" class="com.cbs.cbsmgr.managerimpl.SmsDistrictManagerImpl">
+		<property name="baseDAO">
+			<ref bean="baseDAO"/>
+		</property>
+		<property name="getcbspk">
+			<ref bean="getcbspk"/>
+		</property>
+	</bean>
+	
+	<bean  id="customerManager" class="com.cbs.cbsmgr.managerimpl.CustomerManagerImpl">
+		<property name="baseDAO">
+			<ref bean="baseDAO"/>
+		</property>
+		<property name="getcbspk">
+			<ref bean="getcbspk"/>
+		</property>
+	</bean>
+	
+	<!-- Edited by Andy at 20091030 -->
+	<bean  id="ppSrvPdtRelManager" class="com.cbs.cbsmgr.managerimpl.PpSrvPdtRelManagerImpl">
+		<property name="baseDAO">
+			<ref bean="baseDAO"/>
+		</property>
+		<property name="getcbspk">
+			<ref bean="getcbspk"/>
+		</property>
+	</bean>
+	
+	<!-- Edited by Andy at 20091218 10:17 -->
+	<bean  id="campaignCategoryManager" class="com.cbs.cbsmgr.managerimpl.CampaignCategoryManagerImpl">
+		<property name="baseDAO">
+			<ref bean="baseDAO"/>
+		</property>
+		<property name="getcbspk">
+			<ref bean="getcbspk"/>
+		</property>
+	</bean>
+	
+	<!-- Edited by Andy at 20091218 10:17 -->
+	<bean  id="channelListManager" class="com.cbs.cbsmgr.managerimpl.ChannelListManagerImpl">
+		<property name="baseDAO">
+			<ref bean="baseDAO"/>
+		</property>
+		<property name="getcbspk">
+			<ref bean="getcbspk"/>
+		</property>
+	</bean>
+	
+	<!-- Edited by Andy at 20100112 16:16 -->
+	<bean  id="caSendLogManager" class="com.cbs.cbsmgr.managerimpl.CaSendLogManagerImpl">
+		<property name="baseDAO">
+			<ref bean="baseDAO"/>
+		</property>
+		<property name="getcbspk">
+			<ref bean="getcbspk"/>
+		</property>
+	</bean>
+	
+	
+	<bean  id="cbsTransactionManager" class="com.cbs.cbsmgr.managerimpl.CbsTransactionManagerImpl">
+		<!--  <property name="baseDAO">
+			<ref bean="baseDAO"/>
+		</property>
+		<property name="getcmspk">
+			<ref bean="getcmspk"/>
+		</property>-->
+	</bean>
+</beans>

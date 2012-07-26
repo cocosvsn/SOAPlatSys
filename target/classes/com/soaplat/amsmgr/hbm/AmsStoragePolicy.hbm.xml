@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+                                   "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.soaplat.amsmgr.bean">
+	<class name="AmsStoragePolicy" schema="CMS" table="TSOAAMSSTORAGEPOLICY">
+		<id name="policyId" type="java.lang.String">
+			<column length="30" name="POLICYID" />
+			<generator class="assigned" />
+		</id>
+		<property name="policyName" type="java.lang.String">
+			<column length="256" name="POLICYNAME" />
+		</property>
+		<property name="scgId" type="java.lang.String">
+			<column length="256" name="STCLASSGLOBALID" />
+		</property>
+		<property name="policy" type="java.lang.String">
+			<column length="256" name="POLICYSTRING" />
+		</property>
+		<property name="previous" type="java.lang.Long">
+			<column name="PREVIOUS" />
+		</property>
+		<property name="following" type="java.lang.Long">
+			<column name="FOLLOWING" />
+		</property>
+		<property name="optType" type="java.lang.Long">
+			<column name="OPERATION" />
+		</property>
+		<property name="validTag" type="java.lang.String">
+			<column length="2" name="VALIDTAG" />
+		</property>
+		<property name="lastUpdManId" type="java.lang.String">
+			<column length="60" name="LASTMANID" />
+		</property>
+		<property name="lastUpdTime" type="java.util.Date">
+			<column name="LASTTIME" />
+		</property>
+		<property name="inputManId" type="java.lang.String">
+			<column length="60" name="INPUTMANID" />
+		</property>
+		<property name="inputTime" type="java.util.Date">
+			<column name="INPUTTIME" />
+		</property>
+		<property name="remark" type="java.lang.String">
+			<column length="400" name="REMARK" />
+		</property>
+	</class>
+</hibernate-mapping>

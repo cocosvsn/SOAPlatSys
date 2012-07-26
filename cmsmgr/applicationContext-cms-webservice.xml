@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xmlns:aop="http://www.springframework.org/schema/aop"
+		xmlns:tx="http://www.springframework.org/schema/tx"
+		xmlns:jaxws="http://cxf.apache.org/jaxws"
+	     xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+           http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd">
+           
+	<!-- CXF -->
+	<import resource="classpath:META-INF/cxf/cxf.xml" />
+<!-- 	<import resource="classpath:META-INF/cxf/cxf-extension-soap.xml" /> -->
+	<import resource="classpath:META-INF/cxf/cxf-servlet.xml" />
+	
+	<!--如果有对外发布的Web Service，则增加如下配置 --> 
+	<jaxws:endpoint  
+        id = "CmsWebService" 
+	    implementor = "com.soaplat.cmsmgr.webservice.MigrationWebServiceImpl" 
+	    address = "/CmsWebService" />	   
+	    
+ <!--上述配置完成后，可以通过http://host:port/webappname/ExportProgSVR?wsdl获取接口定义说明 -->
+</beans>
+

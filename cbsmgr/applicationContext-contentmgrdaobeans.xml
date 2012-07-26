@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	     xmlns:aop="http://www.springframework.org/schema/aop"
+	     xmlns:tx="http://www.springframework.org/schema/tx"
+	     xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+           http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd
+           http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd">
+	
+	<!-- 定义DAO -->
+	
+	<bean id="baseDAO" class="com.soaplat.sysmgr.common.DAOImpl">
+	   <property name="sessionFactory">
+	   	   <ref bean="sessionFactory"/>
+	   </property>
+	</bean>
+	
+	
+	
+	<!--
+	<bean id="accountDAO" class="com.cbs.cbsmgr.daoimpl.AccountDAOImpl">
+	   <property name="sessionFactory">
+	   	   <ref bean="sessionFactory"/>
+	   </property>
+	</bean>
+	
+	<bean id="addressDAO" class="com.cbs.cbsmgr.daoimpl.AddressDAOImpl">
+	   <property name="sessionFactory">
+	   	 <ref bean="sessionFactory"/>
+	   </property>
+	</bean>
+	
+	<bean id="billingRuleDAO" class="com.cbs.cbsmgr.daoimpl.BillingRuleDAOImpl">
+	   <property name="sessionFactory">
+	   	 <ref bean="sessionFactory"/>
+	   </property>
+	</bean>
+	
+	<bean id="brcProductDAO" class="com.cbs.cbsmgr.daoimpl.BrcProductDAOImpl">
+	   <property name="sessionFactory">
+	   	 <ref bean="sessionFactory"/>
+	   </property>
+	</bean>
+	
+	<bean id="cbsGroupDAO" class="com.cbs.cbsmgr.daoimpl.CbsGroupDAOImpl">
+	   <property name="sessionFactory">
+	   	 <ref bean="sessionFactory"/>
+	   </property>
+	</bean>
+	
+	<bean id="cbsUserDAO" class="com.cbs.cbsmgr.daoimpl.CbsUserDAOImpl">
+	   <property name="sessionFactory">
+	   	 <ref bean="sessionFactory"/>
+	   </property>
+	</bean>
+	
+	<bean id="customerDAO" class="com.cbs.cbsmgr.daoimpl.CustomerDAOImpl">
+	   <property name="sessionFactory">
+	   	 <ref bean="sessionFactory"/>
+	   </property>
+	</bean>
+	
+	<bean id="eventDAO" class="com.cbs.cbsmgr.daoimpl.EventDAOImpl">
+	   <property name="sessionFactory">
+	   	 <ref bean="sessionFactory"/>
+	   </property>
+	</bean>
+	
+	<bean id="financialTransactionDAO" class="com.cbs.cbsmgr.daoimpl.FinancialTransationDAOImpl">
+	   <property name="sessionFactory">
+	   	 <ref bean="sessionFactory"/>
+	   </property>
+	</bean>
+	
+	<bean id="hardwareDAO" class="com.cbs.cbsmgr.daoimpl.HardwareDAOImpl">
+	   <property name="sessionFactory">
+	   	 <ref bean="sessionFactory"/>
+	   </property>
+	</bean>
+	
+	<bean id="historyDAO" class="com.cbs.cbsmgr.daoimpl.HistoryDAOImpl">
+	   <property name="sessionFactory">
+	   	 <ref bean="sessionFactory"/>
+	   </property>
+	</bean>
+	
+	<bean id="invoiceDAO" class="com.cbs.cbsmgr.daoimpl.InvoiceDAOImpl">
+	   <property name="sessionFactory">
+	   	 <ref bean="sessionFactory"/>
+	   </property>
+	</bean>
+	
+	<bean id="packageDAO" class="com.cbs.cbsmgr.daoimpl.PackageDAOImpl">
+	   <property name="sessionFactory">
+	   	 <ref bean="sessionFactory"/>
+	   </property>
+	</bean>
+	
+	<bean id="packageItemDAO" class="com.cbs.cbsmgr.daoimpl.PackageItemDAOImpl">
+	   <property name="sessionFactory">
+	   	 <ref bean="sessionFactory"/>
+	   </property>
+	</bean>
+	
+	<bean id="priceDAO" class="com.cbs.cbsmgr.daoimpl.PriceDAOImpl">
+	   <property name="sessionFactory">
+	   	 <ref bean="sessionFactory"/>
+	   </property>
+	</bean>
+	
+	<bean id="productDAO" class="com.cbs.cbsmgr.daoimpl.ProductDAOImpl">
+	   <property name="sessionFactory">
+	   	 <ref bean="sessionFactory"/>
+	   </property>
+	</bean>
+	
+	<bean id="productCategoryDAO" class="com.cbs.cbsmgr.daoimpl.ProductCategoryDAOImpl">
+	   <property name="sessionFactory">
+	   	 <ref bean="sessionFactory"/>
+	   </property>
+	</bean>
+	
+	<bean id="userAuthenticationDAO" class="com.cbs.cbsmgr.daoimpl.UserAuthenticationDAOImpl">
+	   <property name="sessionFactory">
+	   	 <ref bean="sessionFactory"/>
+	   </property>
+	</bean>
+	
+	<bean id="vodCampaignCategoryDAO" class="com.cbs.cbsmgr.daoimpl.VodCampaignCategoryDAOImpl">
+	   <property name="sessionFactory">
+	   	 <ref bean="sessionFactory"/>
+	   </property>
+	</bean>
+	
+	<bean id="vodHistoryDAO" class="com.cbs.cbsmgr.daoimpl.VodHistoryDAOImpl">
+	   <property name="sessionFactory">
+	   	 <ref bean="sessionFactory"/>
+	   </property>
+	</bean>
+	
+	<bean id="vodHistoryTempDAO" class="com.cbs.cbsmgr.daoimpl.VodHistoryTempDAOImpl">
+	   <property name="sessionFactory">
+	   	 <ref bean="sessionFactory"/>
+	   </property>
+	</bean>
+	
+	<bean id="vodProgramCategoryDAO" class="com.cbs.cbsmgr.daoimpl.VodProgramCategoryDAOImpl">
+	   <property name="sessionFactory">
+	   	 <ref bean="sessionFactory"/>
+	   </property>
+	</bean>
+	
+	<bean id="vodProgramPackageDAO" class="com.cbs.cbsmgr.daoimpl.VodProgramPackageDAOImpl">
+	   <property name="sessionFactory">
+	   	 <ref bean="sessionFactory"/>
+	   </property>
+	</bean>
+	
+	<bean id="vodProgramPackageProductDAO" class="com.cbs.cbsmgr.daoimpl.VodProgramPackageProductDAOImpl">
+	   <property name="sessionFactory">
+	   	 <ref bean="sessionFactory"/>
+	   </property>
+	</bean>
+	
+	<bean id="vodProgramPackageRelDAO" class="com.cbs.cbsmgr.daoimpl.VodProgramPackageRelDAOImpl">
+	   <property name="sessionFactory">
+	   	 <ref bean="sessionFactory"/>
+	   </property>
+	</bean>
+	
+	<bean id="vodSendDAO" class="com.cbs.cbsmgr.daoimpl.VodSendDAOImpl">
+	   <property name="sessionFactory">
+	   	 <ref bean="sessionFactory"/>
+	   </property>
+	</bean>
+	-->
+</beans>
