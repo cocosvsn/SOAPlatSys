@@ -3,6 +3,8 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee 
 	http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+	
+	<display-name>卫星数字投递平台v1.3.1</display-name>
 
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
@@ -74,6 +76,14 @@
 		<servlet-class>org.directwebremoting.servlet.DwrServlet</servlet-class>
 		<init-param>
 			<param-name>debug</param-name>
+			<param-value>true</param-value>
+		</init-param>
+		<init-param>
+             <param-name>crossDomainSessionSecurity</param-name>
+             <param-value>false</param-value>
+		</init-param>
+		<init-param>
+			<param-name>allowScriptTagRemoting</param-name>
 			<param-value>true</param-value>
 		</init-param>
 	</servlet>

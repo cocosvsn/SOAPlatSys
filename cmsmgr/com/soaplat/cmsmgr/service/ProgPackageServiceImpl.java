@@ -21,6 +21,8 @@ import org.xml.sax.InputSource;
 import jcifs.smb.SmbFile;
 import jcifs.smb.SmbFileInputStream;
 
+import cn.sh.sbl.cms.listener.ServerConfigListener;
+
 import com.cbs.cbsmgr.manageriface.IPpSrvPdtRelManager;
 import com.soaplat.amsmgr.bean.AmsStorage;
 import com.soaplat.amsmgr.bean.AmsStorageClass;
@@ -127,8 +129,6 @@ public class ProgPackageServiceImpl implements ProgPackageServiceIface {
 	
 	private ICmsTransactionManager cmsTransactionManager = null;
 	
-//	private static String m_strServerTempPath = "D:/tomcat6/webapps/upload/temp/";
-	private static String m_strServerTempPath; // = System.getProperty("user.dir") + "/../" + "webapps/upload/temp/";
 	public static final Logger cmsLog = Logger.getLogger("Cms");
 	
 	public ProgPackageServiceImpl() {
@@ -162,17 +162,7 @@ public class ProgPackageServiceImpl implements ProgPackageServiceIface {
 		this.cmsSiteManager = (ICmsSiteManager) ApplicationContextHolder.webApplicationContext.getBean("cmsSiteManager");
 		this.getcmspk = (IGetPK) ApplicationContextHolder.webApplicationContext.getBean("getcmspk");
 		cmsTransactionManager = (ICmsTransactionManager)ApplicationContextHolder.webApplicationContext.getBean("cmsTransactionManager");
-//		transactionManager = (HibernateTransactionManager)ApplicationContextHolder.webApplicationContext.getBean("transactionManager");
-		
-//		m_strServerTempPath = System.getProperty("user.dir");
-//		m_strServerTempPath = m_strServerTempPath.replace('\\', '/');
-//		m_strServerTempPath = fileopr.checkPathFormatRear(m_strServerTempPath, '/');
-//		if(m_strServerTempPath.endsWith("bin/"))
-//		{
-//			m_strServerTempPath += "/../";
-//		}
 		cmsConfig = new CmsConfig();
-		m_strServerTempPath = this.cmsConfig.getPropertyByName("ServerTempPath"); 
 	}
 	
 	
@@ -1145,7 +1135,7 @@ public class ProgPackageServiceImpl implements ProgPackageServiceIface {
 				strFileFrom.length());
 		// strFileFrom = System.getProperty("user.dir") + "/../" +
 		// "webapps/upload/temp/" + strFileFrom;
-		strFileFrom = this.m_strServerTempPath + strFileFrom;
+		strFileFrom = ServerConfigListener.TEMP_PATH + strFileFrom;
 		
 		File file = new File(strFileFrom);
 		cmsLog.debug("附件[ " + strFileFrom + " ]大小为: " + file.length());
@@ -1220,7 +1210,7 @@ public class ProgPackageServiceImpl implements ProgPackageServiceIface {
 		// {
 		// strFilePath = (String)list.get(0);
 		// }
-		strNewPath = m_strServerTempPath;
+		strNewPath = ServerConfigListener.TEMP_PATH;
 		// if(strFilePath == null || strFilePath.equalsIgnoreCase(""))
 		// {
 		// String str = "路径为空。";
@@ -1487,7 +1477,6 @@ public class ProgPackageServiceImpl implements ProgPackageServiceIface {
 //			}
 //			String sourceFile = object.toString().replaceAll("\\\\", "/");
 //			sourceFile = sourceFile.substring(sourceFile.lastIndexOf("/") + 1);
-//			sourceFiles.add(m_strServerTempPath + sourceFile);
 //		}
 
 		// 配置文件，获取

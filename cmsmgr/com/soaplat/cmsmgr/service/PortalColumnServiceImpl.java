@@ -13,7 +13,7 @@ import jcifs.smb.SmbFile;
 
 import org.apache.log4j.Logger;
 
-import sun.nio.cs.ext.TIS_620;
+import cn.sh.sbl.cms.listener.ServerConfigListener;
 
 import com.cbs.cbsmgr.manageriface.IPpSrvPdtRelManager;
 import com.cbs.cbsmgr.manageriface.IProductCategoryManager;
@@ -39,7 +39,6 @@ import com.soaplat.cmsmgr.dto.CmsResultDto;
 import com.soaplat.cmsmgr.dto.FunResourceDto;
 import com.soaplat.cmsmgr.dto.PortalColumnDto;
 import com.soaplat.cmsmgr.manageriface.IBpmcManager;
-import com.soaplat.cmsmgr.manageriface.ICmsSiteManager;
 import com.soaplat.cmsmgr.manageriface.ICmsSiteProductRelManager;
 import com.soaplat.cmsmgr.manageriface.ICmsTransactionManager;
 import com.soaplat.cmsmgr.manageriface.IFlowActivityOrderManager;
@@ -2265,7 +2264,6 @@ public class PortalColumnServiceImpl implements PortalColumnServiceIface {
 		cmsLog.info("Cms -> PortalColumnServiceImpl -> getAllPortalColumns...");
 		CmsResultDto cmsResultDto = new CmsResultDto();
 
-		String systemTempPath = new CmsConfig().getPropertyByName("ServerTempPath");
 		// 获利节目包js文件在一级库的存放路径
 		List descPath = this.packageFilesManager.getDestPathByFilecodeStclasscode(
 				"d_column", "Online");
@@ -2285,7 +2283,7 @@ public class PortalColumnServiceImpl implements PortalColumnServiceIface {
 			if (0 != fileopr.copyFileFromSmbToLocal(
 					this.onlineJsPath + portalColumn.getParentdir() + 
 					"/" + portalColumn.getFocusImgName(), 
-					systemTempPath + portalColumn.getFocusImgName())) {
+					ServerConfigListener.TEMP_PATH + portalColumn.getFocusImgName())) {
 				cmsLog.error(portalColumn.getColumnname() + " 复制默认皮肤焦点图片失败: ");
 				cmsResultDto.setResultCode(1L);
 				cmsResultDto.setErrorMessage("查询栏目失败!");
@@ -2294,46 +2292,8 @@ public class PortalColumnServiceImpl implements PortalColumnServiceIface {
 			if (0 != fileopr.copyFileFromSmbToLocal(
 					this.onlineJsPath + portalColumn.getParentdir() + 
 					"/" + portalColumn.getBlurImgName(), 
-					systemTempPath + portalColumn.getBlurImgName())) {
+					ServerConfigListener.TEMP_PATH + portalColumn.getBlurImgName())) {
 				cmsLog.error("复制默认皮肤非焦点图片失败: ");
-				cmsResultDto.setResultCode(1L);
-				cmsResultDto.setErrorMessage("查询栏目失败!");
-				return cmsResultDto;
-			}
-			
-			if (0 != fileopr.copyFileFromSmbToLocal(
-					this.onlineJsPath + portalColumn.getParentdir() + 
-					"/" + portalColumn.getCurrentdir(), 
-					systemTempPath + portalColumn.getCurrentdir())) {
-				cmsLog.error(portalColumn.getColumnname() + " 复制第二套皮肤焦点图片失败: ");
-				cmsResultDto.setResultCode(1L);
-				cmsResultDto.setErrorMessage("查询栏目失败!");
-				return cmsResultDto;
-			}
-			if (0 != fileopr.copyFileFromSmbToLocal(
-					this.onlineJsPath + portalColumn.getParentdir() + 
-					"/" + portalColumn.getContentmodeid(), 
-					systemTempPath + portalColumn.getContentmodeid())) {
-				cmsLog.error("复制第二套皮肤非焦点图片失败: ");
-				cmsResultDto.setResultCode(1L);
-				cmsResultDto.setErrorMessage("查询栏目失败!");
-				return cmsResultDto;
-			}
-			
-			if (0 != fileopr.copyFileFromSmbToLocal(
-					this.onlineJsPath + portalColumn.getParentdir() + 
-					"/" + portalColumn.getCovermodeid(), 
-					systemTempPath + portalColumn.getCovermodeid())) {
-				cmsLog.error(portalColumn.getColumnname() + " 复制第三套皮肤焦点图片失败: ");
-				cmsResultDto.setResultCode(1L);
-				cmsResultDto.setErrorMessage("查询栏目失败!");
-				return cmsResultDto;
-			}
-			if (0 != fileopr.copyFileFromSmbToLocal(
-					this.onlineJsPath + portalColumn.getParentdir() + 
-					"/" + portalColumn.getListmodeid(), 
-					systemTempPath + portalColumn.getListmodeid())) {
-				cmsLog.error("复制第三套皮肤非焦点图片失败: ");
 				cmsResultDto.setResultCode(1L);
 				cmsResultDto.setErrorMessage("查询栏目失败!");
 				return cmsResultDto;
@@ -2473,7 +2433,6 @@ public class PortalColumnServiceImpl implements PortalColumnServiceIface {
 		}
 		
 		CmsConfig config = new CmsConfig();
-		String systemTempPath = config.getPropertyByName("ServerTempPath");
 		String defaultSkinName = config.getPropertyByName("DefaultSkinName");
 		String secondkinName = config.getPropertyByName("SecondSkinName");
 		String thirdSkinName = config.getPropertyByName("ThirdSkinName");
@@ -2493,42 +2452,42 @@ public class PortalColumnServiceImpl implements PortalColumnServiceIface {
 
 		try {
 			if (0 != fileopr.copyFileFromLocalToSmb(
-					systemTempPath + portalColumn.getFocusImgName(), 
+					ServerConfigListener.TEMP_PATH + portalColumn.getFocusImgName(), 
 					this.onlineJsPath + portalColumn.getParentdir() + "/" + 
 					defaultSkinName + portalColumn.getDefcatcode() + "_focus.png")) {
 				throw new Exception(portalColumn.getColumnname() + " [默认皮肤]焦点图片复制失败!");
 			}
 			
 			if (0 != fileopr.copyFileFromLocalToSmb(
-					systemTempPath + portalColumn.getBlurImgName(), 
+					ServerConfigListener.TEMP_PATH + portalColumn.getBlurImgName(), 
 					this.onlineJsPath + portalColumn.getParentdir() + "/" + 
 					defaultSkinName + portalColumn.getDefcatcode() + "_blur.png")) {
 				throw new Exception(portalColumn.getColumnname() + " [默认皮肤]非焦点图片复制失败!");
 			}
 			
 //			if (0 != fileopr.copyFileFromLocalToSmb(
-//					systemTempPath + portalColumn.getCurrentdir(), 
+//					ServerConfigListener.TEMP_PATH + portalColumn.getCurrentdir(), 
 //					this.onlineJsPath + portalColumn.getParentdir() + "/" + 
 //					secondkinName + portalColumn.getDefcatcode() + "_focus.png")) {
 //				throw new Exception(portalColumn.getColumnname() + " [第二套皮肤]焦点图片复制失败!");
 //			}
 //			
 //			if (0 != fileopr.copyFileFromLocalToSmb(
-//					systemTempPath + portalColumn.getContentmodeid(), 
+//					ServerConfigListener.TEMP_PATH + portalColumn.getContentmodeid(), 
 //					this.onlineJsPath + portalColumn.getParentdir() + "/" + 
 //					secondkinName + portalColumn.getDefcatcode() + "_blur.png")) {
 //				throw new Exception(portalColumn.getColumnname() + " [第二套皮肤]非焦点图片复制失败!");
 //			}
 //			
 //			if (0 != fileopr.copyFileFromLocalToSmb(
-//					systemTempPath + portalColumn.getCovermodeid(), 
+//					ServerConfigListener.TEMP_PATH + portalColumn.getCovermodeid(), 
 //					this.onlineJsPath + portalColumn.getParentdir() + "/" + 
 //					thirdSkinName + portalColumn.getDefcatcode() + "_focus.png")) {
 //				throw new Exception(portalColumn.getColumnname() + " [第三套皮肤]焦点图片复制失败!");
 //			}
 //			
 //			if (0 != fileopr.copyFileFromLocalToSmb(
-//					systemTempPath + portalColumn.getListmodeid(), 
+//					ServerConfigListener.TEMP_PATH + portalColumn.getListmodeid(), 
 //					this.onlineJsPath + portalColumn.getParentdir() + "/" + 
 //					thirdSkinName + portalColumn.getDefcatcode() + "_blur.png")) {
 //				throw new Exception(portalColumn.getColumnname() + " [第三套皮肤]非焦点图片复制失败!");
@@ -2675,7 +2634,6 @@ public class PortalColumnServiceImpl implements PortalColumnServiceIface {
 		
 		CmsResultDto cmsResultDto = new CmsResultDto();
 
-		String systemTempPath = new CmsConfig().getPropertyByName("ServerTempPath");
 		// 获利节目包js文件在一级库的存放路径
 		List descPath = this.packageFilesManager.getDestPathByFilecodeStclasscode(
 				"d_column", "Online");
@@ -2756,14 +2714,14 @@ public class PortalColumnServiceImpl implements PortalColumnServiceIface {
 		try {
 			if (!curPortalColumn.getFocusImgName().equals(portalColumn.getFocusImgName())
 					&& 0 != fileopr.copyFileFromLocalToSmb(
-							systemTempPath + portalColumn.getFocusImgName(), 
+							ServerConfigListener.TEMP_PATH + portalColumn.getFocusImgName(), 
 							this.onlineJsPath + portalColumn.getParentdir() + "/" + 
 							curPortalColumn.getFocusImgName())) {
 				throw new Exception(portalColumn.getColumnname() + " 默认皮肤焦点图片复制失败!");
 			}
 			if (!curPortalColumn.getBlurImgName().equals(portalColumn.getBlurImgName())
 					&& 0 != fileopr.copyFileFromLocalToSmb(
-							systemTempPath + portalColumn.getBlurImgName(), 
+							ServerConfigListener.TEMP_PATH + portalColumn.getBlurImgName(), 
 							this.onlineJsPath + portalColumn.getParentdir() + "/" + 
 							curPortalColumn.getBlurImgName())) {
 				throw new Exception(portalColumn.getColumnname() + " 默认皮肤非焦点图片复制失败!");
@@ -2771,14 +2729,14 @@ public class PortalColumnServiceImpl implements PortalColumnServiceIface {
 			
 //			if (!curPortalColumn.getCurrentdir().equals(portalColumn.getCurrentdir())
 //					&& 0 != fileopr.copyFileFromLocalToSmb(
-//							systemTempPath + portalColumn.getCurrentdir(), 
+//							ServerConfigListener.TEMP_PATH + portalColumn.getCurrentdir(), 
 //							this.onlineJsPath + portalColumn.getParentdir() + "/" + 
 //							curPortalColumn.getCurrentdir())) {
 //				throw new Exception(portalColumn.getColumnname() + " 第二套皮肤焦点图片复制失败!");
 //			}
 //			if (!curPortalColumn.getContentmodeid().equals(portalColumn.getContentmodeid())
 //					&& 0 != fileopr.copyFileFromLocalToSmb(
-//							systemTempPath + portalColumn.getContentmodeid(), 
+//							ServerConfigListener.TEMP_PATH + portalColumn.getContentmodeid(), 
 //							this.onlineJsPath + portalColumn.getParentdir() + "/" + 
 //							curPortalColumn.getContentmodeid())) {
 //				throw new Exception(portalColumn.getColumnname() + " 第二套皮肤非焦点图片复制失败!");
@@ -2786,14 +2744,14 @@ public class PortalColumnServiceImpl implements PortalColumnServiceIface {
 //			
 //			if (!curPortalColumn.getCovermodeid().equals(portalColumn.getCovermodeid())
 //					&& 0 != fileopr.copyFileFromLocalToSmb(
-//							systemTempPath + portalColumn.getCovermodeid(), 
+//							ServerConfigListener.TEMP_PATH + portalColumn.getCovermodeid(), 
 //							this.onlineJsPath + portalColumn.getParentdir() + "/" + 
 //							curPortalColumn.getCovermodeid())) {
 //				throw new Exception(portalColumn.getColumnname() + " 第三套皮肤焦点图片复制失败!");
 //			}
 //			if (!curPortalColumn.getListmodeid().equals(portalColumn.getListmodeid())
 //					&& 0 != fileopr.copyFileFromLocalToSmb(
-//							systemTempPath + portalColumn.getListmodeid(), 
+//							ServerConfigListener.TEMP_PATH + portalColumn.getListmodeid(), 
 //							this.onlineJsPath + portalColumn.getParentdir() + "/" + 
 //							curPortalColumn.getListmodeid())) {
 //				throw new Exception(portalColumn.getColumnname() + " 第三套皮肤非焦点图片复制失败!");
@@ -3360,18 +3318,17 @@ public class PortalColumnServiceImpl implements PortalColumnServiceIface {
 		 */
 		CmsConfig config = new CmsConfig();
 		String defaultSkinName = config.getPropertyByName("DefaultSkinName").trim();
-		String secondSkinName = config.getPropertyByName("SecondSkinName").trim();
-		String thirdSkinName = config.getPropertyByName("ThirdSkinName").trim();
-		String systemTempPath = config.getPropertyByName("ServerTempPath");
+//		String secondSkinName = config.getPropertyByName("SecondSkinName").trim();
+//		String thirdSkinName = config.getPropertyByName("ThirdSkinName").trim();
 		
 		List<PortalColumn> proColumns = this.portalColumnManager.findAll();
 		for (PortalColumn portalColumn : proColumns) {
 			portalColumn.setFocusImgName(defaultSkinName + portalColumn.getDefcatcode() + "_focus.png");
 			portalColumn.setBlurImgName(defaultSkinName + portalColumn.getDefcatcode() + "_blur.png");
-			portalColumn.setCurrentdir(secondSkinName + portalColumn.getDefcatcode() + "_focus.png");
-			portalColumn.setContentmodeid(secondSkinName + portalColumn.getDefcatcode() + "_blur.png");
-			portalColumn.setCovermodeid(thirdSkinName + portalColumn.getDefcatcode() + "_focus.png");
-			portalColumn.setListmodeid(thirdSkinName + portalColumn.getDefcatcode() + "_blur.png");
+//			portalColumn.setCurrentdir(secondSkinName + portalColumn.getDefcatcode() + "_focus.png");
+//			portalColumn.setContentmodeid(secondSkinName + portalColumn.getDefcatcode() + "_blur.png");
+//			portalColumn.setCovermodeid(thirdSkinName + portalColumn.getDefcatcode() + "_focus.png");
+//			portalColumn.setListmodeid(thirdSkinName + portalColumn.getDefcatcode() + "_blur.png");
 			
 			this.portalColumnManager.update(portalColumn);
 		}
@@ -3392,36 +3349,37 @@ public class PortalColumnServiceImpl implements PortalColumnServiceIface {
 		for (PortalColumn portalColumn : portalColumns) {
 			String defaultSkinFocusImgName = this.onlineJsPath + portalColumn.getParentdir() + "/" + portalColumn.getFocusImgName();
 			String defaultSkinBlurImgName = this.onlineJsPath + portalColumn.getParentdir() + "/" + portalColumn.getBlurImgName();
-			String secondSkinFocusImgName = this.onlineJsPath + portalColumn.getParentdir() + "/" + portalColumn.getCurrentdir();
-			String secondSkinBlurImgName = this.onlineJsPath + portalColumn.getParentdir() + "/" + portalColumn.getContentmodeid();
-			String thirdSkinFocusImgName = this.onlineJsPath + portalColumn.getParentdir() + "/" + portalColumn.getCovermodeid();
-			String thirdSkinBlurImgName = this.onlineJsPath + portalColumn.getParentdir() + "/" + portalColumn.getListmodeid();
+//			String secondSkinFocusImgName = this.onlineJsPath + portalColumn.getParentdir() + "/" + portalColumn.getCurrentdir();
+//			String secondSkinBlurImgName = this.onlineJsPath + portalColumn.getParentdir() + "/" + portalColumn.getContentmodeid();
+//			String thirdSkinFocusImgName = this.onlineJsPath + portalColumn.getParentdir() + "/" + portalColumn.getCovermodeid();
+//			String thirdSkinBlurImgName = this.onlineJsPath + portalColumn.getParentdir() + "/" + portalColumn.getListmodeid();
 			
 			SmbFile defaultSkinFocusImg = new SmbFile(defaultSkinFocusImgName);
 			SmbFile defaultSkinBlurImg = new SmbFile(defaultSkinBlurImgName);
-			SmbFile secondSkinFocusImg = new SmbFile(secondSkinFocusImgName);
-			SmbFile secondSkinBlurImg = new SmbFile(secondSkinBlurImgName);
-			SmbFile thirdSkinFocusImg = new SmbFile(thirdSkinFocusImgName);
-			SmbFile thirdSkinBlurImg = new SmbFile(thirdSkinBlurImgName);
+//			SmbFile secondSkinFocusImg = new SmbFile(secondSkinFocusImgName);
+//			SmbFile secondSkinBlurImg = new SmbFile(secondSkinBlurImgName);
+//			SmbFile thirdSkinFocusImg = new SmbFile(thirdSkinFocusImgName);
+//			SmbFile thirdSkinBlurImg = new SmbFile(thirdSkinBlurImgName);
 			
-			if (!defaultSkinFocusImg.exists()) {
-				fileopr.copyFileFromLocalToSmb(systemTempPath + "../../SOAPlatSys/images/init.png", defaultSkinFocusImgName);
+			if (!defaultSkinFocusImg.exists()
+					&& !defaultSkinBlurImg.exists()) {
+				fileopr.copyFileFromLocalToSmb(ServerConfigListener.REAL_PATH + "images/t.png", defaultSkinFocusImgName);
+				fileopr.copyFileFromLocalToSmb(ServerConfigListener.REAL_PATH + "images/f.png", defaultSkinBlurImgName);
+			} else {
+				return "初始化栏目图标失败!";
 			}
-			if (!defaultSkinBlurImg.exists()) {
-				fileopr.copyFileFromLocalToSmb(systemTempPath + "../../SOAPlatSys/images/init.png", defaultSkinBlurImgName);
-			}
-			if (!secondSkinFocusImg.exists()) {
-				fileopr.copyFileFromLocalToSmb(systemTempPath + "../../SOAPlatSys/images/init.png", secondSkinFocusImgName);
-			}
-			if (!secondSkinBlurImg.exists()) {
-				fileopr.copyFileFromLocalToSmb(systemTempPath + "../../SOAPlatSys/images/init.png", secondSkinBlurImgName);
-			}
-			if (!thirdSkinFocusImg.exists()) {
-				fileopr.copyFileFromLocalToSmb(systemTempPath + "../../SOAPlatSys/images/init.png", thirdSkinFocusImgName);
-			}
-			if (!thirdSkinBlurImg.exists()) {
-				fileopr.copyFileFromLocalToSmb(systemTempPath + "../../SOAPlatSys/images/init.png", thirdSkinBlurImgName);
-			}
+//			if (!secondSkinFocusImg.exists()) {
+//				fileopr.copyFileFromLocalToSmb(ServerConfigListener.REAL_PATH + "../../SOAPlatSys/images/init.png", secondSkinFocusImgName);
+//			}
+//			if (!secondSkinBlurImg.exists()) {
+//				fileopr.copyFileFromLocalToSmb(ServerConfigListener.REAL_PATH + "../../SOAPlatSys/images/init.png", secondSkinBlurImgName);
+//			}
+//			if (!thirdSkinFocusImg.exists()) {
+//				fileopr.copyFileFromLocalToSmb(ServerConfigListener.REAL_PATH + "../../SOAPlatSys/images/init.png", thirdSkinFocusImgName);
+//			}
+//			if (!thirdSkinBlurImg.exists()) {
+//				fileopr.copyFileFromLocalToSmb(ServerConfigListener.REAL_PATH + "../../SOAPlatSys/images/init.png", thirdSkinBlurImgName);
+//			}
 		}
 		return "初始化栏目图标成功!";
 	}

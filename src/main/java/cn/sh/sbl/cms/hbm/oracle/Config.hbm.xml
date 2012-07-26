@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<!-- 日期：2012-07-26 16:19:16. 创建者：Bunco (bunco.hb@gmail.com). -->
+<!DOCTYPE hibernate-mapping PUBLIC
+		"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+		"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<!-- 表备注：(配置) -->
+	<class name="cn.sh.sbl.cms.beans.Config" schema="CMS" table="CONFIG">
+		<!-- 主键：名称(主键) -->
+		<id name="name" column="C_NAME" type="java.lang.String" length="100">
+			<generator class="assigned" />
+		</id>
+		<!-- 字段备注：值 -->
+		<property name="value" column="C_VALUE" type="java.lang.String" length="100"/>
+		<!-- 字段备注：说明 -->
+		<property name="comment" column="C_COMMENT" type="java.lang.String" length="400"/>
+		<!-- 字段备注：是否有效 -->
+		<property name="valid" column="C_VALID" type="java.lang.Boolean" length="1"/>
+	</class>
+</hibernate-mapping>

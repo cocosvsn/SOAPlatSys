@@ -7,6 +7,7 @@
  */
 package cn.sh.sbl.cms.listener;
 
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.net.InetAddress;
@@ -54,6 +55,8 @@ public class ServerConfigListener implements ServletContextListener {
 	private final String MESSAGE_BROKER_ENDPOINT = "http://%1$s:%2$s%3$s/messagebroker/amf";
 	private final String FLEX_REMOTE_CONFIG_FILE_ENCODING = "UTF-8";
 	public static ServletContext servletContext;
+	public static String REAL_PATH = null;
+	public static String TEMP_PATH = null;
 
 	public void contextDestroyed(ServletContextEvent event) {
 		logger.debug("ServerConfigListener.contextDestroyed");
@@ -73,9 +76,14 @@ public class ServerConfigListener implements ServletContextListener {
 			logger.debug("{}", e);
 		}
 		String contextPath = servletContext.getContextPath();
-//		String serverInfo = servletContext.getServerInfo();
-//		String servletContextName = servletContext.getServletContextName();
+		String serverInfo = servletContext.getServerInfo();
+		String servletContextName = servletContext.getServletContextName();
 		String serverPort = getHttpPort("HTTP/1.1", "http");
+		REAL_PATH = servletContext.getRealPath("/");
+		TEMP_PATH = REAL_PATH.substring(0, REAL_PATH.indexOf(contextPath)) + 
+				File.separator + "upload" + File.separator + "temp" + File.separator;
+		logger.debug("ContextPath={{}}, ServerInfo={{}}, ServletContextName={{}}, ServerPort={{}}, RealPath={{}} TempPath={{}}", 
+				new Object[] {contextPath, serverInfo, servletContextName, serverPort, REAL_PATH, TEMP_PATH});
 		
 		String endpointValue = String.format(this.MESSAGE_BROKER_ENDPOINT, 
 				hostAddress, serverPort, "/".equals(contextPath) ? "" : contextPath);
@@ -85,11 +93,21 @@ public class ServerConfigListener implements ServletContextListener {
 		Document doc;
 		try {
 			doc = reader.read(configResource.getFile());
+			Node appNameNode = doc.selectSingleNode("/root/appname");
 			Node endpointNode = doc.selectSingleNode("/root/endpoint");
+			Node fileFromNode = doc.selectSingleNode("/root/fileFrom");
+			logger.debug("selectSingleNode(/root/appname): Name={{}}, Text={{}}, Parent={{}}, StringValue={{}}", 
+					new Object[] {appNameNode.getName(), appNameNode.getText(),
+					appNameNode.getParent(), appNameNode.getStringValue()});
 			logger.debug("selectSingleNode(/root/endpoint): Name={{}}, Text={{}}, Parent={{}}, StringValue={{}}", 
 					new Object[] {endpointNode.getName(), endpointNode.getText(),
 					endpointNode.getParent(), endpointNode.getStringValue()});
+			logger.debug("selectSingleNode(/root/fileFrom): Name={{}}, Text={{}}, Parent={{}}, StringValue={{}}", 
+					new Object[] {fileFromNode.getName(), fileFromNode.getText(),
+					fileFromNode.getParent(), fileFromNode.getStringValue()});
+			appNameNode.setText(servletContextName);
 			endpointNode.setText(endpointValue);
+			fileFromNode.setText(TEMP_PATH);
 			logger.debug("{}", doc.asXML());
 			OutputFormat outputFormat = OutputFormat.createPrettyPrint();
 			outputFormat.setEncoding(FLEX_REMOTE_CONFIG_FILE_ENCODING);

@@ -2,11 +2,14 @@
 
 <dwr>
 	<allow>
-
+		<convert converter="bean" match="cn.sh.sbl.cms.beans.Config" />
 		<!--
 			<create creator="new" javascript="JDate"> <param name="class"
 			value="java.util.Date" /> </create>
 		-->
+		<create creator="spring" javascript="Config">
+		    <param name="beanName" value="configService"/>
+		</create>
 
 		<create creator="none" javascript="EncryptService">
 			<param name="class" value="com.soaplat.cmsmgr.service.BackgroundEncryptService" />

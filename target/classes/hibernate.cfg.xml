@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE hibernate-configuration PUBLIC
 	"-//Hibernate/Hibernate Configuration DTD 3.0//EN"
-	"http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+	"http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
 <hibernate-configuration>
 	<session-factory>
 		<property name="connection.username">cms</property>
@@ -143,5 +143,8 @@
 		<mapping resource="com/cbs/cbsmgr/hbm/CampaignCategory.hbm.xml" />
 		<mapping resource="com/cbs/cbsmgr/hbm/CbsChannelList.hbm.xml" />
 		<mapping resource="com/cbs/cbsmgr/hbm/CaSendLog.hbm.xml" />
+		
+		<!-- HuangBo addition by 2012年7月26日 16时30分 增加cms配置表, 打算由配置文件迁移至数据库表 -->
+		<mapping resource="cn/sh/sbl/cms/hbm/oracle/Config.hbm.xml" />
 	</session-factory>
 </hibernate-configuration>
