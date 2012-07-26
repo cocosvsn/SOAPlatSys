@@ -7,6 +7,8 @@
  */
 package cn.sh.sbl.cms.service.impl;
 
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -36,5 +38,13 @@ public class CmsSiteServiceImpl implements ICmsSiteService {
 	 */
 	public void addSite(CmsSite cmsSite) {
 		this.cmsSiteDao.save(cmsSite);
+	}
+	
+	/**
+	 * 查询所有品牌
+	 * @return List<CmsSite>
+	 */
+	public List<CmsSite> getAllSites() {
+		return this.cmsSiteDao.findAll();
 	}
 }

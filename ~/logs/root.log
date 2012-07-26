@@ -1,0 +1,1 @@
+2012-07-26 10:57:49,812 [WARN ] org.hibernate.util.DTDEntityResolver.resolveEntity(DTDEntityResolver.java:73) - recognized obsolete hibernate namespace http://hibernate.sourceforge.net/. Use namespace http://www.hibernate.org/dtd/ instead. Refer to Hibernate 3.6 Migration Guide!
