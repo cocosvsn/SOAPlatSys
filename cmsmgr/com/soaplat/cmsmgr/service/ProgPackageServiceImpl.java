@@ -708,13 +708,7 @@ public class ProgPackageServiceImpl implements ProgPackageServiceIface {
 			String ppxml = XMLtoStr(doc);
 			if (!ppxml.equalsIgnoreCase("")) {
 				progPackage.setPpxml(ppxml);
-				cmsLog.debug("已经更新节目包(progPackage)的xml，尚未保存到数据库。");
-				/**
-				 * 增加节目包所有文件大小的统计
-				 * HuangBo addition by 2011年11月17日 11时4分 
-				 */
-				progPackage.setFilesizehi(this.packageFilesManager.sumOfPackageFileSize(
-						progPackage.getProductid()));
+				cmsLog.debug("已经更新节目包(progPackage)的xml，尚未保存到数据库。");				
 			}
 		} catch (Exception ex) {
 			cmsLog.error(ex.getMessage());
@@ -924,6 +918,12 @@ public class ProgPackageServiceImpl implements ProgPackageServiceIface {
 			cmsLog.warn("删除节目包的xml文件...");
 			deleteSmbFile(strXmlFullPath);
 		}
+		/**
+		 * 增加节目包所有文件大小的统计
+		 * HuangBo addition by 2011年11月17日 11时4分 
+		 */
+		progPackage.setFilesizehi(this.packageFilesManager.sumOfPackageFileSize(
+				progPackage.getProductid()));
 		cmsLog.debug("创建完节目包最后来看看节目包大小是否正确: " + progPackage.getFilesizehi());
 		Bpmc bpmc = new Bpmc(progPackage.getProductid(), progPackage.getInputmanid(), null, null, 
 				null, null, "创建节目包: " + progPackage.getProductname(), "C");
