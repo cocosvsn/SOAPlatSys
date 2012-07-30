@@ -63,8 +63,8 @@ public class ProgPackage  implements java.io.Serializable {
 
     /** default constructor */
     public ProgPackage() {
-    	this.setState((long)1);			// 节目包状态（0导入1缓存库2加扰库3播控库）
-    	this.setDealstate((long)0);		// 处理状态(0未处理1处理8失败9成功)
+    	this.setState(1L);			// 节目包状态（0导入1缓存库2加扰库3播控库）
+    	this.setDealstate(0L);		// 处理状态(0未处理1处理8失败9成功)
     }
 
 	/** minimal constructor */

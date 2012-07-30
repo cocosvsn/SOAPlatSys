@@ -58,7 +58,7 @@
    <column length="20" name="ID_ACT"/>
   </property>
   <property generated="never" lazy="false" name="pop" type="java.lang.String">
-   <column length="20" name="POP"/>
+   <column length="24" name="POP"/>
   </property>
   <property generated="never" lazy="false" name="inputmanid" type="java.lang.String">
    <column length="60" name="INPUTMANID"/>

@@ -258,8 +258,8 @@ public class ProgListMangDetailManagerImpl implements IProgListMangDetailManager
 	 * @param nextAction 将要发送到的下一个活动ID
 	 */
 	public int updateAction(String scheduleDate, String nextAction) {
-		String updateProgListMangDetailSQL = "update CMSADMIN.TPROGLISTMANGDETAIL set ID_ACT = :nextAction where SCHEDULEDATE = :scheduleDate";
-		String updateProgListMangSQL = "update CMSADMIN.TPROGLISTMANG set ID_ACT = :nextAction where scheduledate = :scheduleDate";
+		String updateProgListMangDetailSQL = "update CMS.TPROGLISTMANGDETAIL set ID_ACT = :nextAction where SCHEDULEDATE = :scheduleDate";
+		String updateProgListMangSQL = "update CMS.TPROGLISTMANG set ID_ACT = :nextAction where scheduledate = :scheduleDate";
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("scheduleDate", scheduleDate);
 		params.put("nextAction", nextAction);

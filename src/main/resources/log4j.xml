@@ -122,7 +122,7 @@
 		<appender-ref ref="console"/>
 	</logger>
 	<root>
-		<level value="warn"></level>
+		<level value="debug"></level>
 		<appender-ref ref="root_filelog_daily" />
 	</root>
 </log4j:configuration>

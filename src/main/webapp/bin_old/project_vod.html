@@ -1,0 +1,233 @@
+<!-- saved from url=(0014)about:internet -->
+<html lang="en">
+
+<!-- 
+Smart developers always View Source. 
+
+This application was built using Adobe Flex, an open source framework
+for building rich Internet applications that get delivered via the
+Flash Player or to desktops via Adobe AIR. 
+
+Learn more about Flex at http://flex.org 
+// -->
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+<!--  BEGIN Browser History required section -->
+<link rel="stylesheet" type="text/css" href="history/history.css" />
+<!--  END Browser History required section -->
+
+<title></title>
+<script src="AC_OETags.js" language="javascript"></script>
+
+<!--  BEGIN Browser History required section -->
+<script src="history/history.js" language="javascript"></script>
+<!--  END Browser History required section -->
+
+<style>
+body { margin: 0px; overflow:hidden }
+</style>
+<script language="JavaScript" type="text/javascript">
+<!--
+// -----------------------------------------------------------------------------
+// Globals
+// Major version of Flash required
+var requiredMajorVersion = 9;
+// Minor version of Flash required
+var requiredMinorVersion = 0;
+// Minor version of Flash required
+var requiredRevision = 28;
+// -----------------------------------------------------------------------------
+// -->
+</script>
+</head>
+
+<!--applet-->
+<div id="appFrame" style="position:absolute;background-color:transparent;border:0px;visibility:hidden;">
+<object
+	name = "appUpload" id="appUpload"
+    classid = "clsid:CAFEEFAC-0016-0000-0016-ABCDEFFEDCBA"
+    codebase = "http://java.sun.com/update/1.6.0/jinstall-6u16-windows-i586.cab#Version=6,0,160,1"
+    WIDTH = 500 HEIGHT = 30  ALIGN = middle VSPACE = 0 HSPACE = 0 >
+    <PARAM NAME = CODE VALUE = "com.shl.upload.GUI.Main.class" >
+    <PARAM NAME = CODEBASE VALUE = "." >
+    <PARAM NAME = ARCHIVE VALUE = "Upload_Module.jar" >
+    <PARAM NAME = NAME VALUE = "appUpload" >
+    <param name = "type" value = "application/x-java-applet;jpi-version=1.6.0_16">
+    <param name = "scriptable" value = "false">
+
+    <comment>
+	<embed
+            type = "application/x-java-applet;jpi-version=1.6.0_16" \
+            CODE = "com.shl.upload.GUI.Main.class" \
+            JAVA_CODEBASE = "." \
+            ARCHIVE = "Upload_Module.jar" \
+            NAME = "TestApplet" \
+            WIDTH = 400 \
+            HEIGHT = 300 \
+            ALIGN = middle \
+            VSPACE = 0 \
+            HSPACE = 0
+	    scriptable = false
+	    pluginspage = "http://java.sun.com/products/plugin/index.html#download">
+	    <noembed>
+            
+            </noembed>
+	</embed>
+    </comment>
+</object>
+</div>
+
+<body scroll="no">
+<form id="fileForm">
+	<input id="file" type="file" style="display:none" onchange="getPath(this.value)"/>
+</form>
+<script language="JavaScript" type="text/javascript">
+<!--
+// Version check for the Flash Player that has the ability to start Player Product Install (6.0r65)
+var hasProductInstall = DetectFlashVer(6, 0, 65);
+
+// Version check based upon the values defined in globals
+var hasRequestedVersion = DetectFlashVer(requiredMajorVersion, requiredMinorVersion, requiredRevision);
+
+if ( hasProductInstall && !hasRequestedVersion ) {
+	// DO NOT MODIFY THE FOLLOWING FOUR LINES
+	// Location visited after installation is complete if installation is required
+	var MMPlayerType = (isIE == true) ? "ActiveX" : "PlugIn";
+	var MMredirectURL = window.location;
+    document.title = document.title.slice(0, 47) + " - Flash Player Installation";
+    var MMdoctitle = document.title;
+
+	AC_FL_RunContent(
+		"src", "playerProductInstall",
+		"FlashVars", "MMredirectURL="+MMredirectURL+'&MMplayerType='+MMPlayerType+'&MMdoctitle='+MMdoctitle+"",
+		"width", "100%",
+		"height", "100%",
+		"align", "middle",
+		"id", "DBStar",
+		"quality", "high",
+		"bgcolor", "#869ca7",
+		"name", "DBStar",
+		"allowScriptAccess","sameDomain",
+		"type", "application/x-shockwave-flash",
+		"pluginspage", "http://www.adobe.com/go/getflashplayer"
+	);
+} else if (hasRequestedVersion) {
+	// if we've detected an acceptable version
+	// embed the Flash Content SWF when all tests are passed
+	AC_FL_RunContent(
+			"src", "DBStar",
+			"width", "100%",
+			"height", "100%",
+			"align", "middle",
+			"id", "DBStar",
+			"quality", "high",
+			"bgcolor", "#869ca7",
+			"name", "DBStar",
+			"allowScriptAccess","sameDomain",
+			"type", "application/x-shockwave-flash",
+			"pluginspage", "http://www.adobe.com/go/getflashplayer"
+	);
+  } else {  // flash is too old or we can't detect the plugin
+    var alternateContent = 'Alternate HTML content should be placed here. '
+  	+ 'This content requires the Adobe Flash Player. '
+   	+ '<a href=http://www.adobe.com/go/getflash/>Get Flash</a>';
+    document.write(alternateContent);  // insert non-flash content
+  }
+// -->
+
+//applet����
+function moveAppIFrame(x,y,w,h) {
+    var frameRef=document.getElementById("appFrame");
+    frameRef.style.left=x;
+    frameRef.style.top=y;
+    frameRef.style.width=w;
+    frameRef.style.height=h;
+    var appupload=document.getElementById("appUpload"); 
+      appupload.width=w;
+      appupload.height=h;
+}
+function hideAppIFrame(){
+    document.getElementById("appFrame").style.visibility="hidden";
+}
+function showAppIFrame(){
+    document.getElementById("appFrame").style.visibility="visible";
+}
+
+	function startTransfer(transStr)
+	{
+		window.document.appUpload.startTransfer(transStr);
+	}
+	
+	function changeMode(i)
+	{
+		window.document.appUpload.setModel(i);
+	}
+
+	function reset()
+	{
+		window.document.appUpload.reset();
+	}
+
+	function showError()
+	{
+		alert("error");
+	}
+	
+//flex����
+	function showFileName(fileallname,filename) {    
+   		var x = document.DBStar.showFileName(fileallname,filename); 
+	}  
+
+	function showComplete(flag,msg) {
+   		var x = document.DBStar.showComplete(flag,msg);
+	}  
+
+  function playTS(str)
+  {
+  	window.open(str,"_self"); 
+  }
+  
+			function getFolder(){
+        		var Shell = new ActiveXObject("Shell.Application");
+        		var Folder = Shell.BrowseForFolder(0,"\u8bf7\u9009\u62e9\u6587\u4ef6\u5939",0x0010,"F:\\Storage\\Prepared\\RICHMEDIA");
+        		if(Folder&&Folder.Items()&&Folder.Items().Item()){
+        			document.getElementById("DBStar").getPath("1",Folder.Items().Item().Path);
+        		}
+        	}
+        	
+        	function getFile(){
+        		document.getElementById("file").click();
+        	}
+        	function getPath(path){
+        		document.getElementById("DBStar").getPath("0",path);
+        		document.getElementById("fileForm").reset();
+        	}
+        	
+        	function setFocus() {
+			    document.getElementById("DBStar").focus();    
+			}
+        	
+</script>
+<noscript>
+  	<object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000"
+			id="DBStar" width="100%" height="100%"
+			codebase="http://fpdownload.macromedia.com/get/flashplayer/current/swflash.cab">
+			<param name="movie" value="DBStar.swf" />
+			<param name="quality" value="high" />
+			<param name="bgcolor" value="#869ca7" />
+			<param name="allowScriptAccess" value="sameDomain" />
+			<embed src="DBStar.swf" quality="high" bgcolor="#869ca7"
+				width="100%" height="100%" name="DBStar" align="middle"
+				play="true"
+				loop="false"
+				quality="high"
+				allowScriptAccess="sameDomain"
+				type="application/x-shockwave-flash"
+				pluginspage="http://www.adobe.com/go/getflashplayer">
+			</embed>
+	</object>
+</noscript>
+</body>
+</html>

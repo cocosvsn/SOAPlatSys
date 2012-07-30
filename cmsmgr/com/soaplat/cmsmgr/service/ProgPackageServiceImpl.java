@@ -100,7 +100,6 @@ public class ProgPackageServiceImpl implements ProgPackageServiceIface {
 	
 	private static FileOperationImpl fileopr = null;
 	private IGetPK getcmspk;
-	private CmsConfig cmsConfig = null;
 	private IProgTypeManager progTypeManager = null;
 	private IPackStyleManager packStyleManager = null;
 	private ICmsServiceManager cmsServiceManager = null;
@@ -133,7 +132,6 @@ public class ProgPackageServiceImpl implements ProgPackageServiceIface {
 	
 	public ProgPackageServiceImpl() {
 		fileopr = new FileOperationImpl();
-		
 		progTypeManager = (IProgTypeManager)ApplicationContextHolder.webApplicationContext.getBean("progTypeManager");
 		packStyleManager = (IPackStyleManager)ApplicationContextHolder.webApplicationContext.getBean("packStyleManager");
 		cmsServiceManager = (ICmsServiceManager)ApplicationContextHolder.webApplicationContext.getBean("cmsServiceManager");
@@ -156,20 +154,18 @@ public class ProgPackageServiceImpl implements ProgPackageServiceIface {
 		progListMangDetailManager = (IProgListMangDetailManager) ApplicationContextHolder.webApplicationContext.getBean("progListMangDetailManager");
 		flowActionManager = (IFlowActionManager) ApplicationContextHolder.webApplicationContext.getBean("flowActionManager");
 		progListFileDao = (IProgListFileDao) ApplicationContextHolder.webApplicationContext.getBean("progListFileDao");
-		
 		this.productInfoManager = (IProductInfoManager) ApplicationContextHolder.webApplicationContext.getBean("productinfoManager");
 		this.bpmcManager = (IBpmcManager) ApplicationContextHolder.webApplicationContext.getBean("bpmcManager");
 		this.cmsSiteManager = (ICmsSiteManager) ApplicationContextHolder.webApplicationContext.getBean("cmsSiteManager");
 		this.getcmspk = (IGetPK) ApplicationContextHolder.webApplicationContext.getBean("getcmspk");
 		cmsTransactionManager = (ICmsTransactionManager)ApplicationContextHolder.webApplicationContext.getBean("cmsTransactionManager");
-		cmsConfig = new CmsConfig();
 	}
 	
 	
 	// 获取节目类型列表，包含样式列表
 	@SuppressWarnings("unchecked")
 	public List<ProgramTypeDto> getAllProgramTypes(Long styletype) {
-		cmsLog.info("Cms -> ProgPackageServiceImpl -> getAllProgramTypes...");
+		cmsLog.debug("Cms -> ProgPackageServiceImpl -> getAllProgramTypes...");
 		List<ProgramTypeDto> programTypeDtos = new ArrayList<ProgramTypeDto>();
 
 		try {
@@ -207,10 +203,10 @@ public class ProgPackageServiceImpl implements ProgPackageServiceIface {
 				programTypeDtos.add(programTypeDto);
 			}
 		} catch (Exception e) {
-			cmsLog.info("Cms -> ProgPackageServiceImpl -> getAllProgramTypes，异常："
+			cmsLog.warn("Cms -> ProgPackageServiceImpl -> getAllProgramTypes，异常："
 					+ e.getMessage());
 		}
-		cmsLog.info("Cms -> ProgPackageServiceImpl -> getAllProgramTypes returns.");
+		cmsLog.debug("Cms -> ProgPackageServiceImpl -> getAllProgramTypes returns.");
 		return programTypeDtos;
 	}
 
@@ -301,35 +297,35 @@ public class ProgPackageServiceImpl implements ProgPackageServiceIface {
 
 			str = clob.getSubString(1, (int) clob.length());
 		} catch (IOException ex) {
-			cmsLog.info("Failed to get string by clob.");
-			cmsLog.info(ex.getMessage());
+			cmsLog.warn("Failed to get string by clob.");
+			cmsLog.warn(ex.getMessage());
 		} catch (SQLException ex) {
-			cmsLog.info("Failed to get string by clob..");
-			cmsLog.info(ex.getMessage());
+			cmsLog.warn("Failed to get string by clob..");
+			cmsLog.warn(ex.getMessage());
 		}
 		return str;
 	}
 
 	@SuppressWarnings("unused")
 	private int copyFileLocalToSmb(String strFileFrom, String strFileTo) {
-		cmsLog.info("Cms -> ProgPackageServiceImpl -> copyFile...");
-		cmsLog.info("From : " + strFileFrom);
-		cmsLog.info("To : " + strFileTo);
+		cmsLog.debug("Cms -> ProgPackageServiceImpl -> copyFile...");
+		cmsLog.debug("From : " + strFileFrom);
+		cmsLog.debug("To : " + strFileTo);
 		int ret = -1;
 
 		FileOperationImpl fileopr = new FileOperationImpl();
 
 		ret = fileopr.copyFileFromLocalToSmb(strFileFrom, strFileTo);
 
-		cmsLog.info("Cms -> ProgPackageServiceImpl -> copyFile returns.");
+		cmsLog.debug("Cms -> ProgPackageServiceImpl -> copyFile returns.");
 		return ret;
 	}
 
 	@SuppressWarnings("unused")
 	private int copyFileSmbToLocal(String strFileFrom, String strFileTo) {
-		cmsLog.info("Cms -> ProgPackageServiceImpl -> copyFileSmbToLocal...");
-		cmsLog.info("From : " + strFileFrom);
-		cmsLog.info("To : " + strFileTo);
+		cmsLog.debug("Cms -> ProgPackageServiceImpl -> copyFileSmbToLocal...");
+		cmsLog.debug("From : " + strFileFrom);
+		cmsLog.debug("To : " + strFileTo);
 		int ret = -1;
 
 		try {
@@ -350,57 +346,56 @@ public class ProgPackageServiceImpl implements ProgPackageServiceIface {
 			fileStreamOut.flush();
 
 			ret = 0;
-			cmsLog.info("Copy file successfully : " + strFileFrom + " --> "
+			cmsLog.debug("Copy file successfully : " + strFileFrom + " --> "
 					+ strFileTo);
 		} catch (IOException ex) {
 			ret = 1;
-			cmsLog.info("Copy file unsuccessfully : " + strFileFrom + " --> "
+			cmsLog.debug("Copy file unsuccessfully : " + strFileFrom + " --> "
 					+ strFileTo);
-			cmsLog.info(ex.getMessage());
+			cmsLog.debug(ex.getMessage());
 		}
 
-		cmsLog.info("Cms -> ProgPackageServiceImpl -> copyFileSmbToLocal returns.");
+		cmsLog.debug("Cms -> ProgPackageServiceImpl -> copyFileSmbToLocal returns.");
 		return ret;
 	}
 
 	private int deleteSmbFile(String strFile) {
 		// 删除文件
-		cmsLog.info("Cms -> ProgPackageServiceImpl -> deleteSmbFile...");
+		cmsLog.debug("Cms -> ProgPackageServiceImpl -> deleteSmbFile...");
 		int ireturn = -1;
 		FileOperationImpl fileopr = new FileOperationImpl();
 
 		ireturn = fileopr.deleteSmbFile(strFile);
 
-		cmsLog.info("Cms -> ProgPackageServiceImpl -> deleteSmbFile returns.");
+		cmsLog.debug("Cms -> ProgPackageServiceImpl -> deleteSmbFile returns.");
 		return ireturn;
 	}
 
 	@SuppressWarnings("unused")
 	private int deleteFile(String strFile) {
 		// 删除文件
-		cmsLog.info("Cms -> ProgPackageServiceImpl -> deleteFile...");
+		cmsLog.debug("Cms -> ProgPackageServiceImpl -> deleteFile...");
 		int ireturn = -1;
 		try {
 			File file = new File(strFile);
 			file.delete();
 
 			ireturn = 0;
-			cmsLog.info("Delete file successfully: " + strFile);
+			cmsLog.debug("Delete file successfully: " + strFile);
 		} catch (Exception ex) {
 			ireturn = 1;
-			cmsLog.info("Delete file unsuccessfully: " + strFile);
-			cmsLog.info(ex.getMessage());
+			cmsLog.debug("Delete file unsuccessfully: " + strFile);
+			cmsLog.debug(ex.getMessage());
 		}
 
-		cmsLog.info("Cms -> ProgPackageServiceImpl -> deleteFile returns.");
+		cmsLog.debug("Cms -> ProgPackageServiceImpl -> deleteFile returns.");
 		return ireturn;
 	}
 
-	// 修改节目包的xml
 	@SuppressWarnings("unchecked")
 	private ProgPackage modifyProgPackagePpxml(ProgPackage progPackage) {
 		// 删除文件
-		cmsLog.info("Cms -> ProgPackageServiceImpl -> modifyProgPackagePpxml...");
+		cmsLog.debug("Cms -> ProgPackageServiceImpl -> modifyProgPackagePpxml...");
 
 		List packageFileses = packageFilesManager.findByProperty("productid",
 				progPackage.getProductid());
@@ -422,44 +417,44 @@ public class ProgPackageServiceImpl implements ProgPackageServiceIface {
 			doc.normalize();
 
 			// 查找cell节点
-			cmsLog.info("修改节目包节点(APP)属性...");
+			cmsLog.debug("修改节目包节点(APP)属性...");
 			NodeList cells = doc.getElementsByTagName("APP");
 			for (int i = 0; i < cells.getLength(); i++) {
 				Node cell = cells.item(i);
 				Element cellattr = (Element) cells.item(i);
 				if (cellattr.hasAttribute("PROGPACKAGEID")) // 判断节点有tag属性
 				{
-					// cmsLog.info(cell.getAttributes().getNamedItem("PROGPACKAGEID").getNodeValue());
+					// cmsLog.debug(cell.getAttributes().getNamedItem("PROGPACKAGEID").getNodeValue());
 					cell.getAttributes().getNamedItem("PROGPACKAGEID")
 							.setNodeValue(progPackage.getProductid());
 				}
 				if (cellattr.hasAttribute("PROGPACKAGENAME")) // 判断节点有tag属性
 				{
-					// cmsLog.info(cell.getAttributes().getNamedItem("PROGPACKAGENAME").getNodeValue());
+					// cmsLog.debug(cell.getAttributes().getNamedItem("PROGPACKAGENAME").getNodeValue());
 					cell.getAttributes().getNamedItem("PROGPACKAGENAME")
 							.setNodeValue(progPackage.getProductname());
 				}
 				if (cellattr.hasAttribute("PROGTYPE")) // 判断节点有tag属性
 				{
-					// cmsLog.info(cell.getAttributes().getNamedItem("PROGTYPE").getNodeValue());
+					// cmsLog.debug(cell.getAttributes().getNamedItem("PROGTYPE").getNodeValue());
 					cell.getAttributes().getNamedItem("PROGTYPE")
 							.setNodeValue(progPackage.getProgtype());
 				}
 				if (cellattr.hasAttribute("STYLEID")) // 判断节点有tag属性
 				{
-					// cmsLog.info(cell.getAttributes().getNamedItem("STYLEID").getNodeValue());
+					// cmsLog.debug(cell.getAttributes().getNamedItem("STYLEID").getNodeValue());
 					cell.getAttributes().getNamedItem("STYLEID")
 							.setNodeValue(progPackage.getStyleid().toString());
 				}
 				if (cellattr.hasAttribute("SUMFILESIZE")) // 判断节点有tag属性
 				{
-					// cmsLog.info(cell.getAttributes().getNamedItem("SUMFILESIZE").getNodeValue());
+					// cmsLog.debug(cell.getAttributes().getNamedItem("SUMFILESIZE").getNodeValue());
 					cell.getAttributes().getNamedItem("SUMFILESIZE")
 							.setNodeValue(progPackage.getSumfilesize());
 				}
 				if (cellattr.hasAttribute("UPDATEMANID")) // 判断节点有tag属性
 				{
-					// cmsLog.info(cell.getAttributes().getNamedItem("UPDATEMANID").getNodeValue());
+					// cmsLog.debug(cell.getAttributes().getNamedItem("UPDATEMANID").getNodeValue());
 					cell.getAttributes().getNamedItem("UPDATEMANID")
 							.setNodeValue(progPackage.getUpdatemanid());
 				}
@@ -467,7 +462,7 @@ public class ProgPackageServiceImpl implements ProgPackageServiceIface {
 				{
 					SimpleDateFormat sdf = new SimpleDateFormat(
 							"yyyy-MM-dd HH:mm:ss");
-					// cmsLog.info(cell.getAttributes().getNamedItem("UPDATETIME").getNodeValue());
+					// cmsLog.debug(cell.getAttributes().getNamedItem("UPDATETIME").getNodeValue());
 					cell.getAttributes()
 							.getNamedItem("UPDATETIME")
 							.setNodeValue(
@@ -475,7 +470,7 @@ public class ProgPackageServiceImpl implements ProgPackageServiceIface {
 				}
 				if (cellattr.hasAttribute("EPICODENUMBER")) // 判断节点有tag属性
 				{
-					// cmsLog.info(cell.getAttributes().getNamedItem("EPICODENUMBER").getNodeValue());
+					// cmsLog.debug(cell.getAttributes().getNamedItem("EPICODENUMBER").getNodeValue());
 					cell.getAttributes().getNamedItem("EPICODENUMBER")
 							.setNodeValue(progPackage.getEpicodenumber());
 				}
@@ -539,14 +534,14 @@ public class ProgPackageServiceImpl implements ProgPackageServiceIface {
 						.toString());
 			}
 
-			cmsLog.info("修改节目包的文件信息(PROGFILE)...");
+			cmsLog.debug("修改节目包的文件信息(PROGFILE)...");
 			cells = doc.getElementsByTagName("PROGFILE");
 			for (int i = 0; i < cells.getLength(); i++) {
 				Node cell = cells.item(i);
 				Element cellattr = (Element) cells.item(i);
 
 				// 先删除原有节点
-				cmsLog.info("为节目包删除原有文件节点...");
+				cmsLog.debug("为节目包删除原有文件节点...");
 				if (cell.hasChildNodes()) {
 					NodeList oleNodes = cell.getChildNodes();
 					for (int j = 0; j < oleNodes.getLength(); j++) {
@@ -557,7 +552,7 @@ public class ProgPackageServiceImpl implements ProgPackageServiceIface {
 						}
 					}
 				}
-				cmsLog.info("为节目包添加文件节点...");
+				cmsLog.debug("为节目包添加文件节点...");
 				for (int j = 0; j < packageFileses.size(); j++) {
 					PackageFiles pf = (PackageFiles) packageFileses.get(j);
 					ProgramFiles programFiles = (ProgramFiles) programFilesManager
@@ -683,7 +678,7 @@ public class ProgPackageServiceImpl implements ProgPackageServiceIface {
 					// (AmsStoragePrgRel)Object[2]
 					// (AmsStorageDir)Object[3]
 					// (AmsStorageClass)Object[3]
-					cmsLog.info("查询文件的filedate...");
+					cmsLog.debug("查询文件的filedate...");
 					String filedate = "";
 					List sourcePaths = packageFilesManager
 							.getSourcePathByProgfileidStclasscode(
@@ -703,17 +698,17 @@ public class ProgPackageServiceImpl implements ProgPackageServiceIface {
 						}
 					}
 					newe.setAttribute("FILEDATE", filedate);
-					cmsLog.info("新的文件FILEDATE：" + filedate);
+					cmsLog.debug("新的文件FILEDATE：" + filedate);
 
 					// 添加在cell后
 					cell.appendChild(newe);
-					cmsLog.info("新的文件节点已经添加。");
+					cmsLog.debug("新的文件节点已经添加。");
 				}
 			}
 			String ppxml = XMLtoStr(doc);
 			if (!ppxml.equalsIgnoreCase("")) {
 				progPackage.setPpxml(ppxml);
-				cmsLog.info("已经更新节目包(progPackage)的xml，尚未保存到数据库。");
+				cmsLog.debug("已经更新节目包(progPackage)的xml，尚未保存到数据库。");
 				/**
 				 * 增加节目包所有文件大小的统计
 				 * HuangBo addition by 2011年11月17日 11时4分 
@@ -725,14 +720,14 @@ public class ProgPackageServiceImpl implements ProgPackageServiceIface {
 			cmsLog.error(ex.getMessage());
 		}
 
-		cmsLog.info("Cms -> ProgPackageServiceImpl -> modifyProgPackagePpxml returns.");
+		cmsLog.debug("Cms -> ProgPackageServiceImpl -> modifyProgPackagePpxml returns.");
 		return progPackage;
 	}
 
 	// 20100419 19:41
 	// 更新节目包的ppxml字段，同时重新生成节目包的xml文件
 	public ProgPackage updateProgPackagePpxmlAndXmlfile(ProgPackage progPackage) {
-		cmsLog.info("Cms -> ProgPackageServiceImpl -> updateProgPackagePpxmlAndXmlfile...");
+		cmsLog.debug("Cms -> ProgPackageServiceImpl -> updateProgPackagePpxmlAndXmlfile...");
 
 		// 配置文件获取
 		String xmlFilecode = "PPXML";
@@ -741,11 +736,11 @@ public class ProgPackageServiceImpl implements ProgPackageServiceIface {
 		ProgPackage pp = (ProgPackage) progPackageManager.getById(progPackage
 				.getProductid());
 		if (pp != null) {
-			cmsLog.info("节目包ID：" + pp.getProductid());
-			cmsLog.info("节目包名称：" + pp.getProductname());
+			cmsLog.debug("节目包ID：" + pp.getProductid());
+			cmsLog.debug("节目包名称：" + pp.getProductname());
 
 			// 查询节目包的xml生成的目标路径
-			cmsLog.info("查询节目包的xml生成的目标路径...");
+			cmsLog.debug("查询节目包的xml生成的目标路径...");
 			// 调用方法2，得到xml目前存储路径
 			// 返回：List
 			// 1 - String 目标路径() 格式："smb://hc:hc@172.23.19.66/公用/"
@@ -761,7 +756,7 @@ public class ProgPackageServiceImpl implements ProgPackageServiceIface {
 					.getDestPathByFilecodeStclasscode(xmlFilecode,
 							stclasscodeNearOnline);
 			if (destpaths == null || destpaths.size() < 2) {
-				cmsLog.info("获取节目包xml目标存放路径失败。");
+				cmsLog.debug("获取节目包xml目标存放路径失败。");
 				return null;
 			}
 			strXmlPath = (String) destpaths.get(0);
@@ -787,10 +782,10 @@ public class ProgPackageServiceImpl implements ProgPackageServiceIface {
 
 			pp = modifyProgPackagePpxml(pp);
 			progPackageManager.update(pp);
-			cmsLog.info("节目包的ppxml字段已经更新。");
+			cmsLog.debug("节目包的ppxml字段已经更新。");
 
-			cmsLog.info("准备重新生成节目包的xml文件...");
-			cmsLog.info("xml文件目标路径:" + strXmlFullPath);
+			cmsLog.debug("准备重新生成节目包的xml文件...");
+			cmsLog.debug("xml文件目标路径:" + strXmlFullPath);
 			if (fileopr.createSmbFile(strXmlFullPath, pp.getPpxml()) != 0) {
 				// 写xml文件失败
 				// 删除节目包
@@ -802,14 +797,14 @@ public class ProgPackageServiceImpl implements ProgPackageServiceIface {
 			return null;
 		}
 
-		cmsLog.info("Cms -> ProgPackageServiceImpl -> updateProgPackagePpxmlAndXmlfile returns.");
+		cmsLog.debug("Cms -> ProgPackageServiceImpl -> updateProgPackagePpxmlAndXmlfile returns.");
 		return progPackage;
 	}
 
 	// 创建（定义）节目包，输入节目包描述信息、节目类型、样式、节目分类、服务列表、节目列表、文件列表
 	public ProgPackage createProgPackage(ProgPackage progPackage, Long styleId,
 			List cmsServices, List programs, List progFiles, String ppXml) {
-		cmsLog.info("Cms -> ProgPackageServiceImpl -> createProgPackage...");
+		cmsLog.debug("Cms -> ProgPackageServiceImpl -> createProgPackage...");
 
 		// 配置文件，获取
 		String xmlFiletype = "XML";
@@ -835,7 +830,7 @@ public class ProgPackageServiceImpl implements ProgPackageServiceIface {
 		// {
 		// progPackage.setPpxml(newPpxml);
 		progPackageManager.update(progPackage);
-		cmsLog.info("节目包的ppxml字段已经更新。");
+		cmsLog.debug("节目包的ppxml字段已经更新。");
 		// }
 
 		// 调用方法2，得到xml目前存储路径
@@ -852,7 +847,7 @@ public class ProgPackageServiceImpl implements ProgPackageServiceIface {
 		List destpaths = packageFilesManager.getDestPathByFilecodeStclasscode(
 				xmlFilecode, stclasscodeNearOnline);
 		if (destpaths == null || destpaths.size() < 2) {
-			cmsLog.info("获取节目包xml目标存放路径失败。");
+			cmsLog.debug("获取节目包xml目标存放路径失败。");
 			return null;
 		}
 		strXmlPath = (String) destpaths.get(0);
@@ -878,17 +873,17 @@ public class ProgPackageServiceImpl implements ProgPackageServiceIface {
 
 		// 生成XML文件，以节目包ID命名
 		// 上传XML文件，？？是否上一步直接生成XML文件到上传的目标地址
-		cmsLog.info("准备生成节目包的xml文件...xml文件目标路径:" + strXmlFullPath);
+		cmsLog.debug("准备生成节目包的xml文件...xml文件目标路径:" + strXmlFullPath);
 		if (fileopr.createSmbFile(strXmlFullPath, ppXml) != 0) {
 			// 写xml文件失败
 			// 删除节目包
-			cmsLog.info("写xml文件失败，删除节目包。");
+			cmsLog.debug("写xml文件失败，删除节目包。");
 			deleteProgPackage(progPackage.getProductid());
 			return null;
 		}
 
 		// 写数据库，到文件表、AMS节目位置表、节目包文件表
-		cmsLog.info("准备保存节目包的xml文件记录到数据库...");
+		cmsLog.debug("准备保存节目包的xml文件记录到数据库...");
 		ProgramFiles programFiles = new ProgramFiles();
 		// AmsStoragePrgRel amsStoragePrgRel = new AmsStoragePrgRel();
 		// PackageFiles packageFiles = new PackageFiles();
@@ -912,7 +907,7 @@ public class ProgPackageServiceImpl implements ProgPackageServiceIface {
 				progPackage, amsst, amsstdir, filepath, false) == null) {
 			// 失败
 			// 删除节目包
-			cmsLog.info("saveUploadFile失败，删除节目包。");
+			cmsLog.debug("saveUploadFile失败，删除节目包。");
 			deleteProgPackage(progPackage.getProductid());
 
 			// 删除xml文件
@@ -929,12 +924,12 @@ public class ProgPackageServiceImpl implements ProgPackageServiceIface {
 			cmsLog.warn("删除节目包的xml文件...");
 			deleteSmbFile(strXmlFullPath);
 		}
-		
+		cmsLog.debug("创建完节目包最后来看看节目包大小是否正确: " + progPackage.getFilesizehi());
 		Bpmc bpmc = new Bpmc(progPackage.getProductid(), progPackage.getInputmanid(), null, null, 
 				null, null, "创建节目包: " + progPackage.getProductname(), "C");
 		this.bpmcManager.save(bpmc);
 
-		cmsLog.info("Cms -> ProgPackageServiceImpl -> createProgPackage returns.");
+		cmsLog.debug("Cms -> ProgPackageServiceImpl -> createProgPackage returns.");
 		return progPackage;
 	}
 
@@ -955,10 +950,10 @@ public class ProgPackageServiceImpl implements ProgPackageServiceIface {
 
 		// ProgPackage pp =
 		// (ProgPackage)progPackageManager.getById(progPackage.getProductid());
-		// cmsLog.info("查询节目包：" + progPackage.getProductid());
+		// cmsLog.debug("查询节目包：" + progPackage.getProductid());
 		// pp = modifyProgPackagePpxml(pp);
 		// progPackageManager.update(pp);
-		// cmsLog.info("修改节目包。");
+		// cmsLog.debug("修改节目包。");
 	}
 
 	// 修改节目包信息：ProgPackage
@@ -970,10 +965,10 @@ public class ProgPackageServiceImpl implements ProgPackageServiceIface {
 
 		ProgPackage pp = (ProgPackage) progPackageManager.getById(progPackage
 				.getProductid());
-		cmsLog.info("查询节目包：" + progPackage.getProductid());
+		cmsLog.debug("查询节目包：" + progPackage.getProductid());
 		pp = modifyProgPackagePpxml(pp);
 		progPackageManager.update(pp);
-		cmsLog.info("修改节目包。");
+		cmsLog.debug("修改节目包。");
 	}
 
 	// 修改节目包服务关系：ProgSrvRel
@@ -1124,12 +1119,16 @@ public class ProgPackageServiceImpl implements ProgPackageServiceIface {
 			cmsLog.debug("\tcontentfilesize: " + programFiles.getContentfilesize());
 			cmsLog.debug("\tfilecode: " + programFiles.getFilecode());
 			cmsLog.debug("\tfiletypeid: " + programFiles.getFiletypeid());
+			cmsLog.debug("\tprogrank: " + programFiles.getProgrank());
 			cmsLog.debug("参数[strFileFrom]: " + strFileFrom);
 			cmsLog.debug("参数[storageclass]: " + storageclass);
 			cmsLog.debug("params -----------> end");
 		}
 		CmsResultDto cmsResultDto = new CmsResultDto();
-
+		if (null == programFiles.getProgrank()) {
+			cmsLog.warn("法克, 界面上没设Progrank的值!");
+			programFiles.setProgrank(0L);
+		}
 		strFileFrom = strFileFrom.replace('\\', '/');
 		strFileFrom = strFileFrom.substring(strFileFrom.lastIndexOf("/") + 1,
 				strFileFrom.length());

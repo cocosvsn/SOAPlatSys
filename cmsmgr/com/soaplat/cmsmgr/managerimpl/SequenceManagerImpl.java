@@ -21,7 +21,7 @@ public class SequenceManagerImpl implements ISequenceManager {
 	 * @return
 	 */
 	public String getContentId() {
-		String sql = "select CMSADMIN.SEQCONTENTID.nextval from dual";
+		String sql = "select CMS.SEQCONTENTID.nextval from dual";
 		List<?> list = this.baseDAO.queryBySQL(sql, null);
 		if (0 < list.size()) {
 			return list.get(0).toString();
@@ -34,7 +34,7 @@ public class SequenceManagerImpl implements ISequenceManager {
 	 * @return
 	 */
 	public String getIppvId() {
-		String sql = "select CMSADMIN.SEQIPPVID.nextval from dual";
+		String sql = "select CMS.SEQIPPVID.nextval from dual";
 		List<?> list = this.baseDAO.queryBySQL(sql, null);
 		if (0 < list.size()) {
 			return list.get(0).toString();

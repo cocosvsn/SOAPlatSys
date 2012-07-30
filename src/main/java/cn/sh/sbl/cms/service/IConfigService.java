@@ -22,18 +22,8 @@ import cn.sh.sbl.cms.beans.Config;
  */
 @Service
 public interface IConfigService {
-
 	/**
-	 * 添加配置信息
-	 * @param name 名称
-	 * @param value 值
-	 * @param comment 说明
-	 * @return message
-	 */
-	public String addConfig(String name, String value, String comment);
-	
-	/**
-	 * 修改配置信息
+	 * 更新配置信息
 	 * @param name 名称
 	 * @param value 值
 	 * @param comment 说明

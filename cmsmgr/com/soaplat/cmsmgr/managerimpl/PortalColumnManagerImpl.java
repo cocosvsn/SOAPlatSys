@@ -360,8 +360,8 @@ public class PortalColumnManagerImpl implements IPortalColumnManager {
 //		params.put("roles", roles);
 		params.put("scheduleDate", scheduleDate);
 		List<String> defcatseq = (List<String>) this.baseDAO.queryBySQL(
-				"SELECT  p.DEFCATSEQ FROM CMSADMIN.TPORTALCOLUMN p " +
-				"RIGHT JOIN CMSADMIN.TPROGLISTMANGDETAIL d " +
+				"SELECT  p.DEFCATSEQ FROM CMS.TPORTALCOLUMN p " +
+				"RIGHT JOIN CMS.TPROGLISTMANGDETAIL d " +
 				"ON p.COLUMNCLASSID = d.COLUMNCLASSID " +
 				"WHERE d.SCHEDULEDATE = :scheduleDate", params);
 		Set<String> columnCodes = new HashSet<String>();
@@ -376,9 +376,9 @@ public class PortalColumnManagerImpl implements IPortalColumnManager {
 				"P.DEFCATSEQ, P.SCHEDULE_TAG, P.VALID_FLAG, P.REMARK, P.ISPUBLISH, " +
 				"P.UPDATEDATE, P.ARCHIVEDAYS, P.INPUTMANID, P.INPUTTIME, " +
 				"P.FOCUS_IMG_NAME, P.BLUR_IMG_NAME, CASE (SELECT ID_ACT FROM " +
-				"CMSADMIN.TPROGLISTMANGDETAIL D WHERE D.COLUMNCLASSID = P.COLUMNCLASSID " +
+				"CMS.TPROGLISTMANGDETAIL D WHERE D.COLUMNCLASSID = P.COLUMNCLASSID " +
 				"AND D.SCHEDULEDATE = :scheduleDate) WHEN :currAction THEN 1 ELSE 0 END " +
-				"FROM CMSADMIN.TPORTALCOLUMN P WHERE P.DEFCATCODE IN " +
+				"FROM CMS.TPORTALCOLUMN P WHERE P.DEFCATCODE IN " +
 				"(:columnCodes) ORDER BY P.SITECODE, P.COUNTNUMB", params);
 		List<PortalColumn> portalColumns = new ArrayList<PortalColumn>();
 		for (Object[] objects : list) {
@@ -478,10 +478,10 @@ public class PortalColumnManagerImpl implements IPortalColumnManager {
 //		<!-- 刷新ROOT栏目的修改时间 -->
 //		<sql-query name="refresh.root.PortalColumn.update.time">
 //			<![CDATA[
-//			UPDATE CMSADMIN.TPORTALCOLUMN SET UPDATEDATE= :currDate WHERE DEFCATCODE='ROOT'
+//			UPDATE CMS.TPORTALCOLUMN SET UPDATEDATE= :currDate WHERE DEFCATCODE='ROOT'
 //			]]>
 //		</sql-query>
-		String sql = "UPDATE CMSADMIN.TPORTALCOLUMN SET UPDATEDATE= :currDate WHERE DEFCATCODE='ROOT'";
+		String sql = "UPDATE CMS.TPORTALCOLUMN SET UPDATEDATE= :currDate WHERE DEFCATCODE='ROOT'";
 		Map<String, Object> params = new HashMap<String, Object>(1);
 		params.put("currDate", new Date());
 		return this.baseDAO.executeSQL(sql, params);

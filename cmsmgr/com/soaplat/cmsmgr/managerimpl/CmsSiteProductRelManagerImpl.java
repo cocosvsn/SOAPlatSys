@@ -59,7 +59,7 @@ public class CmsSiteProductRelManagerImpl implements ICmsSiteProductRelManager {
 	 * @param ids
 	 */
 	public void deleteById(String siteId, List<String> ids) {
-		String sql = "delete CMSADMIN.CmsSiteProductRel rel where rel.site_id = :siteId and rel.product_id = :productId";
+		String sql = "delete CMS.CmsSiteProductRel rel where rel.site_id = :siteId and rel.product_id = :productId";
 		for (String id : ids) {
 			Map<String, Object> params = new HashMap<String, Object>(2);
 			params.put("siteId", siteId);

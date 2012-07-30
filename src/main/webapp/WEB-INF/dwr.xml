@@ -8,7 +8,7 @@
 			value="java.util.Date" /> </create>
 		-->
 		<create creator="spring" javascript="Config">
-		    <param name="beanName" value="configService"/>
+		    <param name="beanName" value="configServiceImpl"/>
 		</create>
 
 		<create creator="none" javascript="EncryptService">

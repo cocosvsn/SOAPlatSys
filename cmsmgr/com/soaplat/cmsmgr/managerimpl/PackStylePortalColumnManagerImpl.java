@@ -196,7 +196,7 @@ public class PackStylePortalColumnManagerImpl implements IPackStylePortalColumnM
 	 * @param styleId
 	 */
 	public void deleteByStyleIdDefcatcode(String defcatcode, Long styleId) {
-		String sql = "DELETE FROM CMSADMIN.TCMSPACKSTYLEPORTALCOLUMN PC WHERE PC.DEFCATCODE = :defcatcode AND PC.STYLEID = :styleId";
+		String sql = "DELETE FROM CMS.TCMSPACKSTYLEPORTALCOLUMN PC WHERE PC.DEFCATCODE = :defcatcode AND PC.STYLEID = :styleId";
 		Map<String, Object> map = new HashMap<String, Object>(0);
 		map.put("defcatcode", defcatcode);
 		map.put("styleId", styleId);

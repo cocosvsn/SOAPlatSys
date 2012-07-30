@@ -72,8 +72,10 @@ public class ServerConfigListener implements ServletContextListener {
 			}
 		} catch (UnknownHostException e) {
 			logger.debug("{}", e);
+			hostAddress = "localhost";
 		} catch (NullPointerException e) {
 			logger.debug("{}", e);
+			hostAddress = "localhost";
 		}
 		String contextPath = servletContext.getContextPath();
 		String serverInfo = servletContext.getServerInfo();

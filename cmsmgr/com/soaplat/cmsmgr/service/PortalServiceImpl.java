@@ -18,13 +18,13 @@ import java.util.Set;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
-import org.apache.commons.collections.ListUtils;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.dom4j.DocumentException;
 import org.dom4j.DocumentHelper;
+import org.springframework.util.Assert;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -48,6 +48,7 @@ import com.soaplat.cmsmgr.bean.ProgListFile;
 import com.soaplat.cmsmgr.bean.ProgListMang;
 import com.soaplat.cmsmgr.bean.ProgListMangDetail;
 import com.soaplat.cmsmgr.bean.ProgPackage;
+import com.soaplat.cmsmgr.bean.ProgProduct;
 import com.soaplat.cmsmgr.bean.ProgramFiles;
 import com.soaplat.cmsmgr.bean.PtpPgpRel;
 import com.soaplat.cmsmgr.bean.TProductInfo;
@@ -69,6 +70,7 @@ import com.soaplat.cmsmgr.manageriface.IPortalModManager;
 import com.soaplat.cmsmgr.manageriface.IPortalPackageManager;
 import com.soaplat.cmsmgr.manageriface.IPricingManager;
 import com.soaplat.cmsmgr.manageriface.IProductInfoManager;
+import com.soaplat.cmsmgr.manageriface.IProductManager;
 import com.soaplat.cmsmgr.manageriface.IProgListDetailManager;
 import com.soaplat.cmsmgr.manageriface.IProgListFileManager;
 import com.soaplat.cmsmgr.manageriface.IProgListMangDetailManager;
@@ -121,12 +123,11 @@ public class PortalServiceImpl implements PortalServiceIface {
 	private IFlowActivityOrderManager flowActivityOrderManager;
 	private IMigrationModuleManager migrationModuleManager;
 	private IFlowActionManager flowActionManager;
-	
 	private ICmsTransactionManager cmsTransactionManager = null;
 	private static final Logger cmsLog = Logger.getLogger("Cms");
 	private static List dealedPortalPackages = null;
 	private static List dealedProgPackages = null;
-	
+	private IProductManager productManager = null;
 	
 	public PortalServiceImpl() {
 		dealedPortalPackages = null;
@@ -155,6 +156,7 @@ public class PortalServiceImpl implements PortalServiceIface {
 		this.flowActionManager = (IFlowActionManager) ApplicationContextHolder.webApplicationContext.getBean("flowActionManager");
 		this.flowActivityOrderManager = (IFlowActivityOrderManager) ApplicationContextHolder.webApplicationContext.getBean("flowActivityOrderManager");
 		this.migrationModuleManager = (IMigrationModuleManager) ApplicationContextHolder.webApplicationContext.getBean("migrationModuleManager");
+		this.productManager = (IProductManager) ApplicationContextHolder.webApplicationContext.getBean("cmsProductManager");
 	}
 	
 	// 20100119 17:11
@@ -5527,6 +5529,7 @@ public class PortalServiceImpl implements PortalServiceIface {
 	        List<ProgramFiles> programFiles = this.programFilesManager.queryProgramFilesByProgPackageID(progPackageId);
 	        String size = null;
 	        for (ProgramFiles programFile : programFiles) {
+	        	cmsLog.debug("ProgramFiles.progrank: " + programFile.getProgrank());
 				if (1 == programFile.getProgrank()) {
 					size = programFile.getContentfilesize();
 				}
@@ -6085,6 +6088,23 @@ public class PortalServiceImpl implements PortalServiceIface {
 	 */
 	public String addProgListDetail(String dateStr, List<List<String>> progPackageIds, 
 			String columnId, String operator) {
+		try {
+			Assert.notNull(columnId, "栏目编号不能为空!");
+			Assert.notEmpty(progPackageIds, "栏目编号不能为空!");
+		} catch (IllegalArgumentException e) {
+			cmsLog.warn(e.getMessage());
+			return e.getMessage();
+		}
+		PortalColumn portalColumn = (PortalColumn) this.portalColumnManager.getById(columnId);
+		if (!"Y".equalsIgnoreCase(portalColumn.getIsleaf())) {
+			return "当前栏目不为叶子节点, 不允许编排节目包!";
+		}
+		
+		List<ProgProduct> products = this.productManager.queryProducts(columnId);
+		if (null == products || 1 > products.size()) {
+			return "栏目[" + portalColumn.getColumnname() + "]未绑定任何产品, 不允许往该栏目编排节目包!";
+		}
+		
 		List<Long> existContentIdSet = null;
 		String date = dateStr.replaceAll("-", "") + "000000";
 		List<String> existProgs = this.progListDetailManager.queryProgPackageIdByScheduleDate(date);
@@ -6092,7 +6112,23 @@ public class PortalServiceImpl implements PortalServiceIface {
 			existContentIdSet = this.progPackageManager.queryPackageCoutentID(existProgs);
 		}
 
+		boolean isContainKeyId = false;
 		for (List<String> progPackageId : progPackageIds) {
+			TProductInfo productInfo = this.productInfoManager.queryProductInfoByProgPackageId(progPackageId.get(0));
+			if (null == productInfo) {
+				return "编号为[" + progPackageId.get(0) + "]的节目包未产品归属, 请先进行产品归属再编单!";
+			}
+			
+			for (ProgProduct progProduct : products) {
+				if (-1 != productInfo.getKeyId().indexOf(progProduct.getKeyId())) {
+					isContainKeyId = true;
+					break;
+				}
+			}
+			if (!isContainKeyId) {
+				return "栏目[" + portalColumn.getColumnname() + "]未绑定节目包[ " + progPackageId.get(0) + " ]的产品KeyID, 不允许将节目包编入该栏目!";
+			}
+			
 			List<String> tempProgPackageIds = new ArrayList<String>();
 			tempProgPackageIds.add(progPackageId.get(0));
 			List<Long> currContentIds = this.progPackageManager.queryPackageCoutentID(tempProgPackageIds);
@@ -6387,9 +6423,9 @@ public class PortalServiceImpl implements PortalServiceIface {
 	}
 	
 	/**
-	 * 检测某天编单播发量大小, 分品牌统计
+	 * 检测某天编单播发量大小, 统计
 	 * @param dateStr 编单日期,格式: yyyy-MM-dd
-	 * @return 返回各品牌播发量大小, 如: 星高清: 50G, 农家书屋: 16G
+	 * @return 返回播发量大小
 	 * @throws InvocationTargetException 
 	 * @throws IllegalAccessException 
 	 * @throws NoSuchMethodException 
@@ -6400,21 +6436,23 @@ public class PortalServiceImpl implements PortalServiceIface {
 		if (cmsLog.isDebugEnabled()) {
 			cmsLog.debug("checkProgSize.param.dateStr: " + dateStr);
 		}
-		List<Object[]> list = this.progListDetailManager.checkProgSize(dateStr.replaceAll("-", "") + "000000");
+		List<Object> list = this.progListDetailManager.checkProgSize(dateStr.replaceAll("-", "") + "000000");
 		if (cmsLog.isDebugEnabled()) {
 			cmsLog.debug("ProgSize.list.size(): " + list.size());
 		}
 		if (0 < list.size()) {
-			List<String> strings = new ArrayList<String>();
-			for (Object[] objects : list) {
-				if (cmsLog.isDebugEnabled()) {
-					cmsLog.debug("节目大小: " + ArrayUtils.toString(objects));
-				}
-				strings.add(String.valueOf(objects[0]) + ": " 
-						+ SmbFileUtils.byteCountToDisplaySize(
-								Long.valueOf(String.valueOf(objects[1]))));
-			}
-			return ListUtil.toString(strings);
+//			List<String> strings = new ArrayList<String>();
+//			for (Object[] objects : list) {
+//				if (cmsLog.isDebugEnabled()) {
+//					cmsLog.debug("节目大小: " + ArrayUtils.toString(objects));
+//				}
+//				strings.add(String.valueOf(objects[0]) + ": " 
+//						+ SmbFileUtils.byteCountToDisplaySize(
+//								Long.valueOf(String.valueOf(objects[1]))));
+//			}
+//			return ListUtil.toString(strings);
+			return "当前编单节目包大小总和: " + SmbFileUtils.byteCountToDisplaySize(
+					Long.valueOf(String.valueOf(list.get(0))));
 		} else {
 			return "您 " + dateStr + "编单未编入任何节目包";
 		}

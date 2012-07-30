@@ -20,7 +20,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import cn.sh.sbl.cms.beans.Config;
 import cn.sh.sbl.cms.service.IConfigService;
-import flex.messaging.io.ArrayCollection;
 
 /**
  * @author bunco 
@@ -41,8 +40,9 @@ public class ConfigServiceTest {
 	public void 测试查询所有配置信息() {
 		List<Config> list = this.configService.getAllConfigs();
 		for (Config config : list) {
-			logger.debug("name={{}}, value={{}}, comment={{}}, valid={{}}", 
-					new Object[] {config.getName(), config.getValue(), config.getComment(), config.isValid()});
+//			logger.debug("name={{}}, value={{}}, comment={{}}, valid={{}}", 
+//					new Object[] {config.getName(), config.getValue(), config.getComment(), config.isValid()});
+			System.out.println(config.getName() + " : " + config.isValid());
 		}
 		assertTrue(0 < list.size());
 	}

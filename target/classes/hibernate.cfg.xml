@@ -4,6 +4,13 @@
 	"http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
 <hibernate-configuration>
 	<session-factory>
+	    <!-- MySQL -->
+<!-- 	    <property name="connection.username">admin</property> -->
+<!-- 		<property name="connection.password">nimda</property> -->
+<!-- 		<property name="connection.url">jdbc:mysql://192.168.2.138:3306/CMS?useUnicode=true&amp;characterEncoding=utf-8</property> -->
+<!-- 		<property name="dialect">org.hibernate.dialect.MySQL5InnoDBDialect</property> -->
+<!-- 		<property name="connection.driver_class">com.mysql.jdbc.Driver</property> -->
+	    <!-- Oracle -->
 		<property name="connection.username">cms</property>
 		<property name="connection.password">smc</property>
 		<property name="connection.url">jdbc:oracle:thin:@172.23.17.66:1521:orcl</property>
@@ -14,11 +21,14 @@
 			oracle.jdbc.driver.OracleDriver
 		</property>
 		<property name="hibernate.show_sql">true</property>
+		<property name="hibernate.format_sql">true</property>
 		<property name="hibernate.jdbc.batch_size">0</property>
 		<!--<property name="hibernate.hbm2ddl.auto">update</property>-->
 
 		<!-- 命名SQL -->
 		<mapping resource="com/soaplat/sysmgr/hbm/SysNamedQuery.hbm.xml" />
+		<mapping resource="com/soaplat/cmsmgr/hbm/CmsNamedQuery.hbm.xml" />
+		<mapping resource="com/soaplat/cmsmgr/hbm/HBNamedHql.hb.xml" />
 		<!-- 数据字典hbm -->
 		<mapping resource="com/soaplat/sysmgr/hbm/Dict.hbm.xml" />
 		<mapping resource="com/soaplat/sysmgr/hbm/DictType.hbm.xml" />
@@ -37,9 +47,6 @@
 
 		<!-- SRM -->
 		<!-- 数据实体 -->
-		<!-- 命名SQL -->
-		<mapping resource="com/soaplat/cmsmgr/hbm/CmsNamedQuery.hbm.xml" />
-		<mapping resource="com/soaplat/cmsmgr/hbm/HBNamedHql.hb.xml" />
 		<mapping resource="com/soaplat/cmsmgr/hbm/OfflineProg.hbm.xml" />
 		<mapping resource="com/soaplat/cmsmgr/hbm/OfflineStorage.hbm.xml" />
 		<mapping resource="com/soaplat/cmsmgr/hbm/ProductInfo.hbm.xml" />

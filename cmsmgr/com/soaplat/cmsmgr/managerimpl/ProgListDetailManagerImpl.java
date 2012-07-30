@@ -732,12 +732,12 @@ public class ProgListDetailManagerImpl implements IProgListDetailManager {
 	}
 	
 	/**
-	 * 根据编单日期, 统计各品牌播发量大小
+	 * 根据编单日期, 统计播发量大小
 	 * @param scheduleDate 编单日期ID
 	 * @return
 	 */
 	@SuppressWarnings("unchecked")
-	public List<Object[]> checkProgSize(String scheduleDate) {
+	public List<Object> checkProgSize(String scheduleDate) {
 		Map<String, String> map = new HashMap<String, String>(1);
 		map.put("scheduleDate", scheduleDate);
 		return this.baseDAO.queryByNamedQuery(

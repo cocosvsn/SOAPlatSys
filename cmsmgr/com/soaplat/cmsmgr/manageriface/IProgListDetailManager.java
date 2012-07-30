@@ -188,11 +188,11 @@ public interface IProgListDetailManager extends IBaseManager {
 			String scheduleDate, String progPackageId);
 
 	/**
-	 * 根据编单日期, 统计各品牌播发量大小
+	 * 根据编单日期, 统计播发量大小
 	 * @param scheduleDate 编单日期ID
 	 * @return
 	 */
-	public List<Object[]> checkProgSize(String scheduleDate);
+	public List<Object> checkProgSize(String scheduleDate);
 	
 	/**
 	 * 根据栏目ID查询到栏目未完成的编单日期和所处的流程

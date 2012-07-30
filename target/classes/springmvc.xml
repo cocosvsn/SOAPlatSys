@@ -20,14 +20,14 @@
  	<!-- 配置srping自动 扫描包 -->
  	<aop:aspectj-autoproxy/>
  	<context:component-scan base-package="com.soaplat.cmsmgr" />
-<!--  	<context:property-placeholder location="classpath:config.properties" ignore-unresolvable="true"/> -->
+	<context:property-placeholder location="classpath:config.properties" ignore-unresolvable="true"/>
 	
  	<mvc:annotation-driven/>
  	
  	<bean id="FlexProxy" class="com.sbl.common.FlexProxy">
 		<flex:remoting-destination />
 	</bean>
- 
+
 	<flex:message-broker mapping-order="1" >
 		<flex:mapping pattern="/messagebroker/*"/>
 		<flex:remoting-service default-channels="my-amf"/>
@@ -38,7 +38,7 @@
 			<list>
 				<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">  
 					<property name="prefix" value="/"/>  
-					<property name="suffix" value=".jsp"/>  
+<!-- 					<property name="suffix" value=".jsp"/>   -->
 				</bean>  
 			</list>
 		</property>
@@ -49,9 +49,10 @@
 		</property>
  	</bean>
  	
-<!-- 	<task:scheduled-tasks> -->
-<!--         <task:scheduled ref="productkScan" method="updateUsers" cron="${scan.interval.cron}" />   -->
-<!-- 	</task:scheduled-tasks> -->
+	<task:scheduled-tasks>
+		<task:scheduled ref="EncryptService" method="addTaskHB1_11" cron="${scan.interval.cron}" />
+		<task:scheduled ref="EncryptService" method="getTaskStatusHB1_11" cron="${scan.interval.cron}" />
+	</task:scheduled-tasks>
 	
 	<bean id="logger" class="org.slf4j.LoggerFactory" factory-method="getLogger">
 		<constructor-arg value="Cms" />
@@ -62,4 +63,6 @@
 	<mvc:resources mapping="/css/**" location="/css/" cache-period="31556926" />
 	<mvc:resources mapping="/bin/**" location="/bin/" cache-period="31556926" />
 	<mvc:resources mapping="/bin2/**" location="/bin2/" cache-period="31556926" />
+	
+	<bean id="EncryptService" class="com.soaplat.cmsmgr.EncryptService.EncryptServiceServiceImpl"/>
 </beans>

@@ -54,7 +54,7 @@ public class ConfigServiceImpl implements IConfigService {
 	}
 	
 	/**
-	 * 修改配置信息
+	 * 更新配置信息
 	 * @param name 名称
 	 * @param value 值
 	 * @param comment 说明
@@ -62,17 +62,26 @@ public class ConfigServiceImpl implements IConfigService {
 	 */
 	public String updateConfig(String name, String value, String comment) {
 		try {
-			Assert.notNull(name, "修改配置失败, name 为空!");
-			Assert.notNull(value, "修改配置失败, value 为空!");
+			Assert.notNull(name, "更新配置失败, name 为空!");
+			Assert.notNull(value, "更新配置失败, value 为空!");
 		} catch (IllegalArgumentException e) {
 			this.logger.warn("", e);
 			return e.getMessage();
 		}
 		Config config = this.configDao.getById(name);
-		config.setValue(value);
-		config.setComment(comment);
-		this.configDao.update(config);
-		return "修改配置成功!";
+		if (null == config) {
+			config = new Config();
+			config.setName(name);
+			config.setValue(value);
+			config.setComment(comment);
+			config.setValid(true);
+			this.configDao.save(config);
+		} else {
+			config.setValue(value);
+			config.setComment(comment);
+			this.configDao.update(config);
+		}
+		return "更新配置成功!";
 	}
 	
 	/**
