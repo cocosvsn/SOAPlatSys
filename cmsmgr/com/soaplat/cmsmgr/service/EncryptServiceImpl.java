@@ -22,6 +22,9 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
+
+import cn.sh.sbl.cms.dao.IConfigDao;
+
 import com.soaplat.amsmgr.bean.AmsStorage;
 import com.soaplat.amsmgr.bean.AmsStorageDir;
 import com.soaplat.amsmgr.bean.AmsStoragePrgRel;
@@ -78,6 +81,7 @@ public class EncryptServiceImpl implements EncryptServiceIface {
 	private IProgListFileManager progListFileManager;
 	private IMigrationModuleManager migrationModuleManager;
 	private IAmsStorageClassManager amsstorageclassManager = null;
+	private IConfigDao configDao;
 	
 	private ICmsTransactionManager cmsTransactionManager = null;		// 事务管理器
 	public static final Logger cmsLog = Logger.getLogger("Cms");
@@ -102,8 +106,8 @@ public class EncryptServiceImpl implements EncryptServiceIface {
 		this.progListFileManager = (IProgListFileManager)ApplicationContextHolder.webApplicationContext.getBean("progListFileManager");
 		cmsTransactionManager = (ICmsTransactionManager)ApplicationContextHolder.webApplicationContext.getBean("cmsTransactionManager");
 		this.migrationModuleManager = (IMigrationModuleManager) ApplicationContextHolder.webApplicationContext.getBean("migrationModuleManager");
-		encryptCode = Arrays.asList(
-				this.cmsConfig.getPropertyByName("UnEncryptCode").split(","));
+		this.configDao = ApplicationContextHolder.webApplicationContext.getBean("configDaoImpl", IConfigDao.class);
+		encryptCode = Arrays.asList(this.configDao.getValueById("UnEncryptCode").split(","));
 	}
 	
 	
@@ -466,7 +470,7 @@ public class EncryptServiceImpl implements EncryptServiceIface {
 	// 解压缩zip文件到目标路径
 	private int unZipSmbFileToSmbPath(String zipSourcePath, String zipDestPath)
 	{
-		cmsLog.info("Cms -> EncryptServiceImpl -> unZipFileToPath...");
+		cmsLog.debug("Cms -> EncryptServiceImpl -> unZipFileToPath...");
 		
 		if(zipSourcePath == null || zipSourcePath.equalsIgnoreCase("")
 			|| zipDestPath == null || zipDestPath.equalsIgnoreCase("")
@@ -481,7 +485,7 @@ public class EncryptServiceImpl implements EncryptServiceIface {
 		
 		UnZip1Impl unzip = new UnZip1Impl();
 		unzip.unZipSmb(zipSourcePath, zipDestPath);
-		cmsLog.info("Cms -> EncryptServiceImpl -> unZipFileToPath returns.");
+		cmsLog.debug("Cms -> EncryptServiceImpl -> unZipFileToPath returns.");
 		return 0;
 	}
 	
@@ -501,7 +505,7 @@ public class EncryptServiceImpl implements EncryptServiceIface {
 		// 创建文件位置表记录
 		// 压缩富媒体目录到zip文件
 		
-		cmsLog.info("Cms -> EncryptServiceImpl -> finishEncrypt...");
+		cmsLog.debug("Cms -> EncryptServiceImpl -> finishEncrypt...");
 		CmsResultDto cmsResultDto = new CmsResultDto();
 
 		// 配置文件内容
@@ -609,7 +613,7 @@ public class EncryptServiceImpl implements EncryptServiceIface {
 			cmsLog.info("节目包状态已修改为“失败”。节目包ID：" + productid);
 		}
 
-		cmsLog.info("Cms -> EncryptServiceImpl -> finishEncrypt returns.");
+		cmsLog.debug("Cms -> EncryptServiceImpl -> finishEncrypt returns.");
 		return cmsResultDto;
 	}
 
@@ -626,7 +630,7 @@ public class EncryptServiceImpl implements EncryptServiceIface {
 		String resultString = "成功{0}个, 失败{1}个. {2}";
 		String tmpString = "失败节目包: ";
 			
-		cmsLog.info("Cms -> EncryptServiceImpl -> sendEncryptTaskByProgPackage...");
+		cmsLog.debug("Cms -> EncryptServiceImpl -> sendEncryptTaskByProgPackage...");
 		CmsResultDto cmsResultDto = new CmsResultDto();
 		for (int index = 0; index < productid.size(); ++ index) {
 				// 说明：	加扰任务是以节目包为单位的，不是以文件为单位的
@@ -962,14 +966,14 @@ public class EncryptServiceImpl implements EncryptServiceIface {
 			cmsResultDto.setResultCode(1l);
 			cmsResultDto.setErrorMessage(result);
 		}
-		cmsLog.info("Cms -> EncryptServiceImpl -> sendEncryptTaskByProgPackage returns.");
+		cmsLog.debug("Cms -> EncryptServiceImpl -> sendEncryptTaskByProgPackage returns.");
 		return cmsResultDto;
 	}
 
 	// 20100520 
 	// 修改加扰任务单的content id为加扰任务数据库记录id
 	private CmsResultDto updateEncryptXml(String encryptid) {
-		cmsLog.info("Cms -> EncryptServiceImpl -> updateEncryptXml...");
+		cmsLog.debug("Cms -> EncryptServiceImpl -> updateEncryptXml...");
 		CmsResultDto cmsResultDto = new CmsResultDto();
 		
 		try  {
@@ -999,14 +1003,14 @@ public class EncryptServiceImpl implements EncryptServiceIface {
 			cmsLog.error("Cms -> EncryptServiceImpl -> updateEncryptXml，异常："
 					+ e.getMessage());
 		}
-		cmsLog.info("Cms -> EncryptServiceImpl -> updateEncryptXml returns.");
+		cmsLog.debug("Cms -> EncryptServiceImpl -> updateEncryptXml returns.");
 		return cmsResultDto;
 	}
 
 	// 20100520 16:58
 	// 根据节目包的xml，获取节目包的版权期终subscriberetime
 	private String getSubscriberetimeByProgPackageXml(String ppxml) {
-		cmsLog.info("Cms -> EncryptServiceImpl -> getSubscriberetimeByProgPackageXml...");
+		cmsLog.debug("Cms -> EncryptServiceImpl -> getSubscriberetimeByProgPackageXml...");
 		String subscriberetime = "2050-12-31";
 		try {
 			DocumentBuilderFactory factory = DocumentBuilderFactory
@@ -1034,7 +1038,7 @@ public class EncryptServiceImpl implements EncryptServiceIface {
 			subscriberetime = "2050-12-31";
 			cmsLog.info("获取subscriberetime为空，设置为：" + subscriberetime);
 		}
-		cmsLog.info("Cms -> EncryptServiceImpl -> getSubscriberetimeByProgPackageXml returns.");
+		cmsLog.debug("Cms -> EncryptServiceImpl -> getSubscriberetimeByProgPackageXml returns.");
 		return subscriberetime;
 	}
 	
@@ -1047,7 +1051,7 @@ public class EncryptServiceImpl implements EncryptServiceIface {
 			String dateto				// 日期终止，格式：yyyy-MM-dd
 			)
 	{
-		cmsLog.info("Cms -> EncryptServiceImpl -> getEncryptTasks...");
+		cmsLog.debug("Cms -> EncryptServiceImpl -> getEncryptTasks...");
 		CmsResultDto cmsResultDto = new CmsResultDto();
 		cmsLog.info("productid:" + productid);
 		cmsLog.info("productname:" + productname);
@@ -1143,7 +1147,7 @@ public class EncryptServiceImpl implements EncryptServiceIface {
 			cmsResultDto.setErrorMessage(str);
 		}
 		
-		cmsLog.info("Cms -> EncryptServiceImpl -> getEncryptTasks returns.");
+		cmsLog.debug("Cms -> EncryptServiceImpl -> getEncryptTasks returns.");
 		return cmsResultDto;
 	}
 	
@@ -1424,7 +1428,7 @@ public class EncryptServiceImpl implements EncryptServiceIface {
 			}
 		}
 		
-		cmsLog.info("Cms -> EncryptServiceImpl -> sendEncryptTask returns.");
+		cmsLog.debug("Cms -> EncryptServiceImpl -> sendEncryptTask returns.");
 		return result;
 	}
 
@@ -2230,9 +2234,17 @@ public class EncryptServiceImpl implements EncryptServiceIface {
 				encryptPath.length() - 2) + 1);
 		// TODO 1.1 path
 		CmsConfig cmsConfig = new CmsConfig();
-		encryptPath = cmsConfig.getPropertyByName("MappingCaonline");
-		sourcePath = cmsConfig.getPropertyByName("MappingNearonline") + 
-				sourcePath.substring(sourcePath.indexOf(
+		/**
+		 * 加扰映射盘符由配置文件获取修改为从数据库中获取
+		 * HuangBo update by 2012年7月31日 12时17分
+		 */
+//		encryptPath = cmsConfig.getPropertyByName("MappingCaonline");
+		encryptPath = this.configDao.getValueById("MappingCaonline");
+//		sourcePath = cmsConfig.getPropertyByName("MappingNearonline") + 
+		sourcePath = this.configDao.getValueById("MappingNearonline");
+		cmsLog.debug("映射加扰库盘符MappingCaonline   = " + encryptPath);
+		cmsLog.debug("映射缓存库盘符MappingNearonline = " + sourcePath);
+		sourcePath += sourcePath.substring(sourcePath.indexOf(
 						encryptProgVo.getProgramFileCode())).replaceAll("/", "\\\\");
 		
 		EncryptList encryptTask = new EncryptList();
@@ -2608,7 +2620,7 @@ public class EncryptServiceImpl implements EncryptServiceIface {
 	}
 	
 	public void autoAddEncryptTask() {
-		int scheduleDays = Integer.valueOf(this.cmsConfig.getPropertyByName("ScheduleDays"));
+		int scheduleDays = Integer.valueOf(this.configDao.getValueById("ScheduleDays"));
 		int autoEncryptDays = Integer.valueOf(this.cmsConfig.getPropertyByName("AutoEncryptDays"));
 		String scheduleDate = DateUtil.getAfterScheduleDate(scheduleDays + autoEncryptDays);
 		List<TProductInfo> productInfos = this.productInfoManager.queryProductInfosByScheduleDateStr(scheduleDate);

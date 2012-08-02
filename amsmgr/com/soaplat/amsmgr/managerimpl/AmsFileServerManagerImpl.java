@@ -173,7 +173,7 @@ public class AmsFileServerManagerImpl implements IAmsFileServerManager {
 					"DISTINCT PD.PROGLISTDETAILID AS 编单号, PK.PRODUCTID AS 节目包编号, PK.PRODUCTNAME AS 节目包名称, PI.PRODUCTINFONAME AS 产品名称, " +
 					"C.STCLASSNAME AS 存储库, \"TO_CHAR\"(PK.SUBSCRIBERETIME, 'yyyy-MM-dd') AS 版权期终, \"TO_CHAR\"(PK.INPUTTIME, 'yyyy-MM-dd') AS 节目包录入时间, " +
 					"\"SUM\"(PF.CONTENTFILESIZE) AS 节目包大小, " +
-					"(CASE WHEN PK.PRODUCTID IN (SELECT PLD.PRODUCTID FROM CMS.TPROGLISTDETAIL PLD WHERE PLD.SCHEDULEDATE > :safeScheduleDate) THEN '否' ELSE '是' END) AS 是否可删除, C.STCLASSCODE, ST.SITENAME AS 品牌名称, PS.STYLENAME AS 样式名称, " +
+					"(CASE WHEN PK.PRODUCTID IN (SELECT PLD.PRODUCTID FROM CMS.TPROGLISTDETAIL PLD WHERE PLD.SCHEDULEDATE > :safeScheduleDate) THEN '否' ELSE '是' END) AS 是否可删除, C.STCLASSCODE, null AS 品牌名称, PS.STYLENAME AS 样式名称, " +
 					"\"SUM\"(PF.CONTENTFILESIZE) AS 节目包大小 " +
 					"FROM " +
 					"CMS.TPROGLISTDETAIL PD INNER JOIN CMS.TCMSPROGPACKAGE PK ON PD.PRODUCTID = PK.PRODUCTID " +
@@ -183,7 +183,7 @@ public class AmsFileServerManagerImpl implements IAmsFileServerManager {
 					"INNER JOIN CMS.TSOAAMSSTORAGECLASS C ON C.STCLASSGLOBALID = S.STCLASSGLOBALID " +
 					"INNER JOIN CMS.TPRODUCTINFO PI ON PD.PRODUCTINFOID = PI.PRODUCTINFOID " +
 					"INNER JOIN CMS.TCMSPACKSTYLE PS ON PK.STYLEID = PS.STYLEID " +
-					"LEFT JOIN CMS.TCMSSITE ST ON PK.SITECODE = ST.SITECODE " +
+//					"LEFT JOIN CMS.TCMSSITE ST ON PK.SITECODE = ST.SITECODE " +
 					"LEFT JOIN CMS.TCMSPROGRAMFILES PF ON PF.FILENAME = REL.FILENAME " +
 					"WHERE " +
 					"PD.SCHEDULEDATE BETWEEN :startScheduleDate AND :endScheduleDate AND C.STCLASSCODE = :storageClassCode AND DIR.FILECODE NOT IN ('KEY','Clip') AND REL.ISDEL IS NULL ";
@@ -195,17 +195,17 @@ public class AmsFileServerManagerImpl implements IAmsFileServerManager {
 				sql += "AND PK.PRODUCTNAME like :packageName ";
 				params.put("packageName", packageName);
 			}
-			if (null != siteCode 
-					&& 0 < siteCode.trim().length()) {
-				if ("全".equals(siteCode)) {
-					sql += "AND PK.SITECODE IS NULL ";
-				} else {
-					sql += "AND PK.SITECODE = :siteCode ";
-					params.put("siteCode", siteCode);
-				}
-			}
+//			if (null != siteCode 
+//					&& 0 < siteCode.trim().length()) {
+//				if ("全".equals(siteCode)) {
+//					sql += "AND PK.SITECODE IS NULL ";
+//				} else {
+//					sql += "AND PK.SITECODE = :siteCode ";
+//					params.put("siteCode", siteCode);
+//				}
+//			}
 			sql += "GROUP BY " +
-					"PD.PROGLISTDETAILID, PK.PRODUCTID, PK.PRODUCTNAME, PK.STATE, PK.DEALSTATE, PI.PRODUCTINFONAME, C.STCLASSNAME, PK.SUBSCRIBERETIME, \"TO_CHAR\"(PK.INPUTTIME, 'yyyy-MM-dd'), ST.SITENAME, PS.STYLENAME, C.STCLASSCODE " +
+					"PD.PROGLISTDETAILID, PK.PRODUCTID, PK.PRODUCTNAME, PK.STATE, PK.DEALSTATE, PI.PRODUCTINFONAME, C.STCLASSNAME, PK.SUBSCRIBERETIME, \"TO_CHAR\"(PK.INPUTTIME, 'yyyy-MM-dd'), PS.STYLENAME, C.STCLASSCODE " +
 					"ORDER BY PK.PRODUCTID";
 		} else if ("CaOnline".equals(storageClassCode)) {
 //			hql = "query.file.by.scheduleDate.storageClassCode.CaOnline";
@@ -216,7 +216,7 @@ public class AmsFileServerManagerImpl implements IAmsFileServerManager {
 					"(CASE WHEN PK.PRODUCTID IN (SELECT PLD.PRODUCTID FROM CMS.TPROGLISTDETAIL PLD WHERE PLD.SCHEDULEDATE > :safeScheduleDate) THEN '否' " +
 					"WHEN 1 < (SELECT \"COUNT\"(*) FROM CMS.TSOAAMSSTORAGEPRGREL INNER JOIN CMS.TSOAAMSSTORAGEDIR " +
 					"ON CMS.TSOAAMSSTORAGEPRGREL.STDIRGLOBALID = CMS.TSOAAMSSTORAGEDIR.STDIRGLOBALID WHERE CMS.TSOAAMSSTORAGEPRGREL.PRGLOBALID = PK.PRODUCTID " +
-					"AND CMS.TSOAAMSSTORAGEPRGREL.STGLOBALID IN ('20090903143323000954') AND CMS.TSOAAMSSTORAGEDIR.FILECODE NOT IN ('Clip', 'KEY') AND CMS.TSOAAMSSTORAGEPRGREL.ISDEL IS NULL) THEN '否' ELSE '是' END) AS 是否可删除, C.STCLASSCODE, ST.SITENAME AS 品牌名称, PS.STYLENAME AS 样式名称 , " +
+					"AND CMS.TSOAAMSSTORAGEPRGREL.STGLOBALID IN ('20090903143323000954') AND CMS.TSOAAMSSTORAGEDIR.FILECODE NOT IN ('Clip', 'KEY') AND CMS.TSOAAMSSTORAGEPRGREL.ISDEL IS NULL) THEN '否' ELSE '是' END) AS 是否可删除, C.STCLASSCODE, null AS 品牌名称, PS.STYLENAME AS 样式名称 , " +
 					"\"SUM\"(PF.CONTENTFILESIZE) AS 节目包大小 " +
 					"FROM " +
 					"CMS.TPROGLISTDETAIL PD INNER JOIN CMS.TCMSPROGPACKAGE PK ON PD.PRODUCTID = PK.PRODUCTID " +
@@ -226,7 +226,7 @@ public class AmsFileServerManagerImpl implements IAmsFileServerManager {
 					"INNER JOIN CMS.TSOAAMSSTORAGECLASS C ON C.STCLASSGLOBALID = S.STCLASSGLOBALID " +
 					"INNER JOIN CMS.TPRODUCTINFO PI ON PD.PRODUCTINFOID = PI.PRODUCTINFOID " +
 					"INNER JOIN CMS.TCMSPACKSTYLE PS ON PK.STYLEID = PS.STYLEID " +
-					"LEFT JOIN CMS.TCMSSITE ST ON PK.SITECODE = ST.SITECODE " +
+//					"LEFT JOIN CMS.TCMSSITE ST ON PK.SITECODE = ST.SITECODE " +
 					"LEFT JOIN CMS.TCMSPROGRAMFILES PF ON PF.FILENAME = REL.FILENAME " +
 					"WHERE " +
 					"PD.SCHEDULEDATE BETWEEN :startScheduleDate AND :endScheduleDate AND C.STCLASSCODE = :storageClassCode AND REL.ISDEL IS NULL ";
@@ -238,17 +238,17 @@ public class AmsFileServerManagerImpl implements IAmsFileServerManager {
 				sql += "AND PK.PRODUCTNAME like :packageName ";
 				params.put("packageName", packageName);
 			}
-			if (null != siteCode 
-					&& 0 < siteCode.trim().length()) {
-				if ("全".equals(siteCode)) {
-					sql += "AND PK.SITECODE IS NULL ";
-				} else {
-					sql += "AND PK.SITECODE = :siteCode ";
-					params.put("siteCode", siteCode);
-				}
-			}
+//			if (null != siteCode 
+//					&& 0 < siteCode.trim().length()) {
+//				if ("全".equals(siteCode)) {
+//					sql += "AND PK.SITECODE IS NULL ";
+//				} else {
+//					sql += "AND PK.SITECODE = :siteCode ";
+//					params.put("siteCode", siteCode);
+//				}
+//			}
 			sql += "GROUP BY " +
-					"PD.PROGLISTDETAILID, PK.PRODUCTID, PK.PRODUCTNAME, PK.STATE, PK.DEALSTATE, PI.PRODUCTINFONAME, C.STCLASSNAME, PK.SUBSCRIBERETIME, \"TO_CHAR\"(PK.INPUTTIME, 'yyyy-MM-dd'), ST.SITENAME, PS.STYLENAME, C.STCLASSCODE " +
+					"PD.PROGLISTDETAILID, PK.PRODUCTID, PK.PRODUCTNAME, PK.STATE, PK.DEALSTATE, PI.PRODUCTINFONAME, C.STCLASSNAME, PK.SUBSCRIBERETIME, \"TO_CHAR\"(PK.INPUTTIME, 'yyyy-MM-dd'), PS.STYLENAME, C.STCLASSCODE " +
 					"ORDER BY PK.PRODUCTID";
 		} else {
 //			hql = "query.file.by.scheduleDate.storageClassCode.NearOnline";
@@ -265,7 +265,7 @@ public class AmsFileServerManagerImpl implements IAmsFileServerManager {
 					"WHEN 0 < (SELECT \"COUNT\"(*) FROM CMS.TSOAAMSSTORAGEPRGREL INNER JOIN CMS.TSOAAMSSTORAGEDIR " +
 					"ON CMS.TSOAAMSSTORAGEPRGREL.STDIRGLOBALID = CMS.TSOAAMSSTORAGEDIR.STDIRGLOBALID WHERE CMS.TSOAAMSSTORAGEPRGREL.PRGLOBALID = CMS.TCMSPROGPACKAGE.PRODUCTID " +
 					"AND CMS.TSOAAMSSTORAGEPRGREL.STGLOBALID IN ('20090903143323000954', '20090903143323000955') AND CMS.TSOAAMSSTORAGEDIR.FILECODE <> 'Clip' AND CMS.TSOAAMSSTORAGEPRGREL.ISDEL IS NULL) THEN '否' ELSE '是' END) AS 是否可删除, " +
-					"CMS.TSOAAMSSTORAGECLASS.STCLASSCODE, CMS.TCMSSITE.SITENAME AS 品牌名称, CMS.TCMSPACKSTYLE.STYLENAME AS 样式名称, " +
+					"CMS.TSOAAMSSTORAGECLASS.STCLASSCODE, null AS 品牌名称, CMS.TCMSPACKSTYLE.STYLENAME AS 样式名称, " +
 					"CMS.TCMSPROGRAMFILES.CONTENTFILESIZE AS 节目包大小 " +
 					"FROM " +
 					"CMS.TCMSPACKAGEFILES INNER JOIN CMS.TPROGLISTDETAIL ON CMS.TPROGLISTDETAIL.PRODUCTID = CMS.TCMSPACKAGEFILES.PRODUCTID " +
@@ -277,7 +277,7 @@ public class AmsFileServerManagerImpl implements IAmsFileServerManager {
 					"INNER JOIN CMS.TSOAAMSSTORAGE ON CMS.TSOAAMSSTORAGEPRGREL.STGLOBALID = CMS.TSOAAMSSTORAGE.STGLOBALID " +
 					"INNER JOIN CMS.TSOAAMSSTORAGECLASS ON CMS.TSOAAMSSTORAGE.STCLASSGLOBALID = CMS.TSOAAMSSTORAGECLASS.STCLASSGLOBALID " +
 					"INNER JOIN CMS.TCMSPACKSTYLE ON CMS.TCMSPROGPACKAGE.STYLEID = CMS.TCMSPACKSTYLE.STYLEID " +
-					"LEFT JOIN CMS.TCMSSITE ON CMS.TCMSPROGPACKAGE.SITECODE = CMS.TCMSSITE.SITECODE " +
+//					"LEFT JOIN CMS.TCMSSITE ON CMS.TCMSPROGPACKAGE.SITECODE = CMS.TCMSSITE.SITECODE " +
 					"WHERE " +
 					"CMS.TSOAAMSSTORAGECLASS.STCLASSCODE = :storageClassCode AND " +
 					"CMS.TPROGLISTDETAIL.SCHEDULEDATE BETWEEN :startScheduleDate AND :endScheduleDate AND " +
@@ -292,15 +292,15 @@ public class AmsFileServerManagerImpl implements IAmsFileServerManager {
 				sql += "AND CMS.TCMSPROGPACKAGE.PRODUCTNAME like :packageName ";
 				params.put("packageName", packageName);
 			}
-			if (null != siteCode 
-					&& 0 < siteCode.trim().length()) {
-				if ("全".equals(siteCode)) {
-					sql += "AND CMS.TCMSPROGPACKAGE.SITECODE IS NULL ";
-				} else {
-					sql += "AND CMS.TCMSPROGPACKAGE.SITECODE = :siteCode ";
-					params.put("siteCode", siteCode);
-				}
-			}
+//			if (null != siteCode 
+//					&& 0 < siteCode.trim().length()) {
+//				if ("全".equals(siteCode)) {
+//					sql += "AND CMS.TCMSPROGPACKAGE.SITECODE IS NULL ";
+//				} else {
+//					sql += "AND CMS.TCMSPROGPACKAGE.SITECODE = :siteCode ";
+//					params.put("siteCode", siteCode);
+//				}
+//			}
 		}
 		List<Object[]> list = null;
 		try {

@@ -19,6 +19,8 @@ import org.apache.log4j.Logger;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import cn.sh.sbl.cms.dao.IConfigDao;
+
 import com.sbl.common.FlexProxy;
 import com.soaplat.amsmgr.bean.AmsStorageHistory;
 import com.soaplat.amsmgr.bean.AmsStoragePrgRel;
@@ -52,6 +54,7 @@ import com.soaplat.sysmgr.common.ApplicationContextHolder;
 public class FileManagerService implements IFileManager {
 	private static Logger logger = Logger.getLogger("Cms");
 	private static Logger delFileLog = Logger.getLogger(FileManagerService.class);
+	private IConfigDao configDao = null;
 	private IProgramInfoManager programInfoManager;
 	private IProgPackageManager progPackageManager;
 	private IProductInfoManager productInfoManager;
@@ -68,6 +71,7 @@ public class FileManagerService implements IFileManager {
 		this.fileServerManager = (IAmsFileServerManager) ApplicationContextHolder.webApplicationContext.getBean("amsfileserverManager");
 		this.productInfoManager = (IProductInfoManager) ApplicationContextHolder.webApplicationContext.getBean("productinfoManager");
 		this.programInfoManager = (IProgramInfoManager) ApplicationContextHolder.webApplicationContext.getBean("programinfoManager");
+		this.configDao = ApplicationContextHolder.webApplicationContext.getBean("configDaoImpl", IConfigDao.class);
 	}
 	
 	public List<Object[]> getDBdata(String storageClassCode, 
@@ -94,7 +98,7 @@ public class FileManagerService implements IFileManager {
 		
 		String startScheduleDate = -1 != startTime.indexOf("-") ? startTime.replaceAll("-", "") + "000000" : startTime;
 		String endScheduleDate =  -1 != endTime.indexOf("-") ? endTime.replaceAll("-", "") + "000000" : endTime;
-		String safeScheduleDate = DateUtil.getAfterScheduleDate(0 - Integer.valueOf(new CmsConfig().getPropertyByName("SafeAutoDelFileDays")));
+		String safeScheduleDate = DateUtil.getAfterScheduleDate(0 - Integer.valueOf(this.configDao.getValueById("SafeAutoDelFileDays")));
 		
 		List<Object[]> list = this.fileServerManager.queryFilesByScheduleDateAndStorage(startScheduleDate, endScheduleDate, storageClassCode, safeScheduleDate, styleId, packageName, siteCode);
 		Set<String> progPackageIdSet = new HashSet<String>();
@@ -146,7 +150,7 @@ public class FileManagerService implements IFileManager {
 	} 
 	
 	private Object delete(List<String> progListIds, String storageClassCode, String inputManId) {
-		String safeScheduleDate = DateUtil.getAfterScheduleDate(0 - Integer.valueOf(new CmsConfig().getPropertyByName("SafeAutoDelFileDays")));
+		String safeScheduleDate = DateUtil.getAfterScheduleDate(0 - Integer.valueOf(this.configDao.getValueById("SafeAutoDelFileDays")));
 		List<Object[]> list = this.fileServerManager.queryCanDelPackageFiles(progListIds, storageClassCode, safeScheduleDate);
 		logger.debug("根据编单细表集合查询可删除的节目包文件数量为: " + list.size());
 		
@@ -378,7 +382,7 @@ public class FileManagerService implements IFileManager {
 		});
 		IFileManager fileManager = (IFileManager) app.getBean("fileManagerService");
 //		IAmsFileServerManager fileServerManager = (IAmsFileServerManager) app.getBean("amsfileserverManager");
-//		String safeScheduleDate = DateUtil.getAfterScheduleDate(0 - Integer.valueOf(new CmsConfig().getPropertyByName("SafeAutoDelFileDays")));
+//		String safeScheduleDate = DateUtil.getAfterScheduleDate(0 - Integer.valueOf(this.configDao.getValueById("SafeAutoDelFileDays")));
 //		System.out.println(safeScheduleDate);
 		List<String> list = new ArrayList<String>(1);
 		list.add("PD00005118");

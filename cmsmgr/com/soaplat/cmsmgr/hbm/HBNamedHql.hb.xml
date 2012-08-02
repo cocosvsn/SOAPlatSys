@@ -262,7 +262,7 @@
 	<!-- 根据编单日期ID, 查询该日期下所有栏目 -->
 	<query name="query.PortalColumn.by.scheduleDate.-siteCode">
 		<![CDATA[
-			select new com.soaplat.cmsmgr.bean.PortalColumn(p.columnclassid, p.columnname, p.siteCode, p.siteCode, p.publishfilename, p.archivedays) from PortalColumn as p where p.columnclassid in (select d.columnclassid from ProgListMangDetail as d where d.scheduledate = :scheduleDate) order by p.siteCode
+			select new com.soaplat.cmsmgr.bean.PortalColumn(p.columnclassid, p.columnname, p.siteCode, p.siteCode, p.publishfilename, p.archivedays) from PortalColumn as p where p.columnclassid in (select d.columnclassid from ProgListMangDetail as d where d.scheduledate = :scheduleDate) order by p.countnumb
 		]]>
 	</query>
 	

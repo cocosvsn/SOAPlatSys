@@ -19,7 +19,8 @@ public interface IBroadcastModuleManager
 			String date, 			// yyyy-MM-dd
 			String operatorId, 		// 操作人员id
 			String plandate, 		// 计划播发日期，格式："yyyy-MM-dd HH:mm:ss"
-			boolean forceToGenerate	// 强制生成播发单，如果为true，当某个品牌或节目包出现错误的情况，也继续生成播发单xml文件。
+			boolean forceToGenerate	,// 强制生成播发单，如果为true，当某个品牌或节目包出现错误的情况，也继续生成播发单xml文件。
+			List<String> unEncryptCode, String scheduleDays
 			);
 	
 	/**

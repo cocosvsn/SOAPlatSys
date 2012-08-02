@@ -4,11 +4,15 @@
 package com.soaplat.cmsmgr.service;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.apache.log4j.Logger;
+
+import cn.sh.sbl.cms.dao.IConfigDao;
+
 import com.soaplat.amsmgr.manageriface.IAmsStorageDirManager;
 import com.soaplat.cmsmgr.bean.ProgramFiles;
 import com.soaplat.cmsmgr.bean.ProgramInfo;
@@ -27,12 +31,14 @@ import com.soaplat.sysmgr.common.ApplicationContextHolder;
  */
 public class ProgramInfoService {
 	private static Logger log = Logger.getLogger("Cms");
+	private IConfigDao configDao;
 	private ISequenceManager sequenceManager;
 	private IProgramInfoManager programInfoManager;
 	private IAmsStorageDirManager amsStorageDirManager;
 	private IProgramInfoModuleManager programInfoModuleManager;
 	
 	public ProgramInfoService() {
+		this.configDao = ApplicationContextHolder.webApplicationContext.getBean("configDaoImpl", IConfigDao.class);
 		this.sequenceManager = (ISequenceManager) ApplicationContextHolder.webApplicationContext.getBean("sequenceManager");
 		this.programInfoManager = (IProgramInfoManager) ApplicationContextHolder.webApplicationContext.getBean("programinfoManager");
 		this.amsStorageDirManager = (IAmsStorageDirManager) ApplicationContextHolder.webApplicationContext.getBean("amsstoragedirManager");
@@ -348,7 +354,9 @@ public class ProgramInfoService {
 		} else {
 			fileCode = "H264";
 		}
-		return this.programInfoModuleManager.isExist(path, fileCode);
+		List<String> supportExtensions = Arrays.asList(
+				this.configDao.getValueById("SupportExtensions").toLowerCase().split("[,;|]"));
+		return this.programInfoModuleManager.isExist(path, fileCode, supportExtensions);
 	}
 	
 	public void upload(String operatType, ProgramInfo programInfo, 

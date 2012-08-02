@@ -16,6 +16,7 @@ import jcifs.smb.SmbFile;
 import jcifs.smb.SmbFileInputStream;
 import jcifs.smb.SmbFileOutputStream;
 import org.apache.log4j.Logger;
+import org.springframework.transaction.annotation.Propagation;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -108,7 +109,7 @@ public class CmsTransactionManagerImpl implements ICmsTransactionManager {
 	// 删除服务与节目分类的关系记录
 	private void deleteSrvProgClassBySrvId(
 			ISrvProgClassManager srvProgClassManager, String srvId) {
-		cmsLog.info("Cms -> CmsTransaction -> deleteSrvProgClassBySrvId ...");
+		cmsLog.debug("Cms -> CmsTransaction -> deleteSrvProgClassBySrvId ...");
 		List srvProgClasses = srvProgClassManager
 				.findByProperty("srvid", srvId);
 		if (srvProgClasses.size() > 0) {
@@ -118,13 +119,13 @@ public class CmsTransactionManagerImpl implements ICmsTransactionManager {
 			srvProgClassManager.delete(srvProgClassObjects);
 		}
 		cmsLog
-				.info("Cms -> CmsTransaction -> deleteSrvProgClassBySrvId returns.");
+				.debug("Cms -> CmsTransaction -> deleteSrvProgClassBySrvId returns.");
 	}
 
 	// 删除服务与栏目的关系记录
 	private void deleteSrvColumnBySrvId(ISrvColumnManager srvColumnManager,
 			String srvId) {
-		cmsLog.info("Cms -> CmsTransaction -> deleteSrvColumnBySrvId ...");
+		cmsLog.debug("Cms -> CmsTransaction -> deleteSrvColumnBySrvId ...");
 		List srvColumns = srvColumnManager.findByProperty("srvid", srvId);
 		if (srvColumns.size() > 0) {
 			cmsLog.info("删除服务与栏目的配置关系记录。");
@@ -132,13 +133,13 @@ public class CmsTransactionManagerImpl implements ICmsTransactionManager {
 					.toArray(new SrvColumn[srvColumns.size()]);
 			srvColumnManager.delete(srvColumnObjects);
 		}
-		cmsLog.info("Cms -> CmsTransaction -> deleteSrvColumnBySrvId returns.");
+		cmsLog.debug("Cms -> CmsTransaction -> deleteSrvColumnBySrvId returns.");
 	}
 
 	// 删除服务与产品的关系记录
 	private void deleteSrvProductBySrvId(ISrvProductManager srvProductManager,
 			String srvId) {
-		cmsLog.info("Cms -> CmsTransaction -> deleteSrvProductBySrvId ...");
+		cmsLog.debug("Cms -> CmsTransaction -> deleteSrvProductBySrvId ...");
 		List srvProducts = srvProductManager.findByProperty("srvid", srvId);
 		if (srvProducts.size() > 0) {
 			cmsLog.info("删除服务与产品的配置关系记录。");
@@ -147,14 +148,14 @@ public class CmsTransactionManagerImpl implements ICmsTransactionManager {
 			srvProductManager.delete(srvProductObjects);
 		}
 		cmsLog
-				.info("Cms -> CmsTransaction -> deleteSrvProductBySrvId returns.");
+				.debug("Cms -> CmsTransaction -> deleteSrvProductBySrvId returns.");
 	}
 
 	// 保存服务与节目分类的配置关系记录 SrvProgClass 20091105
 	private void saveSrvProgClassesBySrvid(
 			ISrvProgClassManager srvProgClassManager,
 			ICmsServiceManager cmsServiceManager, List dicts, String srvid) {
-		cmsLog.info("Cms -> CmsTransaction -> saveSrvProgClassesBySrvid...");
+		cmsLog.debug("Cms -> CmsTransaction -> saveSrvProgClassesBySrvid...");
 
 		// 判断srvid是否存在
 		CmsService cmsService = (CmsService) cmsServiceManager.getById(srvid);
@@ -190,14 +191,14 @@ public class CmsTransactionManagerImpl implements ICmsTransactionManager {
 			}
 		}
 		cmsLog
-				.info("Cms -> CmsTransaction -> saveSrvProgClassesBySrvid returns.");
+				.debug("Cms -> CmsTransaction -> saveSrvProgClassesBySrvid returns.");
 	}
 
 	// 保存服务与栏目的配置关系记录 SrvColumn 20091105
 	private void saveSrvColumnsBySrvid(ISrvColumnManager srvColumnManager,
 			ICmsServiceManager cmsServiceManager, List portalColumns,
 			String srvid) {
-		cmsLog.info("Cms -> CmsTransaction -> saveSrvColumnsBySrvid...");
+		cmsLog.debug("Cms -> CmsTransaction -> saveSrvColumnsBySrvid...");
 
 		// 判断srvid是否存在
 		CmsService cmsService = (CmsService) cmsServiceManager.getById(srvid);
@@ -233,14 +234,14 @@ public class CmsTransactionManagerImpl implements ICmsTransactionManager {
 				srvColumnManager.save(newSrvColumnObjects);
 			}
 		}
-		cmsLog.info("Cms -> CmsTransaction -> saveSrvColumnsBySrvid returns.");
+		cmsLog.debug("Cms -> CmsTransaction -> saveSrvColumnsBySrvid returns.");
 	}
 
 	// 保存服务与产品的配置关系记录 SrvProduct 20091105
 	private void saveSrvProductsBySrvid(ISrvProductManager srvProductManager,
 			ICmsServiceManager cmsServiceManager, List productCategories,
 			String srvid) {
-		cmsLog.info("Cms -> CmsTransaction -> saveSrvProductsBySrvid...");
+		cmsLog.debug("Cms -> CmsTransaction -> saveSrvProductsBySrvid...");
 
 		// 判断srvid是否存在
 		CmsService cmsService = (CmsService) cmsServiceManager.getById(srvid);
@@ -277,7 +278,7 @@ public class CmsTransactionManagerImpl implements ICmsTransactionManager {
 				srvProductManager.save(newSrvProductObjects);
 			}
 		}
-		cmsLog.info("Cms -> CmsTransaction -> saveSrvProductsBySrvid returns.");
+		cmsLog.debug("Cms -> CmsTransaction -> saveSrvProductsBySrvid returns.");
 	}
 
 	// 保存服务与节目分类的配置关系记录 SrvProgClass dicts ProgramCategoryDto 20091107
@@ -289,7 +290,7 @@ public class CmsTransactionManagerImpl implements ICmsTransactionManager {
 			ISrvProductManager srvProductManager,
 			ICmsServiceManager cmsServiceManager, List dicts,
 			List portalColumns, List productCategories, String srvid) {
-		cmsLog.info("Cms -> CmsTransaction -> saveAllSrvConfigBySrvid...");
+		cmsLog.debug("Cms -> CmsTransaction -> saveAllSrvConfigBySrvid...");
 		saveSrvProgClassesBySrvid(srvProgClassManager, cmsServiceManager,
 				dicts, srvid);
 		saveSrvColumnsBySrvid(srvColumnManager, cmsServiceManager,
@@ -297,7 +298,7 @@ public class CmsTransactionManagerImpl implements ICmsTransactionManager {
 		saveSrvProductsBySrvid(srvProductManager, cmsServiceManager,
 				productCategories, srvid);
 		cmsLog
-				.info("Cms -> CmsTransaction -> saveAllSrvConfigBySrvid returns.");
+				.debug("Cms -> CmsTransaction -> saveAllSrvConfigBySrvid returns.");
 	}
 
 	// 删除服务（叶子节点） CmsService
@@ -306,7 +307,7 @@ public class CmsTransactionManagerImpl implements ICmsTransactionManager {
 			ISrvColumnManager srvColumnManager,
 			ISrvProductManager srvProductManager,
 			IProgSrvRelManager progSrvRelManager, String srvId) {
-		cmsLog.info("Cms -> CmsTransaction -> deleteCmsService...");
+		cmsLog.debug("Cms -> CmsTransaction -> deleteCmsService...");
 
 		// 1 - 检查该节点是否是叶子节点
 		// 2 - 如果不是，直接返回失败
@@ -372,7 +373,7 @@ public class CmsTransactionManagerImpl implements ICmsTransactionManager {
 			cmsLog.info("删除服务记录。");
 			cmsServiceManager.deleteById(cmsService.getSrvid());
 		}
-		cmsLog.info("Cms -> CmsTransaction -> deleteCmsService returns.");
+		cmsLog.debug("Cms -> CmsTransaction -> deleteCmsService returns.");
 	}
 
 	// 保存（创建）服务（叶子节点） CmsService
@@ -381,7 +382,7 @@ public class CmsTransactionManagerImpl implements ICmsTransactionManager {
 			ISrvColumnManager srvColumnManager,
 			ISrvProductManager srvProductManager,
 			IProgSrvRelManager progSrvRelManager, CmsService cmsService) {
-		cmsLog.info("Cms -> CmsTransaction -> saveCmsService...");
+		cmsLog.debug("Cms -> CmsTransaction -> saveCmsService...");
 
 		// 0 - 查询判断新加节点的defcatcode，是否已经存在
 		// 1 - 查询判断父节点，是否是叶子节点
@@ -476,7 +477,7 @@ public class CmsTransactionManagerImpl implements ICmsTransactionManager {
 			// cmsResultDto.setErrorMessage("服务代码为空。");
 			cmsLog.info("服务代码为空。");
 		}
-		cmsLog.info("Cms -> CmsTransaction -> saveCmsService returns.");
+		cmsLog.debug("Cms -> CmsTransaction -> saveCmsService returns.");
 
 		return cmsService;
 	}
@@ -485,7 +486,7 @@ public class CmsTransactionManagerImpl implements ICmsTransactionManager {
 	public void saveProgPackagesToSrvId(ICmsServiceManager cmsServiceManager,
 			IProgSrvRelManager progSrvRelManager, List progPackages,
 			String srvId) {
-		cmsLog.info("Cms -> CmsTransaction -> saveProgPackagesToSrvId...");
+		cmsLog.debug("Cms -> CmsTransaction -> saveProgPackagesToSrvId...");
 
 		// 判断服务节点是否是叶子节点
 		// 是，继续
@@ -558,14 +559,14 @@ public class CmsTransactionManagerImpl implements ICmsTransactionManager {
 			cmsLog.info("所选择的服务节点不是叶子节点，不能添加节目包。");
 		}
 		cmsLog
-				.info("Cms -> CmsTransaction -> saveProgPackagesToSrvId returns.");
+				.debug("Cms -> CmsTransaction -> saveProgPackagesToSrvId returns.");
 	}
 
 	// 删除节目包，从srvid，ProgPackage CmsService 20091104
 	public void deleteProgPackagesFromSrvId(
 			IProgSrvRelManager progSrvRelManager, List progPackages,
 			String srvId) {
-		cmsLog.info("Cms -> CmsTransaction -> deleteProgPackagesFromSrvId...");
+		cmsLog.debug("Cms -> CmsTransaction -> deleteProgPackagesFromSrvId...");
 		if (progPackages.size() > 0) {
 			// 1 - 查询删除服务节目包关系
 			// 2 - 查询节目包和服务关系
@@ -641,7 +642,7 @@ public class CmsTransactionManagerImpl implements ICmsTransactionManager {
 			cmsLog.info("节目包列表为空。");
 		}
 		cmsLog
-				.info("Cms -> CmsTransaction -> deleteProgPackagesFromSrvId returns.");
+				.debug("Cms -> CmsTransaction -> deleteProgPackagesFromSrvId returns.");
 	}
 
 	// ------------------------------------- ProgPackage
@@ -650,7 +651,7 @@ public class CmsTransactionManagerImpl implements ICmsTransactionManager {
 	// 复制文件
 	// file --> smbfile
 	private int copyFile(String strFileFrom, String strFileTo) {
-		cmsLog.info("Cms -> ProgPackageServiceImpl -> copyFile...");
+		cmsLog.debug("Cms -> ProgPackageServiceImpl -> copyFile...");
 		cmsLog.info("From : " + strFileFrom);
 		cmsLog.info("To : " + strFileTo);
 		int ret = -1;
@@ -689,7 +690,7 @@ public class CmsTransactionManagerImpl implements ICmsTransactionManager {
 			cmsLog.info(ex.getMessage());
 		}
 
-		cmsLog.info("Cms -> ProgPackageServiceImpl -> copyFile returns.");
+		cmsLog.debug("Cms -> ProgPackageServiceImpl -> copyFile returns.");
 		return ret;
 	}
 
@@ -697,7 +698,7 @@ public class CmsTransactionManagerImpl implements ICmsTransactionManager {
 	// file
 	private int deleteFile(String strFile) {
 		// 删除文件
-		cmsLog.info("Cms -> ProgPackageServiceImpl -> deleteFile...");
+		cmsLog.debug("Cms -> ProgPackageServiceImpl -> deleteFile...");
 		int ireturn = -1;
 		try {
 			File file = new File(strFile);
@@ -711,7 +712,7 @@ public class CmsTransactionManagerImpl implements ICmsTransactionManager {
 			cmsLog.info(ex.getMessage());
 		}
 
-		cmsLog.info("Cms -> ProgPackageServiceImpl -> deleteFile returns.");
+		cmsLog.debug("Cms -> ProgPackageServiceImpl -> deleteFile returns.");
 		return ireturn;
 	}
 
@@ -719,9 +720,9 @@ public class CmsTransactionManagerImpl implements ICmsTransactionManager {
 	private void savePPSrvPdtRel(IPpSrvPdtRelManager ppSrvPdtRelManager,
 			ISrvProductManager srvProductManager, List cmsServices,
 			ProgPackage progPackage) {
-		cmsLog.info("Cms -> CmsTransaction -> savePPSrvPdtRel ...");
+		cmsLog.debug("Cms -> CmsTransaction -> savePPSrvPdtRel ...");
 		if (cmsServices == null) {
-			cmsLog.info("cmsServices == null");
+			cmsLog.debug("cmsServices == null");
 			return;
 		}
 		Long ppSrvPdtRelCount = (long) 0;
@@ -732,7 +733,7 @@ public class CmsTransactionManagerImpl implements ICmsTransactionManager {
 		for (int i = 0; i < ppSrvPdtRels.size(); i++) {
 			PpSrvPdtRel ppSrvPdtRel = (PpSrvPdtRel) ppSrvPdtRels.get(i);
 			ppSrvPdtRelManager.deleteById(ppSrvPdtRel.getRelid());
-			cmsLog.info("删除产品与节目包的关系记录。");
+			cmsLog.debug("删除产品与节目包的关系记录。");
 		}
 
 		// 测试通过，20091102，16:28
@@ -764,10 +765,10 @@ public class CmsTransactionManagerImpl implements ICmsTransactionManager {
 						ppSrvPdtRel.setInputtime(new Date());
 						ppSrvPdtRelManager.save(ppSrvPdtRel);
 
-						cmsLog.info("保存产品与节目包的关系记录。"
+						cmsLog.debug("保存产品与节目包的关系记录。"
 								+ srvProduct.getProductCategoryId());
 					} else {
-						cmsLog.info("产品与节目包的关系记录已经存在，不新加记录。");
+						cmsLog.debug("产品与节目包的关系记录已经存在，不新加记录。");
 					}
 					ppSrvPdtRelCount++;
 				}
@@ -783,17 +784,17 @@ public class CmsTransactionManagerImpl implements ICmsTransactionManager {
 			//			
 			// cmsLog.info("保存“其他”产品与节目包的关系记录。");
 		}
-		cmsLog.info("Cms -> CmsTransaction -> savePPSrvPdtRel returns.");
+		cmsLog.debug("Cms -> CmsTransaction -> savePPSrvPdtRel returns.");
 	}
 
 	// 根据配置：SrvColumun，save 栏目节目包关系：PPColumnRel
 	private void savePPColumnRel(IPPColumnRelManager pPColumnRelManager,
 			ISrvColumnManager srvColumnManager, List cmsServices,
 			ProgPackage progPackage) {
-		cmsLog.info("Cms -> CmsTransaction -> savePPColumnRel ...");
+		cmsLog.debug("Cms -> CmsTransaction -> savePPColumnRel ...");
 
 		if (cmsServices == null) {
-			cmsLog.info("cmsServices == null");
+			cmsLog.debug("cmsServices == null");
 			return;
 		}
 
@@ -808,7 +809,7 @@ public class CmsTransactionManagerImpl implements ICmsTransactionManager {
 		for (int i = 0; i < pPColumnRels.size(); i++) {
 			PPColumnRel pPColumnRel = (PPColumnRel) pPColumnRels.get(i);
 			pPColumnRelManager.deleteById(pPColumnRel.getRelid());
-			cmsLog.info("删除栏目与节目包的关系记录。");
+			cmsLog.debug("删除栏目与节目包的关系记录。");
 		}
 
 		if (cmsServices.size() > 0) {
@@ -836,10 +837,10 @@ public class CmsTransactionManagerImpl implements ICmsTransactionManager {
 						// ppColumnRel.setProgstate(progstate);
 						ppColumnRel.setInputtime(new Date());
 						pPColumnRelManager.save(ppColumnRel);
-						cmsLog.info("保存栏目与节目包的关系记录。"
+						cmsLog.debug("保存栏目与节目包的关系记录。"
 								+ srvColumn.getColumnclassid());
 					} else {
-						cmsLog.info("栏目与节目包的关系记录已经存在，不新加记录。");
+						cmsLog.debug("栏目与节目包的关系记录已经存在，不新加记录。");
 					}
 					ppColumnRelCount++;
 				}
@@ -852,9 +853,9 @@ public class CmsTransactionManagerImpl implements ICmsTransactionManager {
 			ppColumnRel.setColumnclassid("PC00000001");
 			ppColumnRel.setInputtime(new Date());
 			pPColumnRelManager.save(ppColumnRel);
-			cmsLog.info("保存“其他”栏目与节目包的关系记录。");
+			cmsLog.debug("保存“其他”栏目与节目包的关系记录。");
 		}
-		cmsLog.info("Cms -> CmsTransaction -> savePPColumnRel returns.");
+		cmsLog.debug("Cms -> CmsTransaction -> savePPColumnRel returns.");
 	}
 
 	// save 节目包文件关系：PackageFiles
@@ -863,10 +864,10 @@ public class CmsTransactionManagerImpl implements ICmsTransactionManager {
 			IProgramFilesManager programFilesManager,
 			IPackageFilesManager packageFilesManager, List programs,
 			ProgPackage progPackage, Long styleId) {
-		cmsLog.info("Cms -> CmsTransaction -> savePackageFiles ...");
+		cmsLog.debug("Cms -> CmsTransaction -> savePackageFiles ...");
 
 		if (programs == null) {
-			cmsLog.info("programs == null");
+			cmsLog.debug("programs == null");
 			return;
 		}
 
@@ -900,13 +901,13 @@ public class CmsTransactionManagerImpl implements ICmsTransactionManager {
 				}
 			}
 		}
-		cmsLog.info("Cms -> CmsTransaction -> savePackageFiles returns.");
+		cmsLog.debug("Cms -> CmsTransaction -> savePackageFiles returns.");
 	}
 
 	// save 节目包节目关系：ProgPPRel
 	private void saveProgPPRel(IProgPPRelManager progPPRelManager,
 			List programs, ProgPackage progPackage) {
-		cmsLog.info("Cms -> CmsTransaction -> saveProgPPRel ...");
+		cmsLog.debug("Cms -> CmsTransaction -> saveProgPPRel ...");
 
 		// 删除原有的关系记录
 		List progPPRels = progPPRelManager.findByProperty("productid",
@@ -927,11 +928,11 @@ public class CmsTransactionManagerImpl implements ICmsTransactionManager {
 				progPPRel.setProgramid(programInfo.getProgramid());
 				progPPRel.setInputtime(new Date());
 				progPPRel = (ProgPPRel) progPPRelManager.save(progPPRel);
-				cmsLog.info(progPPRel.getRelid());
+				cmsLog.debug(progPPRel.getRelid());
 			}
 		}
 
-		cmsLog.info("Cms -> CmsTransaction -> saveProgPPRel returns.");
+		cmsLog.debug("Cms -> CmsTransaction -> saveProgPPRel returns.");
 	}
 
 	// 根据旧的文件名（含后缀），得到新的文件名(含后缀)
@@ -961,7 +962,7 @@ public class CmsTransactionManagerImpl implements ICmsTransactionManager {
 			IProgSrvRelManager progSrvRelManager,
 			IPackageFilesManager packageFilesManager,
 			IProgPPRelManager progPPRelManager, String productId) {
-		cmsLog.info("Cms -> CmsTransaction -> deleteProgPackage...");
+		cmsLog.debug("Cms -> CmsTransaction -> deleteProgPackage...");
 		CmsResultDto cmsResultDto = new CmsResultDto();
 		ProgPackage progPackage = (ProgPackage) progPackageManager
 				.getById(productId);
@@ -1044,7 +1045,7 @@ public class CmsTransactionManagerImpl implements ICmsTransactionManager {
 			cmsResultDto.setResultCode(Long.valueOf(1));
 			cmsResultDto.setErrorMessage(str);
 		}
-		cmsLog.info("Cms -> CmsTransaction -> deleteProgPackage returns.");
+		cmsLog.debug("Cms -> CmsTransaction -> deleteProgPackage returns.");
 		return cmsResultDto;
 	}
 
@@ -1054,7 +1055,7 @@ public class CmsTransactionManagerImpl implements ICmsTransactionManager {
 			IProgramFilesManager programFilesManager, List programInfos,
 			Long styleId) {
 		cmsLog
-				.info("Cms -> CmsTransaction -> getProgramFilesByProgramInfosAndStyleId...");
+				.debug("Cms -> CmsTransaction -> getProgramFilesByProgramInfosAndStyleId...");
 
 		// if(packStyleFileTypeManager == null
 		// || programFilesManager == null
@@ -1096,7 +1097,7 @@ public class CmsTransactionManagerImpl implements ICmsTransactionManager {
 			programFiles.add(sameProgFiles);
 		}
 		cmsLog
-				.info("Cms -> CmsTransaction -> getProgramFilesByProgramInfosAndStyleId returns.");
+				.debug("Cms -> CmsTransaction -> getProgramFilesByProgramInfosAndStyleId returns.");
 		return programFiles;
 	}
 
@@ -1112,7 +1113,7 @@ public class CmsTransactionManagerImpl implements ICmsTransactionManager {
 			IPpSrvPdtRelManager ppSrvPdtRelManager,
 			ISrvProductManager srvProductManager, ProgPackage progPackage,
 			List cmsServices, List programs, Long styleId) {
-		cmsLog.info("Cms -> CmsTransaction -> updateProgPackage...");
+		cmsLog.debug("Cms -> CmsTransaction -> updateProgPackage...");
 		if (progPackage.getUpdatetime() == null)
 			progPackage.setUpdatetime(new Date());
 		progPackageManager.update(progPackage);
@@ -1145,7 +1146,7 @@ public class CmsTransactionManagerImpl implements ICmsTransactionManager {
 					packageFilesManager, packStyleFileTypeManager,
 					programFilesManager, programs, progPackage, styleId);
 		}
-		cmsLog.info("Cms -> CmsTransaction -> updateProgPackage returns.");
+		cmsLog.debug("Cms -> CmsTransaction -> updateProgPackage returns.");
 	}
 
 	// 修改节目包节目、节目包文件关系：ProgPPRel、PackageFiles
@@ -1156,7 +1157,7 @@ public class CmsTransactionManagerImpl implements ICmsTransactionManager {
 			IProgramFilesManager programFilesManager, List programs,
 			ProgPackage progPackage, Long styleId) {
 		cmsLog
-				.info("Cms -> CmsTransaction -> updateProgPPRelAndPackageFiles...");
+				.debug("Cms -> CmsTransaction -> updateProgPPRelAndPackageFiles...");
 
 		// 删除原有关系记录
 		List progPPRels = progPPRelManager.findByProperty("productid",
@@ -1238,7 +1239,7 @@ public class CmsTransactionManagerImpl implements ICmsTransactionManager {
 			}
 		}
 		cmsLog
-				.info("Cms -> CmsTransaction -> updateProgPPRelAndPackageFiles returns.");
+				.debug("Cms -> CmsTransaction -> updateProgPPRelAndPackageFiles returns.");
 	}
 
 	// 20100608 16:16
@@ -1246,7 +1247,7 @@ public class CmsTransactionManagerImpl implements ICmsTransactionManager {
 	private int updatePackageFiles(IPackageFilesManager packageFilesManager,
 			IProgramFilesManager programFilesManager, List programfiles,
 			ProgPackage progPackage) {
-		cmsLog.info("Cms -> CmsTransaction -> updatePackageFiles...");
+		cmsLog.debug("Cms -> CmsTransaction -> updatePackageFiles...");
 
 		if (programfiles != null && programfiles.size() > 0) {
 			// 删除原有关系记录
@@ -1288,17 +1289,17 @@ public class CmsTransactionManagerImpl implements ICmsTransactionManager {
 			cmsLog.info("主文件列表为空，不保存。");
 		}
 
-		cmsLog.info("Cms -> CmsTransaction -> updatePackageFiles returns.");
+		cmsLog.debug("Cms -> CmsTransaction -> updatePackageFiles returns.");
 		return 0;
 	}
 
 	// save 服务节目包关系：ProgSrvRel
 	public void saveProgSrvRel(IProgSrvRelManager progSrvRelManager,
 			List cmsServices, ProgPackage progPackage) {
-		cmsLog.info("Cms -> CmsTransaction -> saveProgSrvRel...");
+		cmsLog.debug("Cms -> CmsTransaction -> saveProgSrvRel...");
 
 		if (cmsServices == null) {
-			cmsLog.info("cmsServices == null");
+			cmsLog.debug("cmsServices == null");
 			return;
 		}
 
@@ -1323,7 +1324,7 @@ public class CmsTransactionManagerImpl implements ICmsTransactionManager {
 				progSrvRel.setInputtime(new Date());
 				progSrvRelManager.save(progSrvRel);
 
-				cmsLog.info("保存服务与节目包的关系记录。" + cmsService.getSrvid());
+				cmsLog.debug("保存服务与节目包的关系记录。" + cmsService.getSrvid());
 
 				progSrvRelCount++;
 			}
@@ -1337,7 +1338,7 @@ public class CmsTransactionManagerImpl implements ICmsTransactionManager {
 			progSrvRelManager.save(progSrvRel);
 			cmsLog.info("保存“其他”服务与节目包的关系记录。");
 		}
-		cmsLog.info("Cms -> CmsTransaction -> saveProgSrvRel returns.");
+		cmsLog.debug("Cms -> CmsTransaction -> saveProgSrvRel returns.");
 	}
 
 	// 20100120 14:10
@@ -1351,7 +1352,7 @@ public class CmsTransactionManagerImpl implements ICmsTransactionManager {
 			ISrvProductManager srvProductManager, List cmsServices,
 			ProgPackage progPackage) {
 		cmsLog
-				.info("Cms -> CmsTransaction -> saveProgSrvRelColumnRelProductCategoryRel...");
+				.debug("Cms -> CmsTransaction -> saveProgSrvRelColumnRelProductCategoryRel...");
 		if (progPackage.getUpdatetime() == null)
 			progPackage.setUpdatetime(new Date());
 		progPackageManager.update(progPackage);
@@ -1373,7 +1374,7 @@ public class CmsTransactionManagerImpl implements ICmsTransactionManager {
 					progPackage);
 		}
 		cmsLog
-				.info("Cms -> CmsTransaction -> saveProgSrvRelColumnRelProductCategoryRel returns.");
+				.debug("Cms -> CmsTransaction -> saveProgSrvRelColumnRelProductCategoryRel returns.");
 	}
 
 	// 创建（定义）节目包，输入节目包描述信息、节目类型、样式、节目分类、服务列表、节目列表、文件列表
@@ -1388,13 +1389,13 @@ public class CmsTransactionManagerImpl implements ICmsTransactionManager {
 			IPpSrvPdtRelManager ppSrvPdtRelManager,
 			ISrvProductManager srvProductManager, ProgPackage progPackage,
 			Long styleId, List cmsServices, List programs, List progFiles) {
-		cmsLog.info("Cms -> CmsTransaction -> saveProgPackage...");
+		cmsLog.debug("Cms -> CmsTransaction -> saveProgPackage...");
 
 		if (cmsServices == null)
 			cmsServices = new ArrayList();
 
 		// save 节目包
-		cmsLog.info("save 节目包");
+		cmsLog.debug("save 节目包");
 		if (progPackage.getUpdatetime() == null
 				|| progPackage.getInputtime() == null) {
 			Date now = new Date();
@@ -1412,30 +1413,30 @@ public class CmsTransactionManagerImpl implements ICmsTransactionManager {
 
 		// 测试通过，20091102，14:25
 		// save 节目包节目关系：ProgPPRel
-		cmsLog.info("save 节目包节目关系：ProgPPRel");
+		cmsLog.debug("save 节目包节目关系：ProgPPRel");
 		saveProgPPRel(progPPRelManager, programs, progPackage);
 
 		// 测试通过，20091102，14:50
 		// save 节目包文件关系：PackageFiles
-		cmsLog.info("save 节目包文件关系：PackageFiles");
+		cmsLog.debug("save 节目包文件关系：PackageFiles");
 		savePackageFiles(packStyleFileTypeManager, programFilesManager,
 				packageFilesManager, programs, progPackage, styleId);
 
 		// 测试通过，20091102，15:03
 		// save 服务节目包关系：ProgSvrRel
-		cmsLog.info("save 服务节目包关系：ProgSvrRel");
+		cmsLog.debug("save 服务节目包关系：ProgSvrRel");
 		saveProgSrvRel(progSrvRelManager, cmsServices, progPackage);
 
 		// 根据配置：SrvColumun，save 栏目节目包关系：PPColumnRel
-		cmsLog.info("根据配置：SrvColumun，save 栏目节目包关系：PPColumnRel");
+		cmsLog.debug("根据配置：SrvColumun，save 栏目节目包关系：PPColumnRel");
 		savePPColumnRel(pPColumnRelManager, srvColumnManager, cmsServices,
 				progPackage);
 
 		// 根据配置：SrvProduct，save 产品节目包关系：PPSrvPdtRel
-		cmsLog.info("根据配置：SrvProduct，save 产品节目包关系：PPSrvPdtRel");
+		cmsLog.debug("根据配置：SrvProduct，save 产品节目包关系：PPSrvPdtRel");
 		savePPSrvPdtRel(ppSrvPdtRelManager, srvProductManager, cmsServices,
 				progPackage);
-		cmsLog.info("Cms -> CmsTransaction -> saveProgPackage returns.");
+		cmsLog.debug("Cms -> CmsTransaction -> saveProgPackage returns.");
 		return progPackage;
 	}
 
@@ -1448,11 +1449,11 @@ public class CmsTransactionManagerImpl implements ICmsTransactionManager {
 			AmsStorage amsStorage, AmsStorageDir amsStorageDir,
 			String filepath, boolean changeFilename // 是否需要修改文件名为文件记录id，用于xml和png
 	) {
-		cmsLog.info("Cms -> CmsTransaction -> saveUploadFile...");
+		cmsLog.debug("Cms -> CmsTransaction -> saveUploadFile...");
 
 		// save到文件表
 		programFilesManager.save(programFiles);
-		cmsLog.info("已保存到节目文件表。节目文件ID：" + programFiles.getProgfileid());
+		cmsLog.debug("已保存到节目文件表。节目文件ID：" + programFiles.getProgfileid());
 
 		// 20100204 16:56
 		// 北京调试，这里有问题，如果是xml文件，是不需要修改文件名字的
@@ -1468,7 +1469,7 @@ public class CmsTransactionManagerImpl implements ICmsTransactionManager {
 		programFiles.setStorageid(amsStorage.getStglobalid());
 		programFiles.setStoragedirid(amsStorageDir.getStdirglobalid());
 		programFilesManager.update(programFiles);
-		cmsLog.info("已更新节目文件表。节目文件ID：" + programFiles.getProgfileid());
+		cmsLog.debug("已更新节目文件表。节目文件ID：" + programFiles.getProgfileid());
 
 		// save到节目存放位置表
 		AmsStoragePrgRel amsStoragePrgRel = new AmsStoragePrgRel();
@@ -1484,18 +1485,17 @@ public class CmsTransactionManagerImpl implements ICmsTransactionManager {
 		amsStoragePrgRel.setFiledate(new Date());
 		amsStoragePrgRel.setPrglobalid(progPackage.getProductid());
 		amsstorageprgrelManager.save(amsStoragePrgRel);
-		cmsLog.info("已保存到文件存放位置表。文件位置ID：" + amsStoragePrgRel.getRelid());
+		cmsLog.debug("已保存到文件存放位置表。文件位置ID：" + amsStoragePrgRel.getRelid());
 
 		// save到节目包文件表
 		PackageFiles packageFiles = new PackageFiles();
 		packageFiles.setProductid(progPackage.getProductid());
 		packageFiles.setProgfileid(programFiles.getProgfileid());
 		packageFilesManager.save(packageFiles);
-		cmsLog
-				.info("已保存到节目包文件表。节目包文件ID："
+		cmsLog.debug("已保存到节目包文件表。节目包文件ID："
 						+ packageFiles.getCmspackageFilesid());
 
-		cmsLog.info("Cms -> CmsTransaction -> saveUploadFile returns.");
+		cmsLog.debug("Cms -> CmsTransaction -> saveUploadFile returns.");
 		return amsStoragePrgRel;
 	}
 
@@ -1529,7 +1529,7 @@ public class CmsTransactionManagerImpl implements ICmsTransactionManager {
 			String filecode, // 节目包xml的filecode
 			String stclasscode // 节目包xml文件存放存储体等级
 	) {
-		cmsLog.info("Cms -> CmsTransaction -> updateProgPackageAllInfo...");
+		cmsLog.debug("Cms -> CmsTransaction -> updateProgPackageAllInfo...");
 		CmsResultDto cmsResultDto = new CmsResultDto();
 
 		Date date = new Date();
@@ -1537,22 +1537,22 @@ public class CmsTransactionManagerImpl implements ICmsTransactionManager {
 
 		String strdate = fileoper.convertDateToString(date,
 				"yyyy-MM-dd HH:mm:ss");
-		cmsLog.info("更新日期：" + strdate);
+		cmsLog.debug("更新日期：" + strdate);
 
 		if (updateprogpackage == true) {
-			cmsLog.info("准备修改节目包信息...");
+			cmsLog.debug("准备修改节目包信息...");
 			progPackageManager.update(progPackage);
 			info += "节目包信息已经修改；\r\n";
 		}
 		if (updatepackagefiles == true) {
-			cmsLog.info("准备修改节目包与节目文件关系...");
+			cmsLog.debug("准备修改节目包与节目文件关系...");
 			updateProgPPRelAndPackageFiles(progPPRelManager,
 					packageFilesManager, packStyleFileTypeManager,
 					programFilesManager, programs, progPackage, styleId);
 			info += "节目包与节目文件关系已经修改；\r\n";
 		}
 		if (updatecmsservice == true) {
-			cmsLog.info("准备修改节目包与服务(栏目、产品)关系...");
+			cmsLog.debug("准备修改节目包与服务(栏目、产品)关系...");
 			saveProgSrvRelColumnRelProductCategoryRel(progPackageManager,
 					progSrvRelManager, pPColumnRelManager, srvColumnManager,
 					ppSrvPdtRelManager, srvProductManager, cmsServices,
@@ -1560,7 +1560,7 @@ public class CmsTransactionManagerImpl implements ICmsTransactionManager {
 //			info += "节目包与服务(栏目、产品)关系已经修改；\r\n";
 		}
 		if (updatepng == true) {
-			cmsLog.info("准备修改节目包的海报...");
+			cmsLog.debug("准备修改节目包的海报...");
 			CmsResultDto c1 = updateProgPackagePngs(progPackageManager,
 					packageFilesManager, programFilesManager,
 					amsstorageprgrelManager, progPackage, programFileses, // 海报列表，包含了修改和未修改的海报信息
@@ -1576,16 +1576,16 @@ public class CmsTransactionManagerImpl implements ICmsTransactionManager {
 		// 修改节目包的ppxml、更新日期字段
 		if (updatepackagefiles == true || updatecmsservice == true
 				|| updatepng == true) {
-			cmsLog.info("准备修改节目包的ppxml和更新日期...");
+			cmsLog.debug("准备修改节目包的ppxml和更新日期...");
 			progPackage.setUpdatetime(date);
 			progPackage = updateProgPackagePpxml(packageFilesManager,
 					programFilesManager, progPackage);
 			progPackage.setFilesizehi(packageFilesManager.sumOfPackageFileSize(progPackage.getProductid()));
 			progPackageManager.update(progPackage);
-			cmsLog.info("节目包的ppxml和更新日期已修改。");
+			cmsLog.debug("节目包的ppxml和更新日期已修改。");
 			info += "节目包的ppxml和更新日期已修改；\r\n";
 
-			cmsLog.info("准备修改节目包相关的栏目单详细的更新日期...");
+			cmsLog.debug("准备修改节目包相关的栏目单详细的更新日期...");
 			List plds = progListDetailManager.findByProperty("productid",
 					progPackage.getProductid());
 			if (plds != null && plds.size() > 0) {
@@ -1596,7 +1596,7 @@ public class CmsTransactionManagerImpl implements ICmsTransactionManager {
 					progListDetailManager.update(progListDetail);
 				}
 			}
-			cmsLog.info("节目包相关的栏目单详细的更新日期已经修改。");
+			cmsLog.debug("节目包相关的栏目单详细的更新日期已经修改。");
 			info += "节目包相关的栏目单详细的更新日期已经修改；\r\n";
 
 			List progfs = packageFilesManager
@@ -1646,23 +1646,23 @@ public class CmsTransactionManagerImpl implements ICmsTransactionManager {
 							if (amsstpr != null) {
 								amsstpr.setFiledate(date);
 								amsstorageprgrelManager.update(amsstpr);
-								cmsLog.info("节目包的xml文件已经修改。" + sourcepath);
+								cmsLog.debug("节目包的xml文件已经修改。" + sourcepath);
 								info += "节目包的xml文件已经修改；\r\n";
 							}
 						} else {
-							cmsLog.info("更新节目包的xml文件失败。" + sourcepath);
+							cmsLog.debug("更新节目包的xml文件失败。" + sourcepath);
 							info += "更新节目包的xml文件失败；\r\n";
 						}
 					} else {
-						cmsLog.info("节目包的xml文件不存在，不修改xml文件。" + sourcepath);
+						cmsLog.debug("节目包的xml文件不存在，不修改xml文件。" + sourcepath);
 						info += "节目包的xml文件不存在，不修改xml文件；\r\n";
 					}
 				} else {
-					cmsLog.info("节目包的xml文件路径不存在，不修改xml文件。");
+					cmsLog.debug("节目包的xml文件路径不存在，不修改xml文件。");
 					info += "节目包的xml文件路径不存在，不修改xml文件；\r\n";
 				}
 			} else {
-				cmsLog.info("节目包的xml文件记录不存在，不修改xml文件。");
+				cmsLog.debug("节目包的xml文件记录不存在，不修改xml文件。");
 				info += "节目包的xml文件记录不存在，不修改xml文件；\r\n";
 			}
 		} else {
@@ -1670,8 +1670,7 @@ public class CmsTransactionManagerImpl implements ICmsTransactionManager {
 		}
 		cmsResultDto.setErrorDetail(info);
 
-		cmsLog
-				.info("Cms -> CmsTransaction -> updateProgPackageAllInfo returns.");
+		cmsLog.debug("Cms -> CmsTransaction -> updateProgPackageAllInfo returns.");
 		return cmsResultDto;
 	}
 
@@ -1704,8 +1703,7 @@ public class CmsTransactionManagerImpl implements ICmsTransactionManager {
 			String filecode, // 节目包xml的filecode
 			String stclasscode // 节目包xml文件存放存储体等级
 	) {
-		cmsLog
-				.info("Cms -> CmsTransaction -> updateProgPackageWithoutPrograminfoCmsservice...");
+		cmsLog.debug("Cms -> CmsTransaction -> updateProgPackageWithoutPrograminfoCmsservice...");
 		CmsResultDto cmsResultDto = new CmsResultDto();
 
 		Date date = new Date();
@@ -1713,22 +1711,22 @@ public class CmsTransactionManagerImpl implements ICmsTransactionManager {
 
 		String strdate = fileoper.convertDateToString(date,
 				"yyyy-MM-dd HH:mm:ss");
-		cmsLog.info("更新日期：" + strdate);
+		cmsLog.debug("更新日期：" + strdate);
 
 		if (updateprogpackage == true) {
-			cmsLog.info("准备修改节目包信息...");
+			cmsLog.debug("准备修改节目包信息...");
 			progPackageManager.update(progPackage);
 			info += "节目包信息已经修改；\r\n";
 		}
 		if (updatepackagefiles == true) {
-			cmsLog.info("准备修改节目包与主文件关系...");
+			cmsLog.debug("准备修改节目包与主文件关系...");
 			updatePackageFiles(packageFilesManager, programFilesManager,
 					programfiles, progPackage);
 
 			info += "节目包与主文件关系已经修改；\r\n";
 		}
 		if (updatecmsservice == true) {
-			cmsLog.info("准备修改节目包与服务(栏目、产品)关系...");
+			cmsLog.debug("准备修改节目包与服务(栏目、产品)关系...");
 			saveProgSrvRelColumnRelProductCategoryRel(progPackageManager,
 					progSrvRelManager, pPColumnRelManager, srvColumnManager,
 					ppSrvPdtRelManager, srvProductManager, cmsServices,
@@ -1736,7 +1734,7 @@ public class CmsTransactionManagerImpl implements ICmsTransactionManager {
 			info += "节目包与服务(栏目、产品)关系已经修改；\r\n";
 		}
 		if (updatepng == true) {
-			cmsLog.info("准备修改节目包的海报...");
+			cmsLog.debug("准备修改节目包的海报...");
 			CmsResultDto c1 = updateProgPackagePngs(progPackageManager,
 					packageFilesManager, programFilesManager,
 					amsstorageprgrelManager, progPackage, programFileses, // 海报列表，包含了修改和未修改的海报信息
@@ -1752,15 +1750,15 @@ public class CmsTransactionManagerImpl implements ICmsTransactionManager {
 		// 修改节目包的ppxml、更新日期字段
 		if (updatepackagefiles == true || updatecmsservice == true
 				|| updatepng == true) {
-			cmsLog.info("准备修改节目包的ppxml和更新日期...");
+			cmsLog.debug("准备修改节目包的ppxml和更新日期...");
 			progPackage.setUpdatetime(date);
 			progPackage = updateProgPackagePpxml(packageFilesManager,
 					programFilesManager, progPackage);
 			progPackageManager.update(progPackage);
-			cmsLog.info("节目包的ppxml和更新日期已修改。");
+			cmsLog.debug("节目包的ppxml和更新日期已修改。");
 			info += "节目包的ppxml和更新日期已修改；\r\n";
 
-			cmsLog.info("准备修改节目包相关的栏目单详细的更新日期...");
+			cmsLog.debug("准备修改节目包相关的栏目单详细的更新日期...");
 			List plds = progListDetailManager.findByProperty("productid",
 					progPackage.getProductid());
 			if (plds != null && plds.size() > 0) {
@@ -1771,7 +1769,7 @@ public class CmsTransactionManagerImpl implements ICmsTransactionManager {
 					progListDetailManager.update(progListDetail);
 				}
 			}
-			cmsLog.info("节目包相关的栏目单详细的更新日期已经修改。");
+			cmsLog.debug("节目包相关的栏目单详细的更新日期已经修改。");
 			info += "节目包相关的栏目单详细的更新日期已经修改；\r\n";
 
 			List progfs = packageFilesManager
@@ -1814,23 +1812,23 @@ public class CmsTransactionManagerImpl implements ICmsTransactionManager {
 							if (amsstpr != null) {
 								amsstpr.setFiledate(date);
 								amsstorageprgrelManager.update(amsstpr);
-								cmsLog.info("节目包的xml文件已经修改。" + sourcepath);
+								cmsLog.debug("节目包的xml文件已经修改。" + sourcepath);
 								info += "节目包的xml文件已经修改；\r\n";
 							}
 						} else {
-							cmsLog.info("更新节目包的xml文件失败。" + sourcepath);
+							cmsLog.debug("更新节目包的xml文件失败。" + sourcepath);
 							info += "更新节目包的xml文件失败；\r\n";
 						}
 					} else {
-						cmsLog.info("节目包的xml文件不存在，不修改xml文件。" + sourcepath);
+						cmsLog.debug("节目包的xml文件不存在，不修改xml文件。" + sourcepath);
 						info += "节目包的xml文件不存在，不修改xml文件；\r\n";
 					}
 				} else {
-					cmsLog.info("节目包的xml文件路径不存在，不修改xml文件。");
+					cmsLog.debug("节目包的xml文件路径不存在，不修改xml文件。");
 					info += "节目包的xml文件路径不存在，不修改xml文件；\r\n";
 				}
 			} else {
-				cmsLog.info("节目包的xml文件记录不存在，不修改xml文件。");
+				cmsLog.debug("节目包的xml文件记录不存在，不修改xml文件。");
 				info += "节目包的xml文件记录不存在，不修改xml文件；\r\n";
 			}
 		} else {
@@ -1838,8 +1836,7 @@ public class CmsTransactionManagerImpl implements ICmsTransactionManager {
 		}
 		cmsResultDto.setErrorDetail(info);
 
-		cmsLog
-				.info("Cms -> CmsTransaction -> updateProgPackageWithoutPrograminfoCmsservice returns.");
+		cmsLog.debug("Cms -> CmsTransaction -> updateProgPackageWithoutPrograminfoCmsservice returns.");
 		return cmsResultDto;
 	}
 
@@ -2101,16 +2098,16 @@ public class CmsTransactionManagerImpl implements ICmsTransactionManager {
 			IAmsStoragePrgRelManager amsstorageprgrelManager,
 			ProgPackage progPackage, ProgramFiles programFiles,
 			String strFileFrom, String storageclass) {
-		cmsLog.info("Cms -> CmsTransaction -> savePngOfProgPackage...");
+		cmsLog.debug("Cms -> CmsTransaction -> savePngOfProgPackage...");
 		CmsResultDto cmsResultDto = new CmsResultDto();
 		int iCommit = 0;
 
 		// try
 		// {
-		cmsLog.info("准备为节目包上传海报文件...");
-		cmsLog.info("节目包ID：" + progPackage.getProductid());
-		cmsLog.info("节目包名称：" + progPackage.getProductname());
-		cmsLog.info("海报源路径：" + strFileFrom);
+		cmsLog.debug("准备为节目包上传海报文件...");
+		cmsLog.debug("节目包ID：" + progPackage.getProductid());
+		cmsLog.debug("节目包名称：" + progPackage.getProductname());
+		cmsLog.debug("海报源路径：" + strFileFrom);
 		
 //		File pngFile = new File(strFileFrom);
 //		if (100 * 1024 < pngFile.length()) {
@@ -2175,7 +2172,7 @@ public class CmsTransactionManagerImpl implements ICmsTransactionManager {
 					// return cmsResultDto;
 				} else {
 					// 写数据库 成功
-					cmsLog.info("写文件位置表成功。文件位置ID："
+					cmsLog.debug("写文件位置表成功。文件位置ID："
 							+ amsStoragePrgRel.getRelid());
 
 					// 获得文件名，含后缀
@@ -2183,10 +2180,10 @@ public class CmsTransactionManagerImpl implements ICmsTransactionManager {
 					String[] sFile = strFileFrom.split("\\.");
 					if (sFile.length >= 2) {
 						fileType = "." + sFile[sFile.length - 1];
-						cmsLog.info("得到文件后缀：" + fileType);
+						cmsLog.debug("得到文件后缀：" + fileType);
 					} else {
 						fileType = "";
-						cmsLog.info("得到文件后缀为空。");
+						cmsLog.debug("得到文件后缀为空。");
 					}
 					if (programFiles.getProgfileid() == null
 							|| programFiles.getProgfileid()
@@ -2212,32 +2209,32 @@ public class CmsTransactionManagerImpl implements ICmsTransactionManager {
 
 						strFileFullPath = strFilePath + strFileName;
 
-						cmsLog.info("准备复制海报文件从服务器本地到缓存库...");
-						cmsLog.info("源 - " + strFileFrom);
-						cmsLog.info("目标 - " + strFileFullPath);
+						cmsLog.debug("准备复制海报文件从服务器本地到缓存库...");
+						cmsLog.debug("源 - " + strFileFrom);
+						cmsLog.debug("目标 - " + strFileFullPath);
 						int copyret = fileoper.copyFileFromLocalToSmb(
 								strFileFrom, strFileFullPath); // 上传文件
 						if (copyret == 0) {
-							cmsLog.info("复制文件成功，准备删除源文件...");
+							cmsLog.debug("复制文件成功，准备删除源文件...");
 
 							if (deleteFile(strFileFrom) == 0) {
-								cmsLog.info("删除文件成功。");
+								cmsLog.debug("删除文件成功。");
 							} else {
 								String str = "删除文件失败。";
 								cmsLog.warn(str);
 							}
 
-							cmsLog.info("迁移文件完毕，准备更新节目包的xml字段(ppxml)...");
+							cmsLog.debug("迁移文件完毕，准备更新节目包的xml字段(ppxml)...");
 
 							progPackage = updateProgPackagePpxml(
 									packageFilesManager, programFilesManager,
 									progPackage);
 							progPackageManager.update(progPackage);
-							cmsLog.info("已经更新数据库中节目包的xml字段(ppxml)。");
+							cmsLog.debug("已经更新数据库中节目包的xml字段(ppxml)。");
 
 							// ProgPackage pp =
 							// (ProgPackage)progPackageManager.getById(progPackage.getProductid());
-							// cmsLog.info("查询节目包：" +
+							// cmsLog.debug("查询节目包：" +
 							// progPackage.getProductid());
 							// pp = updateProgPackagePpxml(
 							// packageFilesManager,
@@ -2245,7 +2242,7 @@ public class CmsTransactionManagerImpl implements ICmsTransactionManager {
 							// pp
 							// );
 							// progPackageManager.update(pp);
-							// cmsLog.info("节目包信息已经修改。");
+							// cmsLog.debug("节目包信息已经修改。");
 						} else {
 							cmsLog.warn("迁移文件失败。");
 
@@ -2279,7 +2276,7 @@ public class CmsTransactionManagerImpl implements ICmsTransactionManager {
 		// // return cmsResultDto;
 		// }
 
-		cmsLog.info("Cms -> CmsTransaction -> savePngOfProgPackage returns.");
+		cmsLog.debug("Cms -> CmsTransaction -> savePngOfProgPackage returns.");
 		return cmsResultDto;
 	}
 
@@ -2289,7 +2286,7 @@ public class CmsTransactionManagerImpl implements ICmsTransactionManager {
 			IPackageFilesManager packageFilesManager,
 			IProgramFilesManager programFilesManager, ProgPackage progPackage) {
 		// 删除文件
-		cmsLog.info("Cms -> CmsTransaction -> updateProgPackagePpxml...");
+		cmsLog.debug("Cms -> CmsTransaction -> updateProgPackagePpxml...");
 
 		List packageFileses = packageFilesManager.findByProperty("productid",
 				progPackage.getProductid());
@@ -2310,44 +2307,44 @@ public class CmsTransactionManagerImpl implements ICmsTransactionManager {
 			doc.normalize();
 
 			// 查找cell节点
-			cmsLog.info("修改节目包属性...");
+			cmsLog.debug("修改节目包属性...");
 			NodeList cells = doc.getElementsByTagName("APP");
 			for (int i = 0; i < cells.getLength(); i++) {
 				Node cell = cells.item(i);
 				Element cellattr = (Element) cells.item(i);
 				if (cellattr.hasAttribute("PROGPACKAGEID")) // 判断节点有tag属性
 				{
-					// cmsLog.info(cell.getAttributes().getNamedItem("PROGPACKAGEID").getNodeValue());
+					// cmsLog.debug(cell.getAttributes().getNamedItem("PROGPACKAGEID").getNodeValue());
 					cell.getAttributes().getNamedItem("PROGPACKAGEID")
 							.setNodeValue(progPackage.getProductid());
 				}
 				if (cellattr.hasAttribute("PROGPACKAGENAME")) // 判断节点有tag属性
 				{
-					// cmsLog.info(cell.getAttributes().getNamedItem("PROGPACKAGENAME").getNodeValue());
+					// cmsLog.debug(cell.getAttributes().getNamedItem("PROGPACKAGENAME").getNodeValue());
 					cell.getAttributes().getNamedItem("PROGPACKAGENAME")
 							.setNodeValue(progPackage.getProductname());
 				}
 				if (cellattr.hasAttribute("PROGTYPE")) // 判断节点有tag属性
 				{
-					// cmsLog.info(cell.getAttributes().getNamedItem("PROGTYPE").getNodeValue());
+					// cmsLog.debug(cell.getAttributes().getNamedItem("PROGTYPE").getNodeValue());
 					cell.getAttributes().getNamedItem("PROGTYPE").setNodeValue(
 							progPackage.getProgtype());
 				}
 				if (cellattr.hasAttribute("STYLEID")) // 判断节点有tag属性
 				{
-					// cmsLog.info(cell.getAttributes().getNamedItem("STYLEID").getNodeValue());
+					// cmsLog.debug(cell.getAttributes().getNamedItem("STYLEID").getNodeValue());
 					cell.getAttributes().getNamedItem("STYLEID").setNodeValue(
 							progPackage.getStyleid().toString());
 				}
 				if (cellattr.hasAttribute("SUMFILESIZE")) // 判断节点有tag属性
 				{
-					// cmsLog.info(cell.getAttributes().getNamedItem("SUMFILESIZE").getNodeValue());
+					// cmsLog.debug(cell.getAttributes().getNamedItem("SUMFILESIZE").getNodeValue());
 					cell.getAttributes().getNamedItem("SUMFILESIZE")
 							.setNodeValue(progPackage.getSumfilesize());
 				}
 				if (cellattr.hasAttribute("UPDATEMANID")) // 判断节点有tag属性
 				{
-					// cmsLog.info(cell.getAttributes().getNamedItem("UPDATEMANID").getNodeValue());
+					// cmsLog.debug(cell.getAttributes().getNamedItem("UPDATEMANID").getNodeValue());
 					cell.getAttributes().getNamedItem("UPDATEMANID")
 							.setNodeValue(progPackage.getUpdatemanid());
 				}
@@ -2355,14 +2352,14 @@ public class CmsTransactionManagerImpl implements ICmsTransactionManager {
 				{
 					SimpleDateFormat sdf = new SimpleDateFormat(
 							"yyyy-MM-dd HH:mm:ss");
-					// cmsLog.info(cell.getAttributes().getNamedItem("UPDATETIME").getNodeValue());
+					// cmsLog.debug(cell.getAttributes().getNamedItem("UPDATETIME").getNodeValue());
 					cell.getAttributes().getNamedItem("UPDATETIME")
-							.setNodeValue(
-									sdf.format(progPackage.getUpdatetime()));
+							.setNodeValue(null == progPackage.getUpdatetime()
+									? "" : sdf.format(progPackage.getUpdatetime()));
 				}
 				if (cellattr.hasAttribute("EPICODENUMBER")) // 判断节点有tag属性
 				{
-					// cmsLog.info(cell.getAttributes().getNamedItem("EPICODENUMBER").getNodeValue());
+					// cmsLog.debug(cell.getAttributes().getNamedItem("EPICODENUMBER").getNodeValue());
 					cell.getAttributes().getNamedItem("EPICODENUMBER")
 							.setNodeValue(progPackage.getEpicodenumber());
 				}
@@ -2377,9 +2374,9 @@ public class CmsTransactionManagerImpl implements ICmsTransactionManager {
 						.getSumfilesize());
 				cellattr.setAttribute("UPDATEMANID", progPackage
 						.getUpdatemanid());
-				cellattr.setAttribute("UPDATETIME", fileoper
-						.convertDateToString(progPackage.getUpdatetime(),
-								"yyyy-MM-dd HH:mm:ss"));
+				cellattr.setAttribute("UPDATETIME", null == progPackage.getUpdatetime()
+						? "" : fileoper.convertDateToString(
+								progPackage.getUpdatetime(), "yyyy-MM-dd HH:mm:ss"));
 				cellattr.setAttribute("EPICODENUMBER", progPackage
 						.getEpicodenumber());
 
@@ -2404,19 +2401,18 @@ public class CmsTransactionManagerImpl implements ICmsTransactionManager {
 				cellattr.setAttribute("ACTORS", progPackage.getActors());
 				cellattr.setAttribute("SHOOTDATE", progPackage.getShootdate());
 				cellattr.setAttribute("ISSUEDATE", progPackage.getIssuedate());
-				cellattr.setAttribute("COUNTRYDIST", progPackage
-						.getCountrydist());
-				cellattr.setAttribute("SUBSCRIBERSTIME", fileoper
-						.convertDateToString(progPackage.getSubscriberstime(),
-								"yyyy-MM-dd HH:mm:ss"));
-				cellattr.setAttribute("SUBSCRIBERETIME", fileoper
-						.convertDateToString(progPackage.getSubscriberetime(),
-								"yyyy-MM-dd HH:mm:ss"));
+				cellattr.setAttribute("COUNTRYDIST", progPackage.getCountrydist());
+				cellattr.setAttribute("SUBSCRIBERSTIME", null == progPackage.getSubscriberstime()
+						? "" : fileoper.convertDateToString(
+								progPackage.getSubscriberstime(), "yyyy-MM-dd HH:mm:ss"));
+				cellattr.setAttribute("SUBSCRIBERETIME", null == progPackage.getSubscriberetime()
+						? "" : fileoper.convertDateToString(
+								progPackage.getSubscriberetime(), "yyyy-MM-dd HH:mm:ss"));
 				cellattr
 						.setAttribute("INPUTMANID", progPackage.getInputmanid());
-				cellattr.setAttribute("INPUTTIME", fileoper
-						.convertDateToString(progPackage.getInputtime(),
-								"yyyy-MM-dd HH:mm:ss"));
+				cellattr.setAttribute("INPUTTIME", null == progPackage.getInputtime()
+						? "" : fileoper.convertDateToString(
+								progPackage.getInputtime(), "yyyy-MM-dd HH:mm:ss"));
 				cellattr.setAttribute("FILESIZEHI", progPackage.getFilesizehi()
 						.toString());
 				cellattr.setAttribute("FILESIZELOW", progPackage
@@ -2430,14 +2426,14 @@ public class CmsTransactionManagerImpl implements ICmsTransactionManager {
 						.toString());
 			}
 
-			cmsLog.info("修改节目包的文件信息...");
+			cmsLog.debug("修改节目包的文件信息...");
 			cells = doc.getElementsByTagName("PROGFILE");
 			for (int i = 0; i < cells.getLength(); i++) {
 				Node cell = cells.item(i);
 				Element cellattr = (Element) cells.item(i);
 
 				// 先删除原有节点
-				cmsLog.info("为节目包删除原有文件节点...");
+				cmsLog.debug("为节目包删除原有文件节点...");
 				if (cell.hasChildNodes()) {
 					NodeList oleNodes = cell.getChildNodes();
 					for (int j = 0; j < oleNodes.getLength(); j++) {
@@ -2448,7 +2444,7 @@ public class CmsTransactionManagerImpl implements ICmsTransactionManager {
 						}
 					}
 				}
-				cmsLog.info("为节目包添加文件节点...");
+				cmsLog.debug("为节目包添加文件节点...");
 				for (int j = 0; j < packageFileses.size(); j++) {
 					PackageFiles pf = (PackageFiles) packageFileses.get(j);
 					ProgramFiles programFiles = (ProgramFiles) programFilesManager
@@ -2489,9 +2485,9 @@ public class CmsTransactionManagerImpl implements ICmsTransactionManager {
 
 					newe.setAttribute("INPUTMANID", programFiles
 							.getInputmanid());
-					newe.setAttribute("INPUTTIME", fileoper
-							.convertDateToString(programFiles.getInputtime(),
-									"yyyy-MM-dd HH:mm:ss"));
+					newe.setAttribute("INPUTTIME", null == programFiles.getInputtime()
+							? "" : fileoper.convertDateToString(
+									programFiles.getInputtime(), "yyyy-MM-dd HH:mm:ss"));
 					newe.setAttribute("ISFLAG", "Y");
 
 					// 从文件位置表获取
@@ -2504,7 +2500,7 @@ public class CmsTransactionManagerImpl implements ICmsTransactionManager {
 					// (AmsStoragePrgRel)Object[2]
 					// (AmsStorageDir)Object[3]
 					// (AmsStorageClass)Object[3]
-					cmsLog.info("查询文件的filedate...");
+					cmsLog.debug("查询文件的filedate...");
 					String filedate = "";
 					List sourcePaths = packageFilesManager
 							.getSourcePathByProgfileidStclasscode(programFiles
@@ -2525,21 +2521,20 @@ public class CmsTransactionManagerImpl implements ICmsTransactionManager {
 
 					// 添加在cell后
 					cell.appendChild(newe);
-					cmsLog.info("新的文件节点已经添加。");
+					cmsLog.debug("新的文件节点已经添加。");
 				}
 			}
 			String ppxml = fileoper.XMLtoStr(doc);
 			if (!ppxml.equalsIgnoreCase("")) {
 				progPackage.setPpxml(ppxml);
-				cmsLog.info("已经更新节目包的xml，尚未保存到数据库。");
+				cmsLog.debug("已经更新节目包的xml，尚未保存到数据库。");
 			}
 		} catch (Exception ex) {
-			cmsLog
-					.error("Cms -> CmsTransaction -> updateProgPackagePpxml - 异常："
+			cmsLog.error("Cms -> CmsTransaction -> updateProgPackagePpxml - 异常："
 							+ ex.getMessage());
 		}
 
-		cmsLog.info("Cms -> CmsTransaction -> updateProgPackagePpxml returns.");
+		cmsLog.debug("Cms -> CmsTransaction -> updateProgPackagePpxml returns.");
 		return progPackage;
 	}
 
@@ -2554,7 +2549,7 @@ public class CmsTransactionManagerImpl implements ICmsTransactionManager {
 		// (ProgramInfo)list.get(0);
 		// (ProgramFiles)list.get(1);
 
-		cmsLog.info("Cms -> CmsTransaction -> saveProgramInfoProgramFiles...");
+		cmsLog.debug("Cms -> CmsTransaction -> saveProgramInfoProgramFiles...");
 		CmsResultDto cmsResultDto = new CmsResultDto();
 
 		String strMaxPK = "";
@@ -2562,11 +2557,11 @@ public class CmsTransactionManagerImpl implements ICmsTransactionManager {
 		if (programfiles.getInputtime() == null)
 			programfiles.setInputtime(new Date());
 		programinfoManager.save(programinfo);
-		cmsLog.info("节目信息表已经保存，节目ID：" + programinfo.getProgramid());
+		cmsLog.debug("节目信息表已经保存，节目ID：" + programinfo.getProgramid());
 
 		programfiles.setProgramid(programinfo.getProgramid());
 		programFilesManager.save(programfiles);
-		cmsLog.info("节目文件表已经保存，节目文件ID：" + programfiles.getProgfileid());
+		cmsLog.debug("节目文件表已经保存，节目文件ID：" + programfiles.getProgfileid());
 
 		// 修改节目文件的filename
 		if (programfiles.getFilename() != null) {
@@ -2577,7 +2572,7 @@ public class CmsTransactionManagerImpl implements ICmsTransactionManager {
 			programfiles.setFilename(programfiles.getProgfileid());
 		}
 		programFilesManager.update(programfiles);
-		cmsLog.info("节目文件表filename已经更新，节目文件filename："
+		cmsLog.debug("节目文件表filename已经更新，节目文件filename："
 				+ programfiles.getFilename());
 
 		List list = new ArrayList();
@@ -2585,8 +2580,7 @@ public class CmsTransactionManagerImpl implements ICmsTransactionManager {
 		list.add(programfiles);
 		cmsResultDto.setResultObject(list);
 
-		cmsLog
-				.info("Cms -> CmsTransaction -> saveProgramInfoProgramFiles returns.");
+		cmsLog.debug("Cms -> CmsTransaction -> saveProgramInfoProgramFiles returns.");
 		return cmsResultDto;
 	}
 
@@ -2594,19 +2588,19 @@ public class CmsTransactionManagerImpl implements ICmsTransactionManager {
 	// ---------------------------------------------------
 	// 保存（创建）流程持久化 Bpmc
 	private void saveBpmc(IBpmcManager bpmcManager, Bpmc bpmc) {
-		cmsLog.info("Cms -> CmsTransaction -> saveBpmc...");
+		cmsLog.debug("Cms -> CmsTransaction -> saveBpmc...");
 
 		bpmc.setSenddate(new Date());
 		bpmcManager.save(bpmc);
 
-		cmsLog.info("Cms -> CmsTransaction -> saveBpmc returns.");
+		cmsLog.debug("Cms -> CmsTransaction -> saveBpmc returns.");
 	}
 
 	// 不使用
 	// 保存（新建）栏目单 FU00000077 编单定义
 	public ProgList saveProgList(IProgListManager progListManager,
 			IBpmcManager bpmcManager, ProgList progList) {
-		cmsLog.info("Cms -> CmsTransaction -> saveProgList...");
+		cmsLog.debug("Cms -> CmsTransaction -> saveProgList...");
 
 		// 保存（新建）栏目单
 		progList.setCreateDate(new Date());
@@ -2627,7 +2621,7 @@ public class CmsTransactionManagerImpl implements ICmsTransactionManager {
 		bpmc.setState("N");
 		saveBpmc(bpmcManager, bpmc);
 
-		cmsLog.info("Cms -> CmsTransaction -> saveProgList...");
+		cmsLog.debug("Cms -> CmsTransaction -> saveProgList...");
 		return progList;
 	}
 
@@ -2638,7 +2632,7 @@ public class CmsTransactionManagerImpl implements ICmsTransactionManager {
 			IPortalColumnManager portalColumnManager, List progPackages,
 			String pdate, String columnclassid, List lnums) {
 		cmsLog
-				.info("Cms -> CmsTransaction -> saveProgListDetailsToProgList...");
+				.debug("Cms -> CmsTransaction -> saveProgListDetailsToProgList...");
 
 		cmsLog.info("代码空。");
 
@@ -2712,7 +2706,7 @@ public class CmsTransactionManagerImpl implements ICmsTransactionManager {
 		// }
 
 		cmsLog
-				.info("Cms -> CmsTransaction -> saveProgListDetailsToProgList returns.");
+				.debug("Cms -> CmsTransaction -> saveProgListDetailsToProgList returns.");
 	}
 
 	// 不使用
@@ -2720,7 +2714,7 @@ public class CmsTransactionManagerImpl implements ICmsTransactionManager {
 	public void deleteProgListDetailsFromProgList(
 			IProgListDetailManager progListDetailManager, List progListDetails) {
 		cmsLog
-				.info("Cms -> CmsTransaction -> deleteProgListDetailsFromProgList...");
+				.debug("Cms -> CmsTransaction -> deleteProgListDetailsFromProgList...");
 
 		if (progListDetails.size() > 0) {
 			ProgListDetail[] progListDetailObjects = (ProgListDetail[]) progListDetails
@@ -2729,7 +2723,7 @@ public class CmsTransactionManagerImpl implements ICmsTransactionManager {
 		}
 
 		cmsLog
-				.info("Cms -> CmsTransaction -> deleteProgListDetailsFromProgList returns.");
+				.debug("Cms -> CmsTransaction -> deleteProgListDetailsFromProgList returns.");
 	}
 
 	// 发送栏目单到下一活动idProcess，下一活动人，
@@ -2740,7 +2734,7 @@ public class CmsTransactionManagerImpl implements ICmsTransactionManager {
 			IBpmcManager bpmcManager, List<ProgListDetail> progListDetails,
 			String nextIdAct, String nextOperator, String nextState2,
 			String operator, String sendremark) {
-		cmsLog.info("Cms -> CmsTransaction -> saveSendProgList...");
+		cmsLog.debug("Cms -> CmsTransaction -> saveSendProgList...");
 
 		if (progListDetails == null) {
 			cmsLog.info("progListDetails == null");
@@ -2786,13 +2780,13 @@ public class CmsTransactionManagerImpl implements ICmsTransactionManager {
 		// bpmc.setState(nextState2);
 		// saveBpmc(bpmcManager, bpmc);
 
-		cmsLog.info("Cms -> CmsTransaction -> saveSendProgList returns.");
+		cmsLog.debug("Cms -> CmsTransaction -> saveSendProgList returns.");
 	}
 
 	// --------- 栏目编单修改 20091202 -----------
 	private String convertDateToString(Date date, String format) {
 		// 转换Date 到 Stirng
-		cmsLog.info("Cms -> PortalColumnServiceImpl -> convertDateToString...");
+		cmsLog.debug("Cms -> PortalColumnServiceImpl -> convertDateToString...");
 		DateFormat format1 = new SimpleDateFormat(format);
 		String str = format1.format(date);
 
@@ -2806,7 +2800,7 @@ public class CmsTransactionManagerImpl implements ICmsTransactionManager {
 		// }
 
 		cmsLog.info("Date : " + str);
-		cmsLog.info("Cms -> PortalColumnServiceImpl -> convertDateToString...");
+		cmsLog.debug("Cms -> PortalColumnServiceImpl -> convertDateToString...");
 		return str;
 	}
 
@@ -2852,7 +2846,7 @@ public class CmsTransactionManagerImpl implements ICmsTransactionManager {
 			IProgramFilesManager programFilesManager,
 			List<ProgPackage> progPackages, String date, Date offlineDate,
 			String columnclassid, List<Long> lnums, String userId) {
-		cmsLog.info("Cms -> CmsTransaction -> saveProgListDetails...");
+		cmsLog.debug("Cms -> CmsTransaction -> saveProgListDetails...");
 		CmsResultDto cmsResultDto = new CmsResultDto();
 		int errorcount = 0;
 		String errordetails = "";
@@ -3178,7 +3172,7 @@ public class CmsTransactionManagerImpl implements ICmsTransactionManager {
 			cmsResultDto.setErrorDetail(errordetails);
 		}
 
-		cmsLog.info("Cms -> CmsTransaction -> saveProgListDetails returns.");
+		cmsLog.debug("Cms -> CmsTransaction -> saveProgListDetails returns.");
 		return cmsResultDto;
 	}
 
@@ -3189,7 +3183,7 @@ public class CmsTransactionManagerImpl implements ICmsTransactionManager {
 	public CmsResultDto deleteProgListDetails(
 			IProgListDetailManager progListDetailManager,
 			List<ProgListDetail> progListDetails, String date) {
-		cmsLog.info("Cms -> CmsTransaction -> deleteProgListDetails ...");
+		cmsLog.debug("Cms -> CmsTransaction -> deleteProgListDetails ...");
 		CmsResultDto cmsResultDto = new CmsResultDto();
 
 		if (progListDetails == null) {
@@ -3220,7 +3214,7 @@ public class CmsTransactionManagerImpl implements ICmsTransactionManager {
 			}
 		}
 
-		cmsLog.info("Cms -> CmsTransaction -> deleteProgListDetails returns.");
+		cmsLog.debug("Cms -> CmsTransaction -> deleteProgListDetails returns.");
 		return cmsResultDto;
 	}
 
@@ -3230,7 +3224,7 @@ public class CmsTransactionManagerImpl implements ICmsTransactionManager {
 			IPortalColumnManager portalColumnManager,
 			IProgPackageManager progPackageManager,
 			List<ProgListDetail> progListDetails, Date offlineDate) {
-		cmsLog.info("Cms -> CmsTransaction -> updateProgListDetails...");
+		cmsLog.debug("Cms -> CmsTransaction -> updateProgListDetails...");
 		CmsResultDto cmsResultDto = new CmsResultDto();
 
 		if (progListDetails == null) {
@@ -3330,7 +3324,7 @@ public class CmsTransactionManagerImpl implements ICmsTransactionManager {
 			}
 		}
 
-		cmsLog.info("Cms -> CmsTransaction -> updateProgListDetails returns.");
+		cmsLog.debug("Cms -> CmsTransaction -> updateProgListDetails returns.");
 		return cmsResultDto;
 	}
 
@@ -3347,7 +3341,7 @@ public class CmsTransactionManagerImpl implements ICmsTransactionManager {
 			String nextIdAct, // 下一活动编号
 			String nextState2, // 下一活动的性质：（新建N 回退R 顺序P 完成C）
 			String remark) {
-		cmsLog.info("Cms -> CmsTransaction -> updateCheckProgListMangAct...");
+		cmsLog.debug("Cms -> CmsTransaction -> updateCheckProgListMangAct...");
 
 		// 查询活动的顺序
 		List acts = new ArrayList();
@@ -3427,7 +3421,7 @@ public class CmsTransactionManagerImpl implements ICmsTransactionManager {
 		}
 
 		cmsLog
-				.info("Cms -> CmsTransaction -> updateCheckProgListMangAct returns.");
+				.debug("Cms -> CmsTransaction -> updateCheckProgListMangAct returns.");
 		return 0;
 	}
 
@@ -3443,7 +3437,7 @@ public class CmsTransactionManagerImpl implements ICmsTransactionManager {
 			String nextState2 // 下一活动的性质：（新建N 回退R 顺序P 完成C）
 	) {
 		cmsLog
-				.info("Cms -> CmsTransaction -> updateCheckLocalProgListMangAct...");
+				.debug("Cms -> CmsTransaction -> updateCheckLocalProgListMangAct...");
 
 		// 查询活动的顺序
 		List acts = new ArrayList();
@@ -3523,7 +3517,7 @@ public class CmsTransactionManagerImpl implements ICmsTransactionManager {
 		}
 
 		cmsLog
-				.info("Cms -> CmsTransaction -> updateCheckLocalProgListMangAct returns.");
+				.debug("Cms -> CmsTransaction -> updateCheckLocalProgListMangAct returns.");
 		return 0;
 	}
 
@@ -3564,7 +3558,7 @@ public class CmsTransactionManagerImpl implements ICmsTransactionManager {
 		// 界面 编单播发：当前活动（“播发”86），以date栏目单总表为单位发送，
 		// 86-->87 播放单生成成功，发送
 
-		cmsLog.info("Cms -> CmsTransaction -> updateProgListMangDetails...");
+		cmsLog.debug("Cms -> CmsTransaction -> updateProgListMangDetails...");
 		CmsResultDto cmsResultDto = new CmsResultDto();
 
 		// 没有发送的记录，用于返回
@@ -3614,7 +3608,7 @@ public class CmsTransactionManagerImpl implements ICmsTransactionManager {
 
 		cmsResultDto.setResultObject(notSaveList);
 		cmsLog
-				.info("Cms -> CmsTransaction -> updateProgListMangDetails returns.");
+				.debug("Cms -> CmsTransaction -> updateProgListMangDetails returns.");
 		return cmsResultDto;
 	}
 
@@ -3637,7 +3631,7 @@ public class CmsTransactionManagerImpl implements ICmsTransactionManager {
 			String sendremark // 备注
 	) {
 		cmsLog
-				.info("Cms -> CmsTransaction -> updateLocalProgListMangDetails...");
+				.debug("Cms -> CmsTransaction -> updateLocalProgListMangDetails...");
 		CmsResultDto cmsResultDto = new CmsResultDto();
 
 		// 没有发送的记录，用于返回
@@ -3685,7 +3679,7 @@ public class CmsTransactionManagerImpl implements ICmsTransactionManager {
 		}
 		cmsResultDto.setResultObject(notSaveList);
 		cmsLog
-				.info("Cms -> CmsTransaction -> updateLocalProgListMangDetails returns.");
+				.debug("Cms -> CmsTransaction -> updateLocalProgListMangDetails returns.");
 		return cmsResultDto;
 	}
 
@@ -3701,7 +3695,7 @@ public class CmsTransactionManagerImpl implements ICmsTransactionManager {
 			String stclasscodeBjOnline, // 在上海的北京缓存库存储体等级code
 			ProgPackage progPackage, int type // 0 - 上海； 1 - 北京
 	) {
-		cmsLog.info("Cms -> CmsTransaction -> refreshState1OfProgPackage...");
+		cmsLog.debug("Cms -> CmsTransaction -> refreshState1OfProgPackage...");
 		CmsResultDto cmsResultDto = new CmsResultDto();
 
 		String stclasscode = "";
@@ -3839,7 +3833,7 @@ public class CmsTransactionManagerImpl implements ICmsTransactionManager {
 		}
 
 		cmsLog
-				.info("Cms -> CmsTransaction -> refreshState1OfProgPackage returns.");
+				.debug("Cms -> CmsTransaction -> refreshState1OfProgPackage returns.");
 		return cmsResultDto;
 	}
 
@@ -3872,7 +3866,7 @@ public class CmsTransactionManagerImpl implements ICmsTransactionManager {
 		// 界面 编单播发：当前活动（“播发”86），以date栏目单总表为单位发送，
 		// 86-->87 播放单生成成功，发送
 
-		cmsLog.info("Cms -> CmsTransaction -> checkSendProgListMangDetails...");
+		cmsLog.debug("Cms -> CmsTransaction -> checkSendProgListMangDetails...");
 
 		boolean allowSend = true;
 
@@ -4016,7 +4010,7 @@ public class CmsTransactionManagerImpl implements ICmsTransactionManager {
 		}
 
 		cmsLog
-				.info("Cms -> CmsTransaction -> checkSendProgListMangDetails returns.");
+				.debug("Cms -> CmsTransaction -> checkSendProgListMangDetails returns.");
 		return allowSend;
 	}
 
@@ -4033,7 +4027,7 @@ public class CmsTransactionManagerImpl implements ICmsTransactionManager {
 		// 分表，本地栏目初始化活动为"FU00000077"编单定义
 		// 分表，非本地栏目初始化活动为""导入
 
-		cmsLog.info("Cms -> CmsTransaction -> checkProgListMang...");
+		cmsLog.debug("Cms -> CmsTransaction -> checkProgListMang...");
 		CmsResultDto cmsResultDto = new CmsResultDto();
 
 		// 查询总表是否有记录
@@ -4121,7 +4115,7 @@ public class CmsTransactionManagerImpl implements ICmsTransactionManager {
 			progListMangManager.update(progListMang);
 		}
 
-		cmsLog.info("Cms -> CmsTransaction -> checkProgListMang returns.");
+		cmsLog.debug("Cms -> CmsTransaction -> checkProgListMang returns.");
 		return cmsResultDto;
 	}
 
@@ -4129,7 +4123,7 @@ public class CmsTransactionManagerImpl implements ICmsTransactionManager {
 	// 20100222 15:59
 	private String getStrFromSmbFile(String xmlSmbFilePath // 节目包xml文件路径
 	) {
-		cmsLog.info("Cms -> CmsTransaction -> getStrFromSmbFile...");
+		cmsLog.debug("Cms -> CmsTransaction -> getStrFromSmbFile...");
 		String strxml = "";
 
 		try {
@@ -4167,7 +4161,7 @@ public class CmsTransactionManagerImpl implements ICmsTransactionManager {
 			cmsLog.error("Cms -> CmsTransaction -> getStrFromSmbFile，异常："
 					+ e.getMessage());
 		}
-		cmsLog.info("Cms -> CmsTransaction -> getStrFromSmbFile returns.");
+		cmsLog.debug("Cms -> CmsTransaction -> getStrFromSmbFile returns.");
 		return strxml.replaceAll("\u00A0", "\u0020");
 	}
 
@@ -4182,7 +4176,7 @@ public class CmsTransactionManagerImpl implements ICmsTransactionManager {
 		// 4 - List<Integer> // 文件导出标识，标识此次数据导出是否同时导出该文件，0 - no ; 1 - yes
 		// 5 - List<String> // 文件的filedate
 
-		cmsLog.info("Cms -> CmsTransaction -> getProgPackageFilesByXml...");
+		cmsLog.debug("Cms -> CmsTransaction -> getProgPackageFilesByXml...");
 		List list = new ArrayList();
 
 		try {
@@ -4593,7 +4587,7 @@ public class CmsTransactionManagerImpl implements ICmsTransactionManager {
 			cmsLog.error(e.getMessage());
 		}
 		cmsLog
-				.info("Cms -> CmsTransaction -> getProgPackageFilesByXml returns.");
+				.debug("Cms -> CmsTransaction -> getProgPackageFilesByXml returns.");
 		return list;
 	}
 
@@ -4606,7 +4600,7 @@ public class CmsTransactionManagerImpl implements ICmsTransactionManager {
 		// 0 - String
 		// 1 - List<ProgListDetail>
 
-		cmsLog.info("Cms -> CmsTransaction -> getProgListDetailsByXml...");
+		cmsLog.debug("Cms -> CmsTransaction -> getProgListDetailsByXml...");
 		List list = new ArrayList();
 
 		try {
@@ -4753,7 +4747,7 @@ public class CmsTransactionManagerImpl implements ICmsTransactionManager {
 			cmsLog.error(e.getMessage());
 		}
 		cmsLog
-				.info("Cms -> CmsTransaction -> getProgListDetailsByXml returns.");
+				.debug("Cms -> CmsTransaction -> getProgListDetailsByXml returns.");
 		return list;
 	}
 
@@ -4770,7 +4764,7 @@ public class CmsTransactionManagerImpl implements ICmsTransactionManager {
 			String filecodeMigrationImport, // 迁移单xml的filecode
 			String stclasscodeMigrationImport // 迁移单xml的存储体等级code
 	) {
-		cmsLog.info("Cms -> CmsTransaction -> getImportMigrationDest...");
+		cmsLog.debug("Cms -> CmsTransaction -> getImportMigrationDest...");
 
 		String destPath = ""; // 迁移单的文件名字
 		try {
@@ -4836,7 +4830,7 @@ public class CmsTransactionManagerImpl implements ICmsTransactionManager {
 			destPath = "";
 		}
 
-		cmsLog.info("Cms -> CmsTransaction -> getImportMigrationDest returns.");
+		cmsLog.debug("Cms -> CmsTransaction -> getImportMigrationDest returns.");
 		return destPath;
 	}
 
@@ -4856,7 +4850,7 @@ public class CmsTransactionManagerImpl implements ICmsTransactionManager {
 			List<ProgramFiles> progfs, // 节目包的文件
 			List<Integer> importfiles, List<String> filedates, String operator // 当前操作人员
 	) {
-		cmsLog.info("Cms -> CmsTransaction -> getImportMigrationXml...");
+		cmsLog.debug("Cms -> CmsTransaction -> getImportMigrationXml...");
 
 		// 源文件路径：
 		// smb://administrator:1@10.0.2.253/20100223000000/progpackage/PPVP20100209145124000062/PPVP20100209145124000062.xml
@@ -5128,7 +5122,7 @@ public class CmsTransactionManagerImpl implements ICmsTransactionManager {
 			cmsLog.error("异常：" + e.getMessage());
 			strXml = "";
 		}
-		cmsLog.info("Cms -> CmsTransaction -> getImportMigrationXml returns.");
+		cmsLog.debug("Cms -> CmsTransaction -> getImportMigrationXml returns.");
 		return strXml;
 	}
 
@@ -5148,7 +5142,7 @@ public class CmsTransactionManagerImpl implements ICmsTransactionManager {
 			List<ProgramFiles> progfs, // 节目包的文件
 			List<Integer> importfiles, List<String> filedates, String operator // 当前操作人员
 	) {
-		cmsLog.info("Cms -> CmsTransaction -> generateMigrationForImport...");
+		cmsLog.debug("Cms -> CmsTransaction -> generateMigrationForImport...");
 
 		// 源文件路径：
 		// smb://administrator:1@10.0.2.253/20100223000000/progpackage/PPVP20100209145124000062/PPVP20100209145124000062.xml
@@ -5442,7 +5436,7 @@ public class CmsTransactionManagerImpl implements ICmsTransactionManager {
 			cmsLog.error(e.getMessage());
 		}
 		cmsLog
-				.info("Cms -> CmsTransaction -> generateMigrationForImport returns.");
+				.debug("Cms -> CmsTransaction -> generateMigrationForImport returns.");
 		return ret;
 	}
 
@@ -5482,7 +5476,7 @@ public class CmsTransactionManagerImpl implements ICmsTransactionManager {
 		// 7.2.1.2.2 - 下迁移单，把节目包下的文件迁移到缓存库
 
 		cmsLog
-				.info("Cms -> CmsTransaction -> saveImportProgPackageFilesToBjCms...");
+				.debug("Cms -> CmsTransaction -> saveImportProgPackageFilesToBjCms...");
 		CmsResultDto cmsResultDto = new CmsResultDto();
 
 		List renames = new ArrayList();
@@ -5941,7 +5935,7 @@ public class CmsTransactionManagerImpl implements ICmsTransactionManager {
 		// }
 
 		cmsLog
-				.info("Cms -> CmsTransaction -> saveImportProgPackageFilesToBjCms returns.");
+				.debug("Cms -> CmsTransaction -> saveImportProgPackageFilesToBjCms returns.");
 		return cmsResultDto;
 	}
 
@@ -5976,7 +5970,7 @@ public class CmsTransactionManagerImpl implements ICmsTransactionManager {
 		// 6 - 判断栏目单详细记录(栏目、节目包)是否已经存在，不存在则导入栏目单详细记录到数据库
 		// 7 - 修改xml文件名字
 
-		cmsLog.info("Cms -> CmsTransaction -> saveImportPortalXmlToBjCms...");
+		cmsLog.debug("Cms -> CmsTransaction -> saveImportPortalXmlToBjCms...");
 		CmsResultDto cmsResultDto = new CmsResultDto();
 
 		try {
@@ -6330,12 +6324,12 @@ public class CmsTransactionManagerImpl implements ICmsTransactionManager {
 		}
 
 		cmsLog
-				.info("Cms -> CmsTransaction -> saveImportPortalXmlToBjCms returns.");
+				.debug("Cms -> CmsTransaction -> saveImportPortalXmlToBjCms returns.");
 		return cmsResultDto;
 	}
 
 	private int checkXmlContent(List<ProgListDetail> plds) {
-		cmsLog.info("Cms -> CmsTransaction -> checkXmlContent returns.");
+		cmsLog.debug("Cms -> CmsTransaction -> checkXmlContent returns.");
 		int ret = -1;
 
 		if (plds == null) {
@@ -6344,7 +6338,7 @@ public class CmsTransactionManagerImpl implements ICmsTransactionManager {
 
 		}
 
-		cmsLog.info("Cms -> CmsTransaction -> checkXmlContent returns.");
+		cmsLog.debug("Cms -> CmsTransaction -> checkXmlContent returns.");
 		return ret;
 	}
 
@@ -6405,7 +6399,7 @@ public class CmsTransactionManagerImpl implements ICmsTransactionManager {
 			IPPColumnRelManager pPColumnRelManager, List progPackages,
 			String columnclassid) {
 		cmsLog
-				.info("Cms -> CmsTransaction -> saveProgPackagesToPortalColumn...");
+				.debug("Cms -> CmsTransaction -> saveProgPackagesToPortalColumn...");
 		CmsResultDto cmsResultDto = new CmsResultDto();
 		// 1 - 判断栏目节点是否是叶子节点
 		// 1.1 - 是，继续
@@ -6484,7 +6478,7 @@ public class CmsTransactionManagerImpl implements ICmsTransactionManager {
 			cmsResultDto.setErrorMessage(str);
 		}
 		cmsLog
-				.info("Cms -> CmsTransaction -> saveProgPackagesToPortalColumn returns.");
+				.debug("Cms -> CmsTransaction -> saveProgPackagesToPortalColumn returns.");
 		return cmsResultDto;
 	}
 
@@ -6494,7 +6488,7 @@ public class CmsTransactionManagerImpl implements ICmsTransactionManager {
 			IPPColumnRelManager pPColumnRelManager, List progPackages,
 			String columnclassid) {
 		cmsLog
-				.info("Cms -> CmsTransaction -> deleteProgPackagesFromPortalColumn...");
+				.debug("Cms -> CmsTransaction -> deleteProgPackagesFromPortalColumn...");
 		CmsResultDto cmsResultDto = new CmsResultDto();
 		if (progPackages.size() > 0) {
 			// 1 - 查询删除栏目节目包关系
@@ -6571,7 +6565,7 @@ public class CmsTransactionManagerImpl implements ICmsTransactionManager {
 			cmsResultDto.setErrorMessage("节目包列表为空。");
 		}
 		cmsLog
-				.info("Cms -> CmsTransaction -> deleteProgPackagesFromPortalColumn returns.");
+				.debug("Cms -> CmsTransaction -> deleteProgPackagesFromPortalColumn returns.");
 		return cmsResultDto;
 	}
 
@@ -6592,7 +6586,7 @@ public class CmsTransactionManagerImpl implements ICmsTransactionManager {
 		// 1.2.4 - 修改服务父节点为非叶子节点
 		// PortalColumn
 
-		cmsLog.info("Cms -> CmsTransaction -> savePortalColumn...");
+		cmsLog.debug("Cms -> CmsTransaction -> savePortalColumn...");
 		CmsResultDto cmsResultDto = new CmsResultDto();
 		// 1 - 查询判断父节点，是否是叶子节点
 		List parents = portalColumnManager.findByProperty("defcatcode",
@@ -6673,7 +6667,7 @@ public class CmsTransactionManagerImpl implements ICmsTransactionManager {
 			cmsResultDto.setResultCode(Long.valueOf(1));
 			cmsResultDto.setErrorMessage(str);
 		}
-		cmsLog.info("Cms -> CmsTransaction -> savePortalColumn returns.");
+		cmsLog.debug("Cms -> CmsTransaction -> savePortalColumn returns.");
 		return cmsResultDto;
 	}
 
@@ -6864,7 +6858,7 @@ public class CmsTransactionManagerImpl implements ICmsTransactionManager {
 			String roleid, PortalColumn portalColumn, String inputmanid) {
 		// 所有叶子节点与角色的关系要保存
 
-		cmsLog.info("Cms -> CmsTransaction -> savePortalRoleOperRel...");
+		cmsLog.debug("Cms -> CmsTransaction -> savePortalRoleOperRel...");
 		CmsResultDto cmsResultDto = new CmsResultDto();
 		if (roleid == null || portalColumn == null) {
 			cmsLog.info("roleid == null || portalRoleOperRels == null");
@@ -6963,7 +6957,7 @@ public class CmsTransactionManagerImpl implements ICmsTransactionManager {
 				}
 			}
 		}
-		cmsLog.info("Cms -> CmsTransaction -> savePortalRoleOperRel returns.");
+		cmsLog.debug("Cms -> CmsTransaction -> savePortalRoleOperRel returns.");
 		return cmsResultDto;
 	}
 
@@ -6972,7 +6966,7 @@ public class CmsTransactionManagerImpl implements ICmsTransactionManager {
 			IPortalRoleOperRelManager portalRoleOperRelManager,
 			IRoleManager roleManager, IPortalColumnManager portalColumnManager,
 			String roleid, PortalColumn portalColumn, String inputmanid) {
-		cmsLog.info("Cms -> CmsTransaction -> deletePortalRoleOperRel...");
+		cmsLog.debug("Cms -> CmsTransaction -> deletePortalRoleOperRel...");
 		CmsResultDto cmsResultDto = new CmsResultDto();
 		if (roleid == null || portalColumn == null) {
 			cmsLog.info("roleid == null || portalRoleOperRels == null");
@@ -7015,7 +7009,7 @@ public class CmsTransactionManagerImpl implements ICmsTransactionManager {
 			cmsResultDto.setErrorMessage("角色栏目的关系不存在。");
 		}
 		cmsLog
-				.info("Cms -> CmsTransaction -> deletePortalRoleOperRel returns.");
+				.debug("Cms -> CmsTransaction -> deletePortalRoleOperRel returns.");
 		return cmsResultDto;
 	}
 
@@ -7038,7 +7032,7 @@ public class CmsTransactionManagerImpl implements ICmsTransactionManager {
 			String operator // 当前操作人员
 	) {
 		cmsLog
-				.info("Cms -> CmsTransaction -> saveGeneratePortalXmlForLocal...");
+				.debug("Cms -> CmsTransaction -> saveGeneratePortalXmlForLocal...");
 		CmsResultDto cmsResultDto = new CmsResultDto();
 
 		// 转换日期date(yyyy-MM-dd)为主键格式：yyyyMMdd000000
@@ -7412,7 +7406,7 @@ public class CmsTransactionManagerImpl implements ICmsTransactionManager {
 		}
 
 		cmsLog
-				.info("Cms -> CmsTransaction -> saveGeneratePortalXmlForLocal returns.");
+				.debug("Cms -> CmsTransaction -> saveGeneratePortalXmlForLocal returns.");
 		return cmsResultDto;
 	}
 
@@ -7425,7 +7419,7 @@ public class CmsTransactionManagerImpl implements ICmsTransactionManager {
 			IProgPackageManager progPackageManager, EncryptList encryptList, // 加扰任务
 			// List progListDetails // 栏目单详细
 			ProgPackage progPackage) {
-		cmsLog.info("Cms -> CmsTransaction -> saveEncryptTask...");
+		cmsLog.debug("Cms -> CmsTransaction -> saveEncryptTask...");
 		CmsResultDto cmsResultDto = new CmsResultDto();
 
 		if (encryptList == null || progPackage == null) {
@@ -7458,7 +7452,7 @@ public class CmsTransactionManagerImpl implements ICmsTransactionManager {
 		// }
 		cmsLog.info("Encryptid:" + encryptList.getEncryptid());
 		cmsResultDto.setResultObject(encryptList);
-		cmsLog.info("Cms -> CmsTransaction -> saveEncryptTask returns.");
+		cmsLog.debug("Cms -> CmsTransaction -> saveEncryptTask returns.");
 		return cmsResultDto;
 	}
 
@@ -7487,7 +7481,7 @@ public class CmsTransactionManagerImpl implements ICmsTransactionManager {
 		// 如果是视频，save文件存放位置表记录
 		// 如果是富媒体，压缩加扰后的文件夹，并save文件存放位置表记录
 		// 最后更新节目包的状态和处理状态
-		cmsLog.info("Cms -> CmsTransaction -> saveFinishEncrypt...");
+		cmsLog.debug("Cms -> CmsTransaction -> saveFinishEncrypt...");
 		CmsResultDto cmsResultDto = new CmsResultDto();
 
 		try {
@@ -7703,7 +7697,7 @@ public class CmsTransactionManagerImpl implements ICmsTransactionManager {
 			cmsResultDto.setResultCode(Long.valueOf(1));
 			cmsResultDto.setErrorMessage(str);
 		}
-		cmsLog.info("Cms -> CmsTransaction -> saveFinishEncrypt returns.");
+		cmsLog.debug("Cms -> CmsTransaction -> saveFinishEncrypt returns.");
 		return cmsResultDto;
 	}
 
@@ -7719,7 +7713,7 @@ public class CmsTransactionManagerImpl implements ICmsTransactionManager {
 		// 返回：ProgListFile progListFile
 
 		cmsLog
-				.info("Cms -> CmsTransaction -> saveProgListFileAmsStoragePrgRel...");
+				.debug("Cms -> CmsTransaction -> saveProgListFileAmsStoragePrgRel...");
 		CmsResultDto cmsResultDto = new CmsResultDto();
 
 		progListFileManager.save(progListFile);
@@ -7728,7 +7722,7 @@ public class CmsTransactionManagerImpl implements ICmsTransactionManager {
 		amsstorageprgrelManager.save(amsStoragePrgRel);
 		cmsResultDto.setResultObject(progListFile);
 		cmsLog
-				.info("Cms -> CmsTransaction -> saveProgListFileAmsStoragePrgRel returns.");
+				.debug("Cms -> CmsTransaction -> saveProgListFileAmsStoragePrgRel returns.");
 		return cmsResultDto;
 	}
 
@@ -7742,7 +7736,7 @@ public class CmsTransactionManagerImpl implements ICmsTransactionManager {
 	) {
 		// 返回：ProgListFile progListFile
 
-		cmsLog.info("Cms -> CmsTransaction -> saveProgListFile...");
+		cmsLog.debug("Cms -> CmsTransaction -> saveProgListFile...");
 		CmsResultDto cmsResultDto = new CmsResultDto();
 
 		if (defcatseq != null) {
@@ -7778,7 +7772,7 @@ public class CmsTransactionManagerImpl implements ICmsTransactionManager {
 		cmsLog.info("progListFile已经保存，ID：" + progListFile.getColumnfileid());
 
 		cmsResultDto.setResultObject(progListFile);
-		cmsLog.info("Cms -> CmsTransaction -> saveProgListFile returns.");
+		cmsLog.debug("Cms -> CmsTransaction -> saveProgListFile returns.");
 		return cmsResultDto;
 	}
 
@@ -7798,7 +7792,7 @@ public class CmsTransactionManagerImpl implements ICmsTransactionManager {
 			String result, // 迁移结果，"Y" - 成功；"N" - 失败
 			String resultDes // 失败原因
 	) {
-		cmsLog.info("Cms -> CmsTransaction -> saveFinishMigrationToOnline...");
+		cmsLog.debug("Cms -> CmsTransaction -> saveFinishMigrationToOnline...");
 		CmsResultDto cmsResultDto = new CmsResultDto();
 
 		amsstorageprgrelManager.save(amsStoragePrgRel);
@@ -7843,7 +7837,7 @@ public class CmsTransactionManagerImpl implements ICmsTransactionManager {
 				"", progPackage, 1);
 
 		cmsLog
-				.info("Cms -> CmsTransaction -> saveFinishMigrationToOnline returns.");
+				.debug("Cms -> CmsTransaction -> saveFinishMigrationToOnline returns.");
 		return cmsResultDto;
 	}
 
@@ -7864,7 +7858,7 @@ public class CmsTransactionManagerImpl implements ICmsTransactionManager {
 	// String resultDes // 失败原因
 	) {
 		cmsLog
-				.info("Cms -> CmsTransaction -> saveFinishMigrationToBjOnline...");
+				.debug("Cms -> CmsTransaction -> saveFinishMigrationToBjOnline...");
 		CmsResultDto cmsResultDto = new CmsResultDto();
 
 		amsstorageprgrelManager.save(amsStoragePrgRel);
@@ -7880,7 +7874,7 @@ public class CmsTransactionManagerImpl implements ICmsTransactionManager {
 				progPackage, 0);
 
 		cmsLog
-				.info("Cms -> CmsTransaction -> saveFinishMigrationToBjOnline returns.");
+				.debug("Cms -> CmsTransaction -> saveFinishMigrationToBjOnline returns.");
 		return cmsResultDto;
 	}
 
@@ -7900,7 +7894,7 @@ public class CmsTransactionManagerImpl implements ICmsTransactionManager {
 	// String resultDes // 失败原因
 	) {
 		cmsLog
-				.info("Cms -> CmsTransaction -> saveFinishMigrationImportDataToBjNearOnline...");
+				.debug("Cms -> CmsTransaction -> saveFinishMigrationImportDataToBjNearOnline...");
 		CmsResultDto cmsResultDto = new CmsResultDto();
 
 		amsstorageprgrelManager.save(amsStoragePrgRel);
@@ -7919,7 +7913,7 @@ public class CmsTransactionManagerImpl implements ICmsTransactionManager {
 		// 还需要修改分表总表的活动
 
 		cmsLog
-				.info("Cms -> CmsTransaction -> saveFinishMigrationImportDataToBjNearOnline returns.");
+				.debug("Cms -> CmsTransaction -> saveFinishMigrationImportDataToBjNearOnline returns.");
 		return cmsResultDto;
 	}
 
@@ -7939,7 +7933,7 @@ public class CmsTransactionManagerImpl implements ICmsTransactionManager {
 			String defcatseq, // 栏目的code序列
 			String operatorId) {
 		cmsLog
-				.info("Cms -> CmsTransaction -> saveProgListFileAndUpdateProgListMangDetail...");
+				.debug("Cms -> CmsTransaction -> saveProgListFileAndUpdateProgListMangDetail...");
 		CmsResultDto cmsResultDto = new CmsResultDto();
 
 		cmsResultDto = saveProgListFile(progListFileManager, progListFile,
@@ -8035,7 +8029,7 @@ public class CmsTransactionManagerImpl implements ICmsTransactionManager {
 		}
 
 		cmsLog
-				.info("Cms -> CmsTransaction -> saveProgListFileAndUpdateProgListMangDetail returns.");
+				.debug("Cms -> CmsTransaction -> saveProgListFileAndUpdateProgListMangDetail returns.");
 		return cmsResultDto;
 	}
 
@@ -8047,7 +8041,7 @@ public class CmsTransactionManagerImpl implements ICmsTransactionManager {
 			IPortalPackageManager portalPackageManager,
 			IPtpPgpRelManager ptpPgpRelManager, PortalPackage portalPackage,
 			List ptpPgpRels, String operatorId) {
-		cmsLog.info("Cms -> CmsTransaction -> savePortalPackage...");
+		cmsLog.debug("Cms -> CmsTransaction -> savePortalPackage...");
 		CmsResultDto cmsResultDto = new CmsResultDto();
 
 		Date date = new Date();
@@ -8067,7 +8061,7 @@ public class CmsTransactionManagerImpl implements ICmsTransactionManager {
 			cmsLog.info("页面包装与节目包关系已经保存。共" + ptpPgpRels.size() + "条记录。");
 		}
 
-		cmsLog.info("Cms -> CmsTransaction -> savePortalPackage returns.");
+		cmsLog.debug("Cms -> CmsTransaction -> savePortalPackage returns.");
 		return cmsResultDto;
 	}
 
@@ -8077,7 +8071,7 @@ public class CmsTransactionManagerImpl implements ICmsTransactionManager {
 			IPortalPackageManager portalPackageManager,
 			IPtpPgpRelManager ptpPgpRelManager, PortalPackage portalPackage,
 			List ptpPgpRels, String operatorId) {
-		cmsLog.info("Cms -> CmsTransaction -> updatePortalPackage...");
+		cmsLog.debug("Cms -> CmsTransaction -> updatePortalPackage...");
 		CmsResultDto cmsResultDto = new CmsResultDto();
 
 		Date date = new Date();
@@ -8107,7 +8101,7 @@ public class CmsTransactionManagerImpl implements ICmsTransactionManager {
 			cmsLog.info("页面包装与节目包关系已经保存。共" + ptpPgpRels.size() + "条记录。");
 		}
 
-		cmsLog.info("Cms -> CmsTransaction -> updatePortalPackage returns.");
+		cmsLog.debug("Cms -> CmsTransaction -> updatePortalPackage returns.");
 		return cmsResultDto;
 	}
 
@@ -8116,7 +8110,7 @@ public class CmsTransactionManagerImpl implements ICmsTransactionManager {
 	public CmsResultDto deletePortalPackage(
 			IPortalPackageManager portalPackageManager,
 			IPtpPgpRelManager ptpPgpRelManager, String ptpid, String operatorId) {
-		cmsLog.info("Cms -> CmsTransaction -> deletePortalPackage...");
+		cmsLog.debug("Cms -> CmsTransaction -> deletePortalPackage...");
 		CmsResultDto cmsResultDto = new CmsResultDto();
 
 		cmsLog.info("准备删除页面包装...页面包装ID：" + ptpid);
@@ -8131,7 +8125,7 @@ public class CmsTransactionManagerImpl implements ICmsTransactionManager {
 		portalPackageManager.deleteById(ptpid);
 		cmsLog.info("页面包装记录已经删除。");
 
-		cmsLog.info("Cms -> CmsTransaction -> deletePortalPackage returns.");
+		cmsLog.debug("Cms -> CmsTransaction -> deletePortalPackage returns.");
 		return cmsResultDto;
 	}
 
@@ -8145,7 +8139,7 @@ public class CmsTransactionManagerImpl implements ICmsTransactionManager {
 			List ptpPgpRels, // 页面包装与节目包关系对象
 			String operatorId // 操作人员ID
 	) {
-		cmsLog.info("Cms -> CmsTransaction -> savePtpPgpRels...");
+		cmsLog.debug("Cms -> CmsTransaction -> savePtpPgpRels...");
 		CmsResultDto cmsResultDto = new CmsResultDto();
 
 		String str = "";
@@ -8223,7 +8217,7 @@ public class CmsTransactionManagerImpl implements ICmsTransactionManager {
 			cmsResultDto.setErrorMessage(str);
 		}
 
-		cmsLog.info("Cms -> CmsTransaction -> savePtpPgpRels returns.");
+		cmsLog.debug("Cms -> CmsTransaction -> savePtpPgpRels returns.");
 		return cmsResultDto;
 	}
 
@@ -8235,7 +8229,7 @@ public class CmsTransactionManagerImpl implements ICmsTransactionManager {
 			List ptpPgpRels, // 页面包装与节目包关系对象
 			String operatorId // 操作人员ID
 	) {
-		cmsLog.info("Cms -> CmsTransaction -> deletePtpPgpRels...");
+		cmsLog.debug("Cms -> CmsTransaction -> deletePtpPgpRels...");
 		CmsResultDto cmsResultDto = new CmsResultDto();
 		String str = "";
 
@@ -8274,7 +8268,7 @@ public class CmsTransactionManagerImpl implements ICmsTransactionManager {
 			cmsResultDto.setErrorMessage(str);
 		}
 
-		cmsLog.info("Cms -> CmsTransaction -> deletePtpPgpRels returns.");
+		cmsLog.debug("Cms -> CmsTransaction -> deletePtpPgpRels returns.");
 		return cmsResultDto;
 	}
 
@@ -8294,7 +8288,7 @@ public class CmsTransactionManagerImpl implements ICmsTransactionManager {
 	public void updateRollBack(IProgListMangManager progListMangManager,
 			IProgListMangDetailManager progListMangDetailManager,
 			IBpmcManager bpmcManager, String date, String inputid, String remark) {
-		cmsLog.info("cms -> CmsTransaction -> updateRollBack. 流程回退");
+		cmsLog.debug("Cms -> CmsTransaction -> updateRollBack. 流程回退");
 
 		String pkid = convertDateToScheduleDate(date);
 
@@ -9078,7 +9072,7 @@ public class CmsTransactionManagerImpl implements ICmsTransactionManager {
 		cmsResultDto.setResultObject(renames);
 
 		cmsLog
-				.info("Cms -> CmsTransaction -> saveImportProgPackageFilesToBjCms2 returns.");
+				.debug("Cms -> CmsTransaction -> saveImportProgPackageFilesToBjCms2 returns.");
 		return cmsResultDto;
 	}
 	

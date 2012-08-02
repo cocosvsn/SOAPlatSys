@@ -2,10 +2,16 @@ package com.soaplat.cmsmgr.service;
 
 import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
+import org.apache.commons.lang.ArrayUtils;
 import org.apache.log4j.Logger;
+
+import cn.sh.sbl.cms.listener.ServerConfigListener;
 
 import com.soaplat.cmsmgr.bean.CmsSite;
 import com.soaplat.cmsmgr.bean.PortalColumn;
@@ -68,38 +74,63 @@ public class SiteService {
 		 * 参数检测
 		 */
 		// 检测品牌名称
-		if (!ParamCheck.hasText(cmsSite.getSitename(), "品牌名称不能为空, 至少包含一个非空字符!")
-				|| !ParamCheck.lessThenOrEqualToLength(cmsSite.getSitename(), 255, "品牌名称长度超出255字符!")) {
+		if (!ParamCheck.hasText(cmsSite.getSitename(), "用户分组名称不能为空, 至少包含一个非空字符!")
+				|| !ParamCheck.lessThenOrEqualToLength(cmsSite.getSitename(), 255, "用户分组名称长度超出255字符!")) {
 			logger.info(ParamCheck.getErrMsg());
 			return ParamCheck.getErrMsg();
 		}
 		// 检测品牌Code
-		if (!ParamCheck.hasText(cmsSite.getSiteCode(), "品牌Code不能为空, 至少包含一个非空字符!")
-				|| !ParamCheck.lessThenOrEqualToLength(cmsSite.getSiteCode(), 255, "品牌Code长度超出255字符!")) {
+		if (!ParamCheck.hasText(cmsSite.getSiteCode(), "用户分组Code不能为空, 至少包含一个非空字符!")
+				|| !ParamCheck.lessThenOrEqualToLength(cmsSite.getSiteCode(), 255, "用户分组Code长度超出255字符!")) {
 			logger.info(ParamCheck.getErrMsg());
 			return ParamCheck.getErrMsg();
 		}
 		// 检测品牌节目预告文件名
-		if (!ParamCheck.hasText(cmsSite.getEpgpath(), "节目预告文件名不能为空, 至少包含一个非空字符!")
-				|| !ParamCheck.lessThenOrEqualToLength(cmsSite.getEpgpath(), 255, "节目预告文件名长度超出255字符!")) {
-			logger.info(ParamCheck.getErrMsg());
-			return ParamCheck.getErrMsg();
-		}
+//		if (!ParamCheck.hasText(cmsSite.getEpgpath(), "节目预告文件名不能为空, 至少包含一个非空字符!")
+//				|| !ParamCheck.lessThenOrEqualToLength(cmsSite.getEpgpath(), 255, "节目预告文件名长度超出255字符!")) {
+//			logger.info(ParamCheck.getErrMsg());
+//			return ParamCheck.getErrMsg();
+//		}
 		// 检测品牌Code或节目包预告文件名是否存在
 		if (this.cmsSiteManager.isExistsSite(cmsSite)) {
-			logger.warn("品牌Code或节目包预告文件名已存在!");
-			return "品牌Code或节目包预告文件名已存在, 请重新输入!";
+			logger.warn("用户分组Code已存在!");
+			return "用户分组Code已存在, 请重新输入!";
+		}
+		
+		List descPath = this.packageFilesManager.getDestPathByFilecodeStclasscode(
+				"d_column", "Online");
+		if (null == descPath || 2 > descPath.size()) {
+			logger.warn(" 查询一级库JS目录失败! ");
+			throw new NullPointerException(" 查询一级库JS目录失败! ");
+		}
+		String onlineJsPath = (String) descPath.get(0);
+		onlineJsPath = onlineJsPath.substring(0, onlineJsPath.indexOf("D_COLUMN"));         //fileOperationImpl.checkPathFormatRear(onlineJsPath, '/');
+		if (null == cmsSite.getFilepath() || 1 > cmsSite.getFilepath().trim().length()) {
+			fileOperationImpl.checkSmbDir(onlineJsPath + cmsSite.getSiteCode() + "/");
+		} else {
+			String[] fileNames = cmsSite.getFilepath().split(";");
+			for (String string : fileNames) {
+				if(0 != fileOperationImpl.copyFileFromLocalToSmb(
+						ServerConfigListener.TEMP_PATH + string, 
+						onlineJsPath + cmsSite.getSiteCode() + "/" + string)) {
+					return "添加分组失败, 文件拷贝错误!";
+				}
+			}
 		}
 		
 		try {
 			cmsSite.setUpdateTime(new Date());
 			this.cmsSiteManager.saveCmsSite(cmsSite);
-			this.portalColumnManager.updateRootTime();
-			this.generateSiteJS();
+//			this.portalColumnManager.updateRootTime();
+//			this.generateSiteJS();
+//			if (null == cmsSite.getFilepath() 
+//					|| 1 > cmsSite.getFilepath().trim().length()) {
+//				return "用户分组添加成功, 但未上传用户分组文件!";
+//			}
 			return null;
 		} catch (Exception e) {
-			logger.info("品牌添加失败: " + e.getMessage());
-			return " 品牌添加失败! ";
+			logger.info("用户分组添加失败: " + e);
+			return " 用户分组添加失败! ";
 		}
 	}
 	
@@ -109,26 +140,35 @@ public class SiteService {
 		}
 		CmsSite cmsSite = null;
 		try {
-			List<ProgProduct> products = this.getProgProducts(id);
-			logger.debug("products.size(): " + products.size());
-			if (0 < products.size()) {
-				return "品牌正在被产品包使用中, 不允许删除!";
-			} else {
+//			List<ProgProduct> products = this.getProgProducts(id);
+//			logger.debug("products.size(): " + products.size());
+//			if (0 < products.size()) {
+//				return "用户分组正在被产品包使用中, 不允许删除!";
+//			} else {
 				cmsSite = (CmsSite) this.cmsSiteManager.getById(id);
-				List<PortalColumn> columns = this.portalColumnManager.getPortalColumnsBySiteCode(
-						cmsSite.getSiteCode());
-				if (0 < columns.size()) {
-					return "品牌正在被栏目使用中, 不允许删除!";
-				}
-			}
+//				List<PortalColumn> columns = this.portalColumnManager.getPortalColumnsBySiteCode(
+//						cmsSite.getSiteCode());
+//				if (0 < columns.size()) {
+//					return "用户分组正在被栏目使用中, 不允许删除!";
+//				}
+//			}
 			
 			this.cmsSiteManager.deleteCmsSite(cmsSite);
-			this.portalColumnManager.updateRootTime();
-			this.generateSiteJS();
+			List descPath = this.packageFilesManager.getDestPathByFilecodeStclasscode(
+					"d_column", "Online");
+			if (null == descPath || 2 > descPath.size()) {
+				logger.warn(" 查询一级库JS目录失败! ");
+				throw new NullPointerException(" 查询一级库JS目录失败! ");
+			}
+			String onlineJsPath = (String) descPath.get(0);
+			onlineJsPath = onlineJsPath.substring(0, onlineJsPath.indexOf("D_COLUMN"));
+			fileOperationImpl.deleteSmbFile(onlineJsPath + cmsSite.getSiteCode() + "/");
+//			this.portalColumnManager.updateRootTime();
+//			this.generateSiteJS();
 			return null;
 		} catch (Exception e) {
-			logger.info("品牌删除失败: " + e.getMessage());
-			return " 品牌删除失败! ";
+			logger.info("用户分组删除失败: ", e);
+			return " 用户分组删除失败! ";
 		}
 	}
 	
@@ -147,50 +187,94 @@ public class SiteService {
 		 * 参数检测
 		 */
 		// 检测品牌名称
-		if (!ParamCheck.hasText(cmsSite.getSitename(), "品牌名称不能为空, 至少包含一个非空字符!")
-				|| !ParamCheck.lessThenOrEqualToLength(cmsSite.getSitename(), 255, "品牌名称长度超出255字符!")) {
+		if (!ParamCheck.hasText(cmsSite.getSitename(), "用户分组名称不能为空, 至少包含一个非空字符!")
+				|| !ParamCheck.lessThenOrEqualToLength(cmsSite.getSitename(), 255, "用户分组名称长度超出255字符!")) {
 			logger.info(ParamCheck.getErrMsg());
 			return ParamCheck.getErrMsg();
 		}
 		// 检测品牌Code
-		if (!ParamCheck.hasText(cmsSite.getSiteCode(), "品牌Code不能为空, 至少包含一个非空字符!")
-				|| !ParamCheck.lessThenOrEqualToLength(cmsSite.getSiteCode(), 255, "品牌Code长度超出255字符!")) {
+		if (!ParamCheck.hasText(cmsSite.getSiteCode(), "用户分组Code不能为空, 至少包含一个非空字符!")
+				|| !ParamCheck.lessThenOrEqualToLength(cmsSite.getSiteCode(), 255, "用户分组Code长度超出255字符!")) {
 			logger.info(ParamCheck.getErrMsg());
 			return ParamCheck.getErrMsg();
 		}
 		// 检测品牌节目预告文件名
-		if (!ParamCheck.hasText(cmsSite.getEpgpath(), "节目预告文件名不能为空, 至少包含一个非空字符!")
-				|| !ParamCheck.lessThenOrEqualToLength(cmsSite.getEpgpath(), 255, "节目预告文件名长度超出255字符!")) {
-			logger.info(ParamCheck.getErrMsg());
-			return ParamCheck.getErrMsg();
+//		if (!ParamCheck.hasText(cmsSite.getEpgpath(), "节目预告文件名不能为空, 至少包含一个非空字符!")
+//				|| !ParamCheck.lessThenOrEqualToLength(cmsSite.getEpgpath(), 255, "节目预告文件名长度超出255字符!")) {
+//			logger.info(ParamCheck.getErrMsg());
+//			return ParamCheck.getErrMsg();
+//		}
+		
+		List descPath = this.packageFilesManager.getDestPathByFilecodeStclasscode(
+				"d_column", "Online");
+		if (null == descPath || 2 > descPath.size()) {
+			logger.warn(" 查询一级库JS目录失败! ");
+			throw new NullPointerException(" 查询一级库JS目录失败! ");
 		}
-		// 检测品牌Code或节目包预告文件名是否存在
-		if (this.cmsSiteManager.isExistsSite(cmsSite)) {
-			logger.warn("品牌Code或节目包预告文件名已存在!");
-			return "品牌Code或节目包预告文件名已存在, 请重新输入!";
+		String onlineJsPath = (String) descPath.get(0);
+		onlineJsPath = onlineJsPath.substring(0, onlineJsPath.indexOf("D_COLUMN"));         //fileOperationImpl.checkPathFormatRear(onlineJsPath, '/');
+		String[] fileNames = null == cmsSite.getFilepath() || 1 > cmsSite.getFilepath().trim().length()
+				? new String[] {} : cmsSite.getFilepath().split(";");
+		for (String string : fileNames) {
+			if(0 != fileOperationImpl.copyFileFromLocalToSmb(
+					ServerConfigListener.TEMP_PATH + string, 
+					onlineJsPath + cmsSite.getSiteCode() + "/" + string)) {
+				return "修改分组失败, 文件拷贝错误!";
+			}
 		}
 		
 		try {
-			List<ProgProduct> products = this.getProgProducts(cmsSite
-					.getSiteid());
+//			List<ProgProduct> products = this.getProgProducts(cmsSite
+//					.getSiteid());
 			CmsSite oldCmsSite = (CmsSite) this.cmsSiteManager.getById(cmsSite
 					.getSiteid());
-			List<PortalColumn> columns = this.portalColumnManager
-					.getPortalColumnsBySiteCode(cmsSite.getSiteCode());
-			if ((0 < columns.size() || 0 < products.size())
-					&& !oldCmsSite.getSiteCode().equals(cmsSite.getSiteCode())) {
-				return "品牌正在使用中, 不允许修改品牌Code";
-			} else {
-				cmsSite.setUpdateTime(new Date());
-				this.cmsSiteManager.updateCmsSite(cmsSite);
-				this.portalColumnManager.updateRootTime();
+			if (!oldCmsSite.getSiteCode().equals(cmsSite.getSiteCode())) {
+				// 检测品牌Code或节目包预告文件名是否存在
+				if (this.cmsSiteManager.isExistsSite(cmsSite)) {
+					logger.warn("用户分组Code已存在!");
+					return "用户分组Code已存在, 请重新输入!";
+				}
 			}
+//			List<PortalColumn> columns = this.portalColumnManager
+//					.getPortalColumnsBySiteCode(cmsSite.getSiteCode());
+//			if (0 < columns.size()
+//					&& !oldCmsSite.getSiteCode().equals(cmsSite.getSiteCode())) {
+//				return "用户分组正在使用中, 不允许修改用户分组Code";
+//			} else {
+			if (null == cmsSite.getFilepath()
+					|| 1 > cmsSite.getFilepath().trim().length()) {
+				logger.debug("修改用户分组时未上传文件, 不修改filepath, 原filepath=" + oldCmsSite.getFilepath());
+				cmsSite.setFilepath(oldCmsSite.getFilepath());
+			} else {
+				Set<String> fileNameSet = new HashSet<String>();
+				fileNameSet.addAll(Arrays.asList(fileNames));
+				if (null != oldCmsSite.getFilepath()) {
+					fileNameSet.addAll(Arrays.asList(oldCmsSite.getFilepath().split(";")));
+				}
+				String filepath = "";
+				for (String string : fileNameSet) {
+					filepath += string + ";";
+				}
+				cmsSite.setFilepath(filepath);
+			}
+			cmsSite.setUpdateTime(new Date());
+			this.cmsSiteManager.updateCmsSite(cmsSite);
+//				this.portalColumnManager.updateRootTime();
+//			}
 
-			this.generateSiteJS();
+//			if (null != oldCmsSite.getFilepath()
+//					&& !oldCmsSite.getFilepath().equalsIgnoreCase(cmsSite.getFilepath())) {
+//				
+//			}
+//			if (null == cmsSite.getFilepath()
+//					|| 1 > cmsSite.getFilepath().trim().length()) {
+//				return "用户分组修改成功, 未上传新的用户分组文件!";
+//			}
+//			this.generateSiteJS();
 			return null;
 		} catch (Exception e) {
-			logger.debug("品牌修改失败: " + e.getMessage());
-			return " 品牌修改失败! ";
+			logger.info("用户分组修改失败: " + e);
+			return " 用户分组修改失败! ";
 		}
 	}
 
@@ -208,7 +292,7 @@ public class SiteService {
 			this.generateSiteJS();
 			return null;
 		} catch (Exception e) {
-			logger.debug("品牌产品关系添加失败: " + e.getMessage());
+			logger.info("品牌产品关系添加失败: " + e);
 			return " 品牌产品关系添加失败! ";
 		}
 	}

@@ -124,7 +124,7 @@ public class MigrationServiceImpl implements MigrationServiceIface {
 			String result,					// 迁移结果，"Y" - 成功；"N" - 失败
 			String resultDes				// 失败原因
 	) {
-		cmsLog.info("Cms -> MigrationServiceImpl -> finishMigrationToBjOnline...");
+		cmsLog.debug("Cms -> MigrationServiceImpl -> finishMigrationToBjOnline...");
 		CmsResultDto cmsResultDto = new CmsResultDto();
 		
 		// 配置文件，获取
@@ -186,7 +186,7 @@ public class MigrationServiceImpl implements MigrationServiceIface {
 			cmsResultDto.setErrorMessage(str);
 			cmsLog.warn(str);
 		}
-		cmsLog.info("Cms -> MigrationServiceImpl -> finishMigrationToBjOnline returns.");
+		cmsLog.debug("Cms -> MigrationServiceImpl -> finishMigrationToBjOnline returns.");
 		return cmsResultDto;
 	}
 	
@@ -210,7 +210,7 @@ public class MigrationServiceImpl implements MigrationServiceIface {
 		// 2 - 数据导入@北京
 		// 3 - 节目录入@上海
 		
-		cmsLog.info("Cms -> MigrationServiceImpl -> generateMigrationForExportData...");
+		cmsLog.debug("Cms -> MigrationServiceImpl -> generateMigrationForExportData...");
 		CmsResultDto cmsResultDto = new CmsResultDto();
 		
 		// 配置文件，获取
@@ -786,7 +786,7 @@ public class MigrationServiceImpl implements MigrationServiceIface {
 			cmsLog.error(str);
 		}
 
-		cmsLog.info("Cms -> MigrationServiceImpl -> generateMigrationForExportData returns.");
+		cmsLog.debug("Cms -> MigrationServiceImpl -> generateMigrationForExportData returns.");
 		return cmsResultDto;
 	}
 	
@@ -820,7 +820,7 @@ public class MigrationServiceImpl implements MigrationServiceIface {
 		// 2 - 数据导入@北京
 		// 3 - 节目录入@上海
 		
-		cmsLog.info("Cms -> MigrationServiceImpl -> generateMigration...");
+		cmsLog.debug("Cms -> MigrationServiceImpl -> generateMigration...");
 		String scheduledate = convertDateToScheduleDate(date);
 		
 		// 配置文件，获取
@@ -1430,7 +1430,7 @@ public class MigrationServiceImpl implements MigrationServiceIface {
 			cmsLog.info("生成迁移单xml文件失败。目标路径：" + destpathMigration + xmlFilename);
 			return 1;
 		}
-		cmsLog.info("Cms -> MigrationServiceImpl -> generateMigration returns.");
+		cmsLog.debug("Cms -> MigrationServiceImpl -> generateMigration returns.");
 		return 0;
 	}
 	
@@ -1440,7 +1440,7 @@ public class MigrationServiceImpl implements MigrationServiceIface {
 			String date,					// 编单日期，格式：yyyy-MM-dd
 			String operatorId				// 操作人员ID
 	) {
-		cmsLog.info("Cms -> MigrationServiceImpl -> refreshRichMediaProgPackageStates...");
+		cmsLog.debug("Cms -> MigrationServiceImpl -> refreshRichMediaProgPackageStates...");
 		
 		List plds = progListDetailManager.getProgListDetailsProgPackagesByDateAndDefcatseq(
 				date, "");
@@ -1469,7 +1469,7 @@ public class MigrationServiceImpl implements MigrationServiceIface {
 			}
 		}
 
-		cmsLog.info("Cms -> MigrationServiceImpl -> refreshRichMediaProgPackageStates returns.");
+		cmsLog.debug("Cms -> MigrationServiceImpl -> refreshRichMediaProgPackageStates returns.");
 		return 0;
 	}
 	
@@ -1483,7 +1483,7 @@ public class MigrationServiceImpl implements MigrationServiceIface {
 		// 1 - 迁移至播发库@北京； 
 		// 2 - 数据导入@北京
 		// 3 - 节目录入@上海
-		cmsLog.info("Cms -> MigrationServiceImpl -> generateMigrationToOnline...");
+		cmsLog.debug("Cms -> MigrationServiceImpl -> generateMigrationToOnline...");
 		CmsResultDto cmsResultDto = new CmsResultDto();
 
 		// 北京修改
@@ -1523,7 +1523,7 @@ public class MigrationServiceImpl implements MigrationServiceIface {
 			cmsLog.info(str);
 		}
 
-		cmsLog.info("Cms -> MigrationServiceImpl -> generateMigrationToOnline returns.");
+		cmsLog.debug("Cms -> MigrationServiceImpl -> generateMigrationToOnline returns.");
 		return cmsResultDto;
 	}
 	
@@ -1687,13 +1687,13 @@ public class MigrationServiceImpl implements MigrationServiceIface {
 			String result,					// 迁移结果，"Y" - 成功；"N" - 失败
 			String resultDes				// 失败原因
 	) {
-		cmsLog.info("Cms -> MigrationServiceImpl -> finishMigrationToOnline...");
+		cmsLog.debug("Cms -> MigrationServiceImpl -> finishMigrationToOnline...");
 		CmsResultDto cmsResultDto = new CmsResultDto();
 		
 		cmsResultDto = this.migrationModuleManager.updateFinishMigrationFromCaonlineToOnline_123(
 				transferEntity, result, resultDes);
 		
-		cmsLog.info("Cms -> MigrationServiceImpl -> finishMigrationToOnline returns.");
+		cmsLog.debug("Cms -> MigrationServiceImpl -> finishMigrationToOnline returns.");
 		return cmsResultDto;
 	}
 
@@ -1704,7 +1704,7 @@ public class MigrationServiceImpl implements MigrationServiceIface {
 			String result,					// 迁移结果，"Y" - 成功；"N" - 失败
 			String resultDes				// 失败原因
 	) {
-		cmsLog.info("Cms -> MigrationServiceImpl -> finishMigrationImportDataToBjNearOnline...");
+		cmsLog.debug("Cms -> MigrationServiceImpl -> finishMigrationImportDataToBjNearOnline...");
 		CmsResultDto cmsResultDto = new CmsResultDto();
 		
 		// 配置文件，获取
@@ -1770,7 +1770,7 @@ public class MigrationServiceImpl implements MigrationServiceIface {
 			cmsResultDto.setErrorMessage(str);
 			cmsLog.info(str);
 		}
-		cmsLog.info("Cms -> MigrationServiceImpl -> finishMigrationImportDataToBjNearOnline returns.");
+		cmsLog.debug("Cms -> MigrationServiceImpl -> finishMigrationImportDataToBjNearOnline returns.");
 		return cmsResultDto;
 	}
 
@@ -1784,7 +1784,7 @@ public class MigrationServiceImpl implements MigrationServiceIface {
 			String filePath,				// 目标文件的filePath
 			String destStclasscode			// 目标文件的存储体等级code
 	) {
-		cmsLog.info("Cms -> MigrationServiceImpl -> generateMigrationForProgram...");
+		cmsLog.debug("Cms -> MigrationServiceImpl -> generateMigrationForProgram...");
 		CmsResultDto cmsResultDto = new CmsResultDto();
 		
 		// 0 - 数据导出@上海； 
@@ -2207,7 +2207,7 @@ public class MigrationServiceImpl implements MigrationServiceIface {
 			cmsLog.error(str);
 		}
 
-		cmsLog.info("Cms -> MigrationServiceImpl -> generateMigrationForProgram returns.");
+		cmsLog.debug("Cms -> MigrationServiceImpl -> generateMigrationForProgram returns.");
 		return cmsResultDto;
 	}
 	
@@ -2218,7 +2218,7 @@ public class MigrationServiceImpl implements MigrationServiceIface {
 			String result,					// 迁移结果，"Y" - 成功；"N" - 失败
 			String resultDes				// 失败原因
 	) {
-		cmsLog.info("Cms -> MigrationServiceImpl -> finishMigrationForProgram...");
+		cmsLog.debug("Cms -> MigrationServiceImpl -> finishMigrationForProgram...");
 		CmsResultDto cmsResultDto = new CmsResultDto();
 		
 		// 配置文件，获取
@@ -2320,7 +2320,7 @@ public class MigrationServiceImpl implements MigrationServiceIface {
 			cmsLog.warn(str);
 		}
 
-		cmsLog.info("Cms -> MigrationServiceImpl -> finishMigrationForProgram returns.");
+		cmsLog.debug("Cms -> MigrationServiceImpl -> finishMigrationForProgram returns.");
 		return cmsResultDto;
 	}
 

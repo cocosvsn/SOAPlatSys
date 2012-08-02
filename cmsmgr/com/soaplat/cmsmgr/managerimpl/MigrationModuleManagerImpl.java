@@ -316,7 +316,7 @@ public class MigrationModuleManagerImpl implements IMigrationModuleManager {
 	@SuppressWarnings("unchecked")
 	private TransferDistribution dealXmlFromMigrationModule(String strXml)
 	{
-		cmsLog.info("Cms -> MigrationModuleManagerImpl -> dealXmlFromMigrationModule...");
+		cmsLog.debug("Cms -> MigrationModuleManagerImpl -> dealXmlFromMigrationModule...");
 		TransferDistribution transferDistribution = new TransferDistribution();
 		
 			
@@ -454,7 +454,7 @@ public class MigrationModuleManagerImpl implements IMigrationModuleManager {
 			transferDistribution = null;
 		}
 
-		cmsLog.info("Cms -> MigrationModuleManagerImpl -> dealXmlFromMigrationModule returns.");
+		cmsLog.debug("Cms -> MigrationModuleManagerImpl -> dealXmlFromMigrationModule returns.");
 		return transferDistribution;
 	}
 	
@@ -582,7 +582,7 @@ public class MigrationModuleManagerImpl implements IMigrationModuleManager {
 			String result				// 此次操作结果： "Y" - 成功； "N" - 失败
 			)
 	{
-		cmsLog.info("Cms -> MigrationModuleManagerImpl -> updateRefreshStateOfProgPackage...");
+		cmsLog.debug("Cms -> MigrationModuleManagerImpl -> updateRefreshStateOfProgPackage...");
 		CmsResultDto cmsResultDto = new CmsResultDto();
 		
 		/**
@@ -941,7 +941,7 @@ public class MigrationModuleManagerImpl implements IMigrationModuleManager {
 			cmsLog.warn(str);
 		}	
 		
-		cmsLog.info("Cms -> MigrationModuleManagerImpl -> updateRefreshStateOfProgPackage returns.");
+		cmsLog.debug("Cms -> MigrationModuleManagerImpl -> updateRefreshStateOfProgPackage returns.");
 		return cmsResultDto;
 	}
 	
@@ -960,7 +960,7 @@ public class MigrationModuleManagerImpl implements IMigrationModuleManager {
 			String productInfoId
 			)
 	{
-		cmsLog.info("Cms -> MigrationModuleManagerImpl -> updateRefreshStateOfProgPackage...");
+		cmsLog.debug("Cms -> MigrationModuleManagerImpl -> updateRefreshStateOfProgPackage...");
 		CmsResultDto cmsResultDto = new CmsResultDto();
 		
 		/**
@@ -1523,7 +1523,7 @@ public class MigrationModuleManagerImpl implements IMigrationModuleManager {
 			cmsLog.warn(str);
 		}	
 		
-		cmsLog.info("Cms -> MigrationModuleManagerImpl -> updateRefreshStateOfProgPackage returns.");
+		cmsLog.debug("Cms -> MigrationModuleManagerImpl -> updateRefreshStateOfProgPackage returns.");
 		return cmsResultDto;
 	}
 

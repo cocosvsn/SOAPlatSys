@@ -150,7 +150,7 @@ public class CmsSiteManagerImpl implements ICmsSiteManager {
 	 * @param cmsSites
 	 */
 	public synchronized void saveCmsSite(CmsSite... cmsSites) {
-		String tempCurrMaxPk = this.baseDAO.getMaxPropertyValue("ProgProduct", "id");
+		String tempCurrMaxPk = this.baseDAO.getMaxPropertyValue("CmsSite", "id");
 		Long currMaxPk = "".equals(tempCurrMaxPk) ? 0 : Long.valueOf(tempCurrMaxPk.substring(2));
 		for (CmsSite cmsSite : cmsSites) {
 			cmsSite.setSiteid("CS" + String.format("%08d", ++currMaxPk));
@@ -220,9 +220,9 @@ public class CmsSiteManagerImpl implements ICmsSiteManager {
 		if (this.baseDAO.isExist("CmsSite", "siteCode", cmsSite.getSiteCode())) {
 			return true;
 		}
-		if (this.baseDAO.isExist("CmsSite", "epgpath", cmsSite.getEpgpath())) {
-			return true;
-		}
+//		if (this.baseDAO.isExist("CmsSite", "epgpath", cmsSite.getEpgpath())) {
+//			return true;
+//		}
 		return false;
 	} 
 	

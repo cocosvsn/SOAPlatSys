@@ -200,7 +200,7 @@ public class BroadcastListXmlService implements IBroadcastListXmlService {
 			String operatorId, // 操作人员id
 			String plandate // 计划播发日期，格式："yyyy-MM-dd HH:mm:ss"
 	) {
-		cmsLog.info("Cms -> BroadcastListXmlService -> BroadcastListXml...");
+		cmsLog.debug("Cms -> BroadcastListXmlService -> BroadcastListXml...");
 		CmsResultDto cmsResultDto = new CmsResultDto();
 
 		// 修改新接口，20100408 14:16
@@ -215,7 +215,7 @@ public class BroadcastListXmlService implements IBroadcastListXmlService {
 
 
 		cmsLog
-				.info("Cms -> BroadcastListXmlService -> BroadcastListXml returns.");
+				.debug("Cms -> BroadcastListXmlService -> BroadcastListXml returns.");
 		return cmsResultDto;
 	}
 
@@ -234,7 +234,7 @@ public class BroadcastListXmlService implements IBroadcastListXmlService {
 		// 播发单下发完成，保存发布文件表记录progListfile，并且发送活动 86-->87 播放单生成成功，发送
 
 		cmsLog
-				.info("Cms -> BroadcastListXmlService -> generateBroadcastXml...");
+				.debug("Cms -> BroadcastListXmlService -> generateBroadcastXml...");
 		CmsResultDto cmsResultDto = new CmsResultDto();
 
 		// 配置文件库中
@@ -645,7 +645,7 @@ public class BroadcastListXmlService implements IBroadcastListXmlService {
 		}
 
 		cmsLog
-				.info("Cms -> BroadcastListXmlService -> generateBroadcastXml returns.");
+				.debug("Cms -> BroadcastListXmlService -> generateBroadcastXml returns.");
 		return cmsResultDto;
 	}
 
@@ -654,7 +654,7 @@ public class BroadcastListXmlService implements IBroadcastListXmlService {
 	@SuppressWarnings("rawtypes")
 	private CmsResultDto generateBroadcastStr(BroadcastXml broadcastXml, String date) {
 		cmsLog
-				.info("Cms -> BroadcastListXmlService -> generateBroadcastStr...");
+				.debug("Cms -> BroadcastListXmlService -> generateBroadcastStr...");
 		CmsResultDto cmsResultDto = new CmsResultDto();
 
 		String strxml = "";
@@ -977,7 +977,7 @@ public class BroadcastListXmlService implements IBroadcastListXmlService {
 		}
 
 		cmsLog
-				.info("Cms -> PortalServiceImpl -> generateBroadcastStr returns.");
+				.debug("Cms -> PortalServiceImpl -> generateBroadcastStr returns.");
 		return cmsResultDto;
 	}
 
@@ -985,7 +985,7 @@ public class BroadcastListXmlService implements IBroadcastListXmlService {
 	// 修改加扰任务单的PushVod ID为proglistfile数据库记录id
 	// 生成xml文件内容字符串之后..
 	private CmsResultDto updateBroadcastXml(String columnfileid) {
-		cmsLog.info("Cms -> BroadcastListXmlService -> updateBroadcastXml...");
+		cmsLog.debug("Cms -> BroadcastListXmlService -> updateBroadcastXml...");
 		CmsResultDto cmsResultDto = new CmsResultDto();
 
 		try {
@@ -1024,7 +1024,7 @@ public class BroadcastListXmlService implements IBroadcastListXmlService {
 							+ e.getMessage());
 		}
 		cmsLog
-				.info("Cms -> BroadcastListXmlService -> updateBroadcastXml returns.");
+				.debug("Cms -> BroadcastListXmlService -> updateBroadcastXml returns.");
 		return cmsResultDto;
 	}
 

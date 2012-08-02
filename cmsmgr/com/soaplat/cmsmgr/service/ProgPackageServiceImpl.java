@@ -44,7 +44,6 @@ import com.soaplat.cmsmgr.bean.ProgType;
 import com.soaplat.cmsmgr.bean.ProgramFiles;
 import com.soaplat.cmsmgr.bean.ProgramInfo;
 import com.soaplat.cmsmgr.bean.TProductInfo;
-import com.soaplat.cmsmgr.common.CmsConfig;
 import com.soaplat.cmsmgr.common.FileOperationImpl;
 import com.soaplat.cmsmgr.dto.CmsResultDto;
 import com.soaplat.cmsmgr.dto.PackageProductVo;
@@ -463,10 +462,11 @@ public class ProgPackageServiceImpl implements ProgPackageServiceIface {
 					SimpleDateFormat sdf = new SimpleDateFormat(
 							"yyyy-MM-dd HH:mm:ss");
 					// cmsLog.debug(cell.getAttributes().getNamedItem("UPDATETIME").getNodeValue());
+					cmsLog.debug("节目包的UpdateTime: " + progPackage.getUpdatetime());
 					cell.getAttributes()
 							.getNamedItem("UPDATETIME")
-							.setNodeValue(
-									sdf.format(progPackage.getUpdatetime()));
+							.setNodeValue(null == progPackage.getUpdatetime()
+									? "" : sdf.format(progPackage.getUpdatetime()));
 				}
 				if (cellattr.hasAttribute("EPICODENUMBER")) // 判断节点有tag属性
 				{
@@ -485,9 +485,9 @@ public class ProgPackageServiceImpl implements ProgPackageServiceIface {
 						progPackage.getSumfilesize());
 				cellattr.setAttribute("UPDATEMANID",
 						progPackage.getUpdatemanid());
-				cellattr.setAttribute("UPDATETIME", fileopr
-						.convertDateToString(progPackage.getUpdatetime(),
-								"yyyy-MM-dd HH:mm:ss"));
+				cellattr.setAttribute("UPDATETIME", null == progPackage.getUpdatetime()
+						? "" : fileopr.convertDateToString(
+								progPackage.getUpdatetime(), "yyyy-MM-dd HH:mm:ss"));
 				cellattr.setAttribute("EPICODENUMBER",
 						progPackage.getEpicodenumber());
 
@@ -512,15 +512,16 @@ public class ProgPackageServiceImpl implements ProgPackageServiceIface {
 				cellattr.setAttribute("ISSUEDATE", progPackage.getIssuedate());
 				cellattr.setAttribute("COUNTRYDIST",
 						progPackage.getCountrydist());
-				cellattr.setAttribute("SUBSCRIBERSTIME", fileopr
-						.convertDateToString(progPackage.getSubscriberstime(),
-								"yyyy-MM-dd HH:mm:ss"));
-				cellattr.setAttribute("SUBSCRIBERETIME", fileopr
-						.convertDateToString(progPackage.getSubscriberetime(),
-								"yyyy-MM-dd HH:mm:ss"));
+				cellattr.setAttribute("SUBSCRIBERSTIME", null == progPackage.getSubscriberstime()
+						? "" : fileopr.convertDateToString(
+								progPackage.getSubscriberstime(), "yyyy-MM-dd HH:mm:ss"));
+				cellattr.setAttribute("SUBSCRIBERETIME", null == progPackage.getSubscriberetime()
+						? "" : fileopr.convertDateToString(
+								progPackage.getSubscriberetime(), "yyyy-MM-dd HH:mm:ss"));
 				cellattr.setAttribute("INPUTMANID", progPackage.getInputmanid());
-				cellattr.setAttribute("INPUTTIME", fileopr.convertDateToString(
-						progPackage.getInputtime(), "yyyy-MM-dd HH:mm:ss"));
+				cellattr.setAttribute("INPUTTIME", null == progPackage.getInputtime()
+						? "" : fileopr.convertDateToString(
+								progPackage.getInputtime(), "yyyy-MM-dd HH:mm:ss"));
 				cellattr.setAttribute("FILESIZEHI", progPackage.getFilesizehi()
 						.toString());
 				cellattr.setAttribute("FILESIZELOW", progPackage
@@ -660,8 +661,9 @@ public class ProgPackageServiceImpl implements ProgPackageServiceIface {
 							programFiles.getContentId());
 					newe.setAttribute("INPUTMANID",
 							programFiles.getInputmanid());
-					newe.setAttribute("INPUTTIME", fileopr.convertDateToString(
-							programFiles.getInputtime(), "yyyy-MM-dd HH:mm:ss"));
+					newe.setAttribute("INPUTTIME", null == programFiles.getInputtime()
+							? "" : fileopr.convertDateToString(
+									programFiles.getInputtime(), "yyyy-MM-dd HH:mm:ss"));
 					// // newe.setAttribute("UPDATEMANID", programFiles);
 					// // newe.setAttribute("UPDATETIME",
 					// fileopr.convertDateToString(programFiles,
@@ -918,12 +920,14 @@ public class ProgPackageServiceImpl implements ProgPackageServiceIface {
 			cmsLog.warn("删除节目包的xml文件...");
 			deleteSmbFile(strXmlFullPath);
 		}
+		
 		/**
 		 * 增加节目包所有文件大小的统计
 		 * HuangBo addition by 2011年11月17日 11时4分 
 		 */
 		progPackage.setFilesizehi(this.packageFilesManager.sumOfPackageFileSize(
 				progPackage.getProductid()));
+		this.progPackageManager.update(progPackage);
 		cmsLog.debug("创建完节目包最后来看看节目包大小是否正确: " + progPackage.getFilesizehi());
 		Bpmc bpmc = new Bpmc(progPackage.getProductid(), progPackage.getInputmanid(), null, null, 
 				null, null, "创建节目包: " + progPackage.getProductname(), "C");
@@ -993,15 +997,17 @@ public class ProgPackageServiceImpl implements ProgPackageServiceIface {
 	// 删除 服务节目包关系：ProgSrvRel
 	// 删除 节目包文件关系：PackageFiles
 	// 删除 节目包节目关系：ProgPPRel
-	public CmsResultDto deleteProgPackage(String productId) {
+	/**
+	 * 修改返回结果为String 返回null删除成功, 否则返回错误信息
+	 * HuangBo update by 2012年7月31日 10时42分
+	 */
+	public String deleteProgPackage(String productId) {
 		cmsLog.debug("Cms -> ProgPackageServiceImpl -> deleteProgPackage...");
 		CmsResultDto cmsResultDto = new CmsResultDto();
 		
 		List<String> progSize = this.progListDetailManager.queryScheduleDateByProgPackageId(productId);
 		if (0 < progSize.size()) {
-			cmsResultDto.setResultCode(1L);
-			cmsResultDto.setErrorMessage("节目包存在于编单中, 不允许删除!");
-			return cmsResultDto;
+			return "节目包存在于编单中, 不允许删除!";
 		}
 		
 		cmsResultDto = cmsTransactionManager.deleteProgPackage(
@@ -1010,7 +1016,11 @@ public class ProgPackageServiceImpl implements ProgPackageServiceIface {
 				productId);
 
 		cmsLog.debug("Cms -> ProgPackageServiceImpl -> deleteProgPackage returns.");
-		return cmsResultDto;
+		if (0 == cmsResultDto.getResultCode()) {
+			return null;
+		} else {
+			return cmsResultDto.getErrorMessage();
+		}
 	}
 
 	// 查询节目包
@@ -1732,20 +1742,20 @@ public class ProgPackageServiceImpl implements ProgPackageServiceIface {
 		programFile.setProgrank(1l);
 		programFile.setInputtime(new Date());
 		cmsLog.debug("1. 存储文件信息");
-		//TODO 保存文件记录
+		// 保存文件记录
 		
 		cmsLog.debug("2. 补全节目包属性, 录入时间, 节目包状态, 节目包使用状态, 和主键. 添加节目包记录");
 		progPackage.setInputtime(new Date());		// 节目包导入时间
 		progPackage.setUpdatetime(new Date());		// 默认节目包最后修改时间
 		progPackage.setState(1l);					// 报纸导入后, 节目包的默认状态为[1]缓存库
 		progPackage.setDealstate(0l);				// 报纸导入后, 节目包的默认使用状态为[0]未处理
-		//TODO 保存节目包记录
+		// 保存节目包记录
 		
 		cmsLog.debug("3. 添加节目包文件关系记录, 主键自动生成 ");
 		PackageFiles packageFiles = new PackageFiles();
 		packageFiles.setProductid(progPackage.getProductid());
 		packageFiles.setProgfileid(programFile.getProgfileid());
-		//TODO 保存节目包文件记录
+		// 保存节目包文件记录
 		
 		cmsLog.debug("4. 添加位置表记录, 主键手动生成, 在Manager里面会生成, 因此不需要在此指定");
 		AmsStoragePrgRel amsStoragePrgRel = new AmsStoragePrgRel();
@@ -1763,7 +1773,7 @@ public class ProgPackageServiceImpl implements ProgPackageServiceIface {
 				"/" + progPackageID + "/");
 		amsStoragePrgRel.setRemark("");
 		
-		//TODO 保存文件位置表记录
+		// 保存文件位置表记录
 		
 		cmsLog.debug("5. 节目包栏目关系表记录, 主键手动生成, 在manager里面会生成");
 		PPColumnRel ppColumnRel = new PPColumnRel();
@@ -1771,7 +1781,7 @@ public class ProgPackageServiceImpl implements ProgPackageServiceIface {
 		ppColumnRel.setProductid(progPackage.getProductid());
 		ppColumnRel.setInputmanid(programFile.getInputmanid());
 		ppColumnRel.setInputtime(new Date());
-		//TODO 保存节目包栏目关系表记录
+		// 保存节目包栏目关系表记录
 		
 		cmsLog.debug("将数据保存到数据库!");
 		this.cmsTransactionManager.savePager(programFilesManager, programFile,
@@ -1946,7 +1956,7 @@ public class ProgPackageServiceImpl implements ProgPackageServiceIface {
 		dsflagList.add(-1L);	// 节目状态为未导入
 		dsflagList.add(1L);		// 节目状态为迁移失败
 		
-		//TODO 需修改为两种状态都能查出实体文件存在的片花
+		// 需修改为两种状态都能查出实体文件存在的片花
 		if (isEmptyProgPackage) {
 			hql += "(p.dsflag in (:dsflag) or pf.filetypeid = 'Clip') ";
 		} else {

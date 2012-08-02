@@ -1,7 +1,10 @@
 package com.soaplat.cmsmgr.service;
 
 import java.text.ParseException;
+import java.util.Arrays;
 import java.util.List;
+
+import cn.sh.sbl.cms.dao.IConfigDao;
 
 import com.soaplat.cmsmgr.bean.ProgListMang;
 import com.soaplat.cmsmgr.common.CmsConfig;
@@ -33,6 +36,7 @@ public class BroadcastXmlServiceImpl {
 	 * 按钮：生成播发单
 	 */
 //	private ICmsTransactionManager cmsTransactionManager = null;
+	private IConfigDao configDao;
 	private IFlowActionManager flowActionManager;
 	private IProgListMangManager progListMangManager;
 	private IBroadcastModuleManager broadcastModuleManager = null;
@@ -72,6 +76,7 @@ public class BroadcastXmlServiceImpl {
 //		productinfoManager = (IProductInfoManager) ApplicationContextHolder.webApplicationContext.getBean("productinfoManager");
 //		programFilesManager = (IProgramFilesManager) ApplicationContextHolder.webApplicationContext.getBean("programFilesManager");
 //		programInfoManager = (IProgramInfoManager) ApplicationContextHolder.webApplicationContext.getBean("programinfoManager");
+		this.configDao = ApplicationContextHolder.webApplicationContext.getBean("configDaoImpl", IConfigDao.class);
 	}
 	
 	/**
@@ -91,7 +96,7 @@ public class BroadcastXmlServiceImpl {
 		 * 新增加判断, 判断编单日往后的几天的活动是否正确, 否则不允许生JS
 		 */
 		/*-------------------- start ---------------------*/
-		int days = Integer.valueOf(new CmsConfig().getPropertyByName("ScheduleDays"));
+		int days = Integer.valueOf(this.configDao.getValueById("ScheduleDays"));
 		List<String> greaterProgCheckActions = this.flowActionManager.getGreaterOrLessAction(this.GENERATEJS, false);
 		List<String> afterScheduleDates = DateUtil.getAfterDaysStrList(date, days - 1);
 		for (String string : afterScheduleDates) {
@@ -101,7 +106,9 @@ public class BroadcastXmlServiceImpl {
 			}
 		}
 		/*-------------------- en ---------------------*/
-		
+		List<String> unEncryptCode = Arrays.asList(
+				this.configDao.getValueById("UnEncryptCode").split(","));
+		String scheduleDays = this.configDao.getValueById("ScheduleDays");
 		cmsResultDto = broadcastModuleManager.saveGenerateBroadcastxml_123(
 //				cmsTransactionManager,
 //				cmsSiteManager, 
@@ -121,7 +128,7 @@ public class BroadcastXmlServiceImpl {
 				date, 
 				operatorId, 
 				plandate,
-				true
+				true, unEncryptCode, scheduleDays
 				);
 		
 		if (0 == cmsResultDto.getResultCode()) {

@@ -410,22 +410,22 @@ public class PortalColumnManagerImpl implements IPortalColumnManager {
 					(String)objects[2],
 					(String)objects[3],
 					(String)objects[4],
-					Long.valueOf(objects[5].toString()),
+					null == objects[5] ? 0 : Long.valueOf(objects[5].toString()),
 					(String)objects[6],
 					(String)objects[7],
-					Long.valueOf(objects[8].toString()),
+					null == objects[8] ? 0 : Long.valueOf(objects[8].toString()),
 					(String)objects[9],
 					(String)objects[10],
-					Long.valueOf(objects[11].toString()),
+					null == objects[11] ? 0 : Long.valueOf(objects[11].toString()),
 					(String)objects[12],
-					Long.valueOf(objects[13].toString()),
+					null == objects[13] ? 0 : Long.valueOf(objects[13].toString()),
 					(Date)objects[14],
-					Long.valueOf(objects[15].toString()),
+					null == objects[15] ? 0 : Long.valueOf(objects[15].toString()),
 					(String)objects[16],
 					(Date)objects[17],
 					(String)objects[18],
 					(String)objects[19],
-					Long.valueOf(objects[20].toString()));
+					null == objects[20] ? 0 : Long.valueOf(objects[20].toString()));
 			portalColumns.add(portalColumn);
 		}
 		return portalColumns;

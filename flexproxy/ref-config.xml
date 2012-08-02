@@ -6321,6 +6321,7 @@
 					<param type="java.lang.String" name="endTime" array="0"></param>
 					<param type="java.lang.Long" name="styleId" array="0"></param>
 					<param type="java.lang.String" name="packageName" array="0"></param>
+					<param type="java.lang.String" name="siteCode" array="0"></param>
 				</ref-param>
 			</ref-method>
 			<ref-method name="deleteFiles">

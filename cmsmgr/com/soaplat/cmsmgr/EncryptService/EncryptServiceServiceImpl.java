@@ -43,7 +43,7 @@ public class EncryptServiceServiceImpl implements EncryptServiceServiceIface {
 	@SuppressWarnings("unchecked")
 	public void GetTaskStatus() 
 	{
-//		cmsLog.info("Cms -> EncryptServiceServiceImpl -> GetTaskStatus ...");
+//		cmsLog.debug("Cms -> EncryptServiceServiceImpl -> GetTaskStatus ...");
 		try 
 		{
 			// while (true) {
@@ -202,13 +202,13 @@ public class EncryptServiceServiceImpl implements EncryptServiceServiceIface {
 		{
 			cmsLog.error("Cms->EncryptServiceServiceImpl->GetTaskStatus，异常：" + e.getMessage());
 		}
-//		cmsLog.info("Cms -> EncryptServiceServiceImpl -> GetTaskStatus returns.");
+//		cmsLog.debug("Cms -> EncryptServiceServiceImpl -> GetTaskStatus returns.");
 	}
 
 	// 添加加扰任务,24小时运行服务
 	public void addTask() 
 	{
-//		cmsLog.info("Cms -> EncryptServiceServiceImpl -> addTask ...");
+//		cmsLog.debug("Cms -> EncryptServiceServiceImpl -> addTask ...");
 		try 
 		{
 			// while (true) {
@@ -323,7 +323,7 @@ public class EncryptServiceServiceImpl implements EncryptServiceServiceIface {
 		{
 			cmsLog.error("Cms -> EncryptServiceServiceImpl -> addTask，异常：" + e.getMessage());
 		}
-//		cmsLog.info("Cms -> EncryptServiceServiceImpl -> addTask ...");
+//		cmsLog.debug("Cms -> EncryptServiceServiceImpl -> addTask ...");
 	}
 
 	@SuppressWarnings("unchecked")

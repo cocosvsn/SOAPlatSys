@@ -57,7 +57,7 @@ public interface ProgPackageServiceIface {
 	
 	// 测试通过，20091103，11:22
 	// 删除节目包
-	public CmsResultDto deleteProgPackage(String productId);
+	public String deleteProgPackage(String productId);
 	
 	// 查询节目包
 	public CmsResultDto getProgPackage(String productId);

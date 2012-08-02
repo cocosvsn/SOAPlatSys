@@ -34,7 +34,7 @@ public class MigrationWebServiceImpl implements MigrationWebServiceIface {
 			String type						// 0 - 上海； 1 - 北京； 2 - 数据导入@北京
 			)
 	{
-		cmsLog.info("Cms -> MigrationWebServiceImpl -> finishMigration...");
+		cmsLog.debug("Cms -> MigrationWebServiceImpl -> finishMigration...");
 		CmsResultDto cmsResultDto = new CmsResultDto();
 		
 		/**
@@ -138,7 +138,7 @@ public class MigrationWebServiceImpl implements MigrationWebServiceIface {
 			cmsResultDto.setResultCode((long) 1);
 			cmsResultDto.setErrorMessage(str);
 		}
-		cmsLog.info("Cms -> MigrationWebServiceImpl -> finishMigration returns.");
+		cmsLog.debug("Cms -> MigrationWebServiceImpl -> finishMigration returns.");
 		return cmsResultDto.getResultCode().intValue();
 	}
 	

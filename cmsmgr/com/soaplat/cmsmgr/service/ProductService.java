@@ -78,7 +78,7 @@ public class ProductService {
 			this.productManager.saveProduct(product);
 			this.portalColumnManager.updateRootTime();
 			this.generateProductJS();
-			return "产品添加成功, 未绑定品牌产品的关系!";
+			return "产品添加成功, 未绑定栏目产品的关系!";
 		} catch (Exception e) {
 			logger.error("产品添加失败: " + e.getMessage());
 			return " 产品添加失败! ";

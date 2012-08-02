@@ -68,15 +68,9 @@ public class ProgramInfoModuleManagerImpl implements IProgramInfoModuleManager {
 	 * 判断文件是否存在
 	 */
 	@SuppressWarnings("unchecked")
-	public CmsResultDto isExist(
-			String path,
-			String fileCode
-	) {
+	public CmsResultDto isExist(String path, String fileCode, List<String> supportExtensions) {
 		cmsLog.debug("Cms -> ProgramInfoModuleManagerImpl -> isExist...");
 		CmsResultDto cmsResultDto = new CmsResultDto();
-		List<String> supportExtensions = Arrays.asList(
-				new CmsConfig().getPropertyByName(
-						"SupportExtensions").toLowerCase().split("[,;|]"));
 		List<ProgramFiles> programFiles = this.baseDAO.findByProperty(
 				"ProgramFiles", "processinstid", path);
 		

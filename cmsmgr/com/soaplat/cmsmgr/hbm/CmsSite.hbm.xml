@@ -31,10 +31,10 @@
 		<property name="remark" type="java.lang.String">
 			<column length="2000" name="REMARK" />
 		</property>
-<!--		<property generated="never" lazy="false" name="filepath"-->
-<!--			type="java.lang.String">-->
-<!--			<column length="100" name="FILEPATH" />-->
-<!--		</property>-->
+		<property generated="never" lazy="false" name="filepath"
+			type="java.lang.String">
+			<column length="100" name="FILEPATH" />
+		</property>
 <!--		<property generated="never" lazy="false" name="validFrom"-->
 <!--			type="java.util.Date">-->
 <!--			<column length="7" name="VALID_FROM" />-->

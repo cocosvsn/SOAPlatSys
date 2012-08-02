@@ -18,9 +18,7 @@ public interface IProgramInfoModuleManager {
 	 * 判断文件是否存在
 	 */
 	public CmsResultDto isExist(
-			String path,
-			String fileCode
-			);
+			String path, String fileCode, List<String> supportExtensions);
 	
 	/**
 	 * 保存节目和文件信息

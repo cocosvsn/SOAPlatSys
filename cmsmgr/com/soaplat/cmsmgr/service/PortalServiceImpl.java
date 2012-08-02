@@ -6,6 +6,7 @@ import java.io.StringReader;
 import java.lang.reflect.InvocationTargetException;
 import java.text.MessageFormat;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -30,6 +31,8 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
+
+import cn.sh.sbl.cms.dao.IConfigDao;
 
 import com.sbl.cms.patch.JSPatch;
 import com.soaplat.amsmgr.bean.AmsStorage;
@@ -128,6 +131,7 @@ public class PortalServiceImpl implements PortalServiceIface {
 	private static List dealedPortalPackages = null;
 	private static List dealedProgPackages = null;
 	private IProductManager productManager = null;
+	private IConfigDao configDao;
 	
 	public PortalServiceImpl() {
 		dealedPortalPackages = null;
@@ -157,6 +161,7 @@ public class PortalServiceImpl implements PortalServiceIface {
 		this.flowActivityOrderManager = (IFlowActivityOrderManager) ApplicationContextHolder.webApplicationContext.getBean("flowActivityOrderManager");
 		this.migrationModuleManager = (IMigrationModuleManager) ApplicationContextHolder.webApplicationContext.getBean("migrationModuleManager");
 		this.productManager = (IProductManager) ApplicationContextHolder.webApplicationContext.getBean("cmsProductManager");
+		this.configDao = ApplicationContextHolder.webApplicationContext.getBean("configDaoImpl", IConfigDao.class);
 	}
 	
 	// 20100119 17:11
@@ -183,7 +188,7 @@ public class PortalServiceImpl implements PortalServiceIface {
 			String operatorId					// 操作人员id
 			)
 	{
-		cmsLog.info("Cms -> PortalServiceImpl -> checkPortalModInProgListFile...");
+		cmsLog.debug("Cms -> PortalServiceImpl -> checkPortalModInProgListFile...");
 		
 		// 返回：
 		// String - Portal模板的目标路径，不包含Portal目录的名字
@@ -276,7 +281,7 @@ public class PortalServiceImpl implements PortalServiceIface {
 		}
 		
 		// 2 - 返回
-		cmsLog.info("Cms -> PortalServiceImpl -> checkPortalModInProgListFile returns.");
+		cmsLog.debug("Cms -> PortalServiceImpl -> checkPortalModInProgListFile returns.");
 		return pathModelDest;
 	}
 
@@ -294,7 +299,7 @@ public class PortalServiceImpl implements PortalServiceIface {
 		// 3 - AmsStorageDir
 		// 4 - AmsStorageClass
 		
-		cmsLog.info("Cms -> PortalServiceImpl -> getDestPath ...");
+		cmsLog.debug("Cms -> PortalServiceImpl -> getDestPath ...");
 		List retlist = new ArrayList();
 		
 		// (配置文件中读取参数：模板目标存储等级、模板文件CODE("MODZIP")，调用获取文件存放位置接口得到值。)
@@ -341,7 +346,7 @@ public class PortalServiceImpl implements PortalServiceIface {
 			cmsLog.info("目标路径为空。");
 //			return "";
 		}
-		cmsLog.info("Cms -> PortalServiceImpl -> getDestPath returns.");
+		cmsLog.debug("Cms -> PortalServiceImpl -> getDestPath returns.");
 		return retlist;
 	}
 	
@@ -359,7 +364,7 @@ public class PortalServiceImpl implements PortalServiceIface {
 		// 3 - 调用已有的方法获取解包存放位置。(配置文件中读取参数：模板目标存储等级、模板文件CODE，MODZIP，调用获取文件存放位置接口得到值。)
 		// 4 - 解包，取编单ID为文件夹名，将解包中的内容放入其中。
 		
-		cmsLog.info("Cms -> PortalServiceImpl -> getPortalModelZip...");
+		cmsLog.debug("Cms -> PortalServiceImpl -> getPortalModelZip...");
 //		String ret = 0;
 		
 		// 配置文件参数，读取配置文件
@@ -513,7 +518,7 @@ public class PortalServiceImpl implements PortalServiceIface {
 			return "";
 		}
 		
-		cmsLog.info("Cms -> PortalServiceImpl -> getPortalModelZip returns.");
+		cmsLog.debug("Cms -> PortalServiceImpl -> getPortalModelZip returns.");
 		return pathModelDest;
 	}
 	
@@ -521,7 +526,7 @@ public class PortalServiceImpl implements PortalServiceIface {
 	// 把源文件名添加到目标路径中
 	private String addFileFromSourcePathToDestPath(String sourcePath, String destPath)
 	{
-		cmsLog.info("Cms -> PortalServiceImpl -> addFileFromSourcePathToDestPath...");
+		cmsLog.debug("Cms -> PortalServiceImpl -> addFileFromSourcePathToDestPath...");
 		String newDestPath = "";
 		String fileName = "";
 		
@@ -553,7 +558,7 @@ public class PortalServiceImpl implements PortalServiceIface {
 			newDestPath = destPath;
 		}
 		
-		cmsLog.info("Cms -> PortalServiceImpl -> addFileFromSourcePathToDestPath returns.");
+		cmsLog.debug("Cms -> PortalServiceImpl -> addFileFromSourcePathToDestPath returns.");
 		return newDestPath;
 	}
 	
@@ -567,7 +572,7 @@ public class PortalServiceImpl implements PortalServiceIface {
 			String operatorId						// 操作人员id
 			)
 	{
-		cmsLog.info("Cms -> PortalServiceImpl -> generatePortal...");
+		cmsLog.debug("Cms -> PortalServiceImpl -> generatePortal...");
 		
 		// 流程：
 		// 1 - 取栏目表中需要生成PORTAL的节点：
@@ -1346,7 +1351,7 @@ public class PortalServiceImpl implements PortalServiceIface {
 			}
 		}
 		
-		cmsLog.info("Cms -> PortalServiceImpl -> generatePortal returns.");
+		cmsLog.debug("Cms -> PortalServiceImpl -> generatePortal returns.");
 		return 0;
 	}
 	
@@ -1364,7 +1369,7 @@ public class PortalServiceImpl implements PortalServiceIface {
 		// 1 - 判断模板是否已经获取，返回目标的目标路径
 		// 2 - 生成Portal
 		
-		cmsLog.info("Cms -> PortalServiceImpl -> generatePortalByDate...");
+		cmsLog.debug("Cms -> PortalServiceImpl -> generatePortalByDate...");
 		CmsResultDto cmsResultDto = new CmsResultDto();
 		
 		// 修改为新接口，20100408 14:15
@@ -1453,7 +1458,7 @@ public class PortalServiceImpl implements PortalServiceIface {
 //				cmsLog.warn(str);
 //			}
 //		}
-		cmsLog.info("Cms -> PortalServiceImpl -> generatePortalByDate returns.");
+		cmsLog.debug("Cms -> PortalServiceImpl -> generatePortalByDate returns.");
 		return cmsResultDto;
 	}
 
@@ -1470,7 +1475,7 @@ public class PortalServiceImpl implements PortalServiceIface {
 		// 3 - AmsStorageDir
 		// 4 - AmsStorageClass
 		
-		cmsLog.info("Cms -> PortalServiceImpl -> getPortalModelDestpathByFilepath...");
+		cmsLog.debug("Cms -> PortalServiceImpl -> getPortalModelDestpathByFilepath...");
 		CmsResultDto cmsResultDto = new CmsResultDto();
 		
 		// 配置文件，获取
@@ -1485,7 +1490,7 @@ public class PortalServiceImpl implements PortalServiceIface {
 //		}
 		
 		cmsResultDto.setResultObject(portalModelDestpaths);
-		cmsLog.info("Cms -> PortalServiceImpl -> getPortalModelDestpathByFilepath returns.");
+		cmsLog.debug("Cms -> PortalServiceImpl -> getPortalModelDestpathByFilepath returns.");
 		return cmsResultDto;
 	}
 	
@@ -1505,7 +1510,7 @@ public class PortalServiceImpl implements PortalServiceIface {
 		// 4 - 压缩，不需要生成文件位置记录，因为这条记录已经存在，删除原来的zip文件，生成新的zip文件替代原来的
 		// 5 - 修改所有分表和总表活动为“预览”FU00000084
 		
-		cmsLog.info("Cms -> PortalServiceImpl -> zipPortal...");
+		cmsLog.debug("Cms -> PortalServiceImpl -> zipPortal...");
 		CmsResultDto cmsResultDto = new CmsResultDto();
 		
 		cmsResultDto = sendProgListMang(
@@ -1784,7 +1789,7 @@ public class PortalServiceImpl implements PortalServiceIface {
 //			return cmsResultDto;
 //		}
 
-		cmsLog.info("Cms -> PortalServiceImpl -> zipPortal returns.");
+		cmsLog.debug("Cms -> PortalServiceImpl -> zipPortal returns.");
 		return cmsResultDto;
 	}
 	
@@ -1795,7 +1800,7 @@ public class PortalServiceImpl implements PortalServiceIface {
 			String operatorId					// 操作人员id
 			)
 	{
-		cmsLog.info("Cms -> PortalServiceImpl -> sendProgListMang...");
+		cmsLog.debug("Cms -> PortalServiceImpl -> sendProgListMang...");
 		CmsResultDto cmsResultDto = new CmsResultDto();
 		
 		// 配置文件，获取
@@ -1814,7 +1819,7 @@ public class PortalServiceImpl implements PortalServiceIface {
 		
 		
 		
-		cmsLog.info("Cms -> PortalServiceImpl -> sendProgListMang returns.");
+		cmsLog.debug("Cms -> PortalServiceImpl -> sendProgListMang returns.");
 		return cmsResultDto;
 	}
 	
@@ -1830,7 +1835,7 @@ public class PortalServiceImpl implements PortalServiceIface {
 			String sendremark
 			)
 	{
-		cmsLog.info("Cms -> PortalServiceImpl -> sendProgListMang2...");
+		cmsLog.debug("Cms -> PortalServiceImpl -> sendProgListMang2...");
 		CmsResultDto cmsResultDto = new CmsResultDto();
 		
 		// 配置文件，获取
@@ -1848,7 +1853,7 @@ public class PortalServiceImpl implements PortalServiceIface {
 				);
 		
 		
-		cmsLog.info("Cms -> PortalServiceImpl -> sendProgListMang2 returns.");
+		cmsLog.debug("Cms -> PortalServiceImpl -> sendProgListMang2 returns.");
 		return cmsResultDto;
 	}
 	
@@ -1862,7 +1867,7 @@ public class PortalServiceImpl implements PortalServiceIface {
 			String operatorId					// 操作人员id
 			)
 	{
-		cmsLog.info("Cms -> PortalServiceImpl -> generatePortalWithoutModel...");
+		cmsLog.debug("Cms -> PortalServiceImpl -> generatePortalWithoutModel...");
 		CmsResultDto cmsResultDto = new CmsResultDto();
 		
 		// 说明：
@@ -3895,7 +3900,7 @@ public class PortalServiceImpl implements PortalServiceIface {
 			cmsLog.error("Cms -> PortalServiceImpl -> generatePortalWithoutModel，异常：" + str);
 			cmsLog.error(errorDetail);
 		}
-		cmsLog.info("Cms -> PortalServiceImpl -> generatePortalWithoutModel returns.");
+		cmsLog.debug("Cms -> PortalServiceImpl -> generatePortalWithoutModel returns.");
 		return cmsResultDto;
 	}
 	
@@ -4809,7 +4814,7 @@ public class PortalServiceImpl implements PortalServiceIface {
 		// 		把新上线的节目包的海报文件复制到/home/下
 		
 		
-		cmsLog.info("Cms -> PortalServiceImpl -> generateYgJsString...");
+		cmsLog.debug("Cms -> PortalServiceImpl -> generateYgJsString...");
 		String strJs = "";
 		
 		try {
@@ -5009,7 +5014,7 @@ public class PortalServiceImpl implements PortalServiceIface {
 			strJs = "";
 			cmsLog.error("Cms -> PortalServiceImpl -> generateYgJsString，异常：" + e.getMessage());
 		}
-		cmsLog.info("Cms -> PortalServiceImpl -> generateYgJsString returns.");
+		cmsLog.debug("Cms -> PortalServiceImpl -> generateYgJsString returns.");
 		return strJs;
 	}
 	
@@ -5024,7 +5029,7 @@ public class PortalServiceImpl implements PortalServiceIface {
 	 */
 	private void generateNoticeXml(String dateStr, CmsSite cmsSite,
 			int days, String inputManId) throws ParseException, DocumentException {
-		cmsLog.info("Cms -> PortalServiceImpl -> generateNoticeJs...  " 
+		cmsLog.debug("Cms -> PortalServiceImpl -> generateNoticeJs...  " 
 				+ cmsSite.getSitename() + "品牌生成节目预告xml");
 		String schedule = dateStr.replaceAll("-", "") + "000000";
 		
@@ -5460,8 +5465,8 @@ public class PortalServiceImpl implements PortalServiceIface {
 	        	matadataAttributeBuilder.append(",");
 	        }
 	        // METADATA
-	        List<String> encryptCode = Arrays.asList(
-	        		new CmsConfig().getPropertyByName("UnEncryptCode").split(","));
+	        List<String> encryptCode = Arrays.asList(this.configDao.getValueById(
+	        		"UnEncryptCode").split(","));
 	        matadataAttributeBuilder.append(MessageFormat.format(this.ATTRIBUTE, "加密", 
 	        		encryptCode.containsAll(
 	        				Arrays.asList(productInfo.getKeyId().split(","))) ? "否" : "是"));
@@ -5639,7 +5644,7 @@ public class PortalServiceImpl implements PortalServiceIface {
 	 */
 	public String checkByTerminal(String dateStr, Integer days, String inputManId)
 			throws Exception {
-		days = Integer.valueOf(new CmsConfig().getPropertyByName("ScheduleDays"));
+		days = Integer.valueOf(this.configDao.getValueById("ScheduleDays"));
 		
 		/**
 		 * 新增加判断, 判断编单日往后的几天的活动是否正确, 否则不允许生JS
@@ -5718,7 +5723,7 @@ public class PortalServiceImpl implements PortalServiceIface {
 			String columnclassid,		// 栏目ID
 			Long onlinetag				// 上线标识，0 - 下线，1 - 上线
 	) {
-		cmsLog.info("Cms -> PortalServiceImpl -> getPortalPackages...");
+		cmsLog.debug("Cms -> PortalServiceImpl -> getPortalPackages...");
 		CmsResultDto cmsResultDto = new CmsResultDto();
 		
 		try {
@@ -5737,7 +5742,7 @@ public class PortalServiceImpl implements PortalServiceIface {
 			cmsResultDto.setResultCode((long) 1);
 			cmsResultDto.setErrorMessage(str);
 		}
-		cmsLog.info("Cms -> PortalServiceImpl -> getPortalPackages returns.");
+		cmsLog.debug("Cms -> PortalServiceImpl -> getPortalPackages returns.");
 		return cmsResultDto;
 	}
 	
@@ -5747,7 +5752,7 @@ public class PortalServiceImpl implements PortalServiceIface {
 	public CmsResultDto getProgPackagesByPortalPackage(
 			String ptpid
 	) {
-		cmsLog.info("Cms -> PortalServiceImpl -> getProgPackagesByPortalPackage...");
+		cmsLog.debug("Cms -> PortalServiceImpl -> getProgPackagesByPortalPackage...");
 		CmsResultDto cmsResultDto = new CmsResultDto();
 		
 		try 
@@ -5788,7 +5793,7 @@ public class PortalServiceImpl implements PortalServiceIface {
 			cmsResultDto.setResultCode((long) 1);
 			cmsResultDto.setErrorMessage(str);
 		}
-		cmsLog.info("Cms -> PortalServiceImpl -> getProgPackagesByPortalPackage returns.");
+		cmsLog.debug("Cms -> PortalServiceImpl -> getProgPackagesByPortalPackage returns.");
 		return cmsResultDto;
 	}
 	
@@ -5802,7 +5807,7 @@ public class PortalServiceImpl implements PortalServiceIface {
 		// 返回：List<Object[]>
 		//			(ProgPackage)Object[0]
 		//			(ProgListDetail)Object[1]
-		cmsLog.info("Cms -> PortalServiceImpl -> getProgPackagesByProductnameColumnclassid...");
+		cmsLog.debug("Cms -> PortalServiceImpl -> getProgPackagesByProductnameColumnclassid...");
 		CmsResultDto cmsResultDto = new CmsResultDto();
 
 		try {
@@ -5822,7 +5827,7 @@ public class PortalServiceImpl implements PortalServiceIface {
 			cmsResultDto.setResultCode((long) 1);
 			cmsResultDto.setErrorMessage(str);
 		}
-		cmsLog.info("Cms -> PortalServiceImpl -> getProgPackagesByProductnameColumnclassid returns.");
+		cmsLog.debug("Cms -> PortalServiceImpl -> getProgPackagesByProductnameColumnclassid returns.");
 		return cmsResultDto;
 	}
 	
@@ -5833,7 +5838,7 @@ public class PortalServiceImpl implements PortalServiceIface {
 //			List ptpPgpRels,					// 页面包装与节目包关系对象
 			String operatorId					// 操作人员ID
 	) {
-		cmsLog.info("Cms -> PortalServiceImpl -> savePortalPackage...");
+		cmsLog.debug("Cms -> PortalServiceImpl -> savePortalPackage...");
 		CmsResultDto cmsResultDto = new CmsResultDto();
 		
 		try
@@ -5882,7 +5887,7 @@ public class PortalServiceImpl implements PortalServiceIface {
 			cmsResultDto.setResultCode((long) 1);
 			cmsResultDto.setErrorMessage(str);
 		}
-		cmsLog.info("Cms -> PortalServiceImpl -> savePortalPackage returns.");
+		cmsLog.debug("Cms -> PortalServiceImpl -> savePortalPackage returns.");
 		return cmsResultDto;
 	}
 	
@@ -5893,7 +5898,7 @@ public class PortalServiceImpl implements PortalServiceIface {
 //			List ptpPgpRels,					// 页面包装与节目包关系对象
 			String operatorId					// 操作人员ID
 	) {
-		cmsLog.info("Cms -> PortalServiceImpl -> updatePortalPackage...");
+		cmsLog.debug("Cms -> PortalServiceImpl -> updatePortalPackage...");
 		CmsResultDto cmsResultDto = new CmsResultDto();
 		
 		try {
@@ -5934,7 +5939,7 @@ public class PortalServiceImpl implements PortalServiceIface {
 			cmsResultDto.setResultCode((long) 1);
 			cmsResultDto.setErrorMessage(str);
 		}
-		cmsLog.info("Cms -> PortalServiceImpl -> updatePortalPackage returns.");
+		cmsLog.debug("Cms -> PortalServiceImpl -> updatePortalPackage returns.");
 		return cmsResultDto;
 	}
 
@@ -5944,7 +5949,7 @@ public class PortalServiceImpl implements PortalServiceIface {
 			String ptpid,
 			String operatorId
 	) {
-		cmsLog.info("Cms -> PortalServiceImpl -> deletePortalPackage...");
+		cmsLog.debug("Cms -> PortalServiceImpl -> deletePortalPackage...");
 		CmsResultDto cmsResultDto = new CmsResultDto();
 		
 		cmsResultDto = cmsTransactionManager.deletePortalPackage(
@@ -5954,7 +5959,7 @@ public class PortalServiceImpl implements PortalServiceIface {
 				operatorId
 				);
 		
-		cmsLog.info("Cms -> PortalServiceImpl -> deletePortalPackage returns.");
+		cmsLog.debug("Cms -> PortalServiceImpl -> deletePortalPackage returns.");
 		return cmsResultDto;
 	}
 
@@ -5966,7 +5971,7 @@ public class PortalServiceImpl implements PortalServiceIface {
 			List ptpPgpRels,					// 页面包装与节目包关系对象
 			String operatorId					// 操作人员ID
 	) {
-		cmsLog.info("Cms -> PortalServiceImpl -> savePtpPgpRels...");
+		cmsLog.debug("Cms -> PortalServiceImpl -> savePtpPgpRels...");
 		CmsResultDto cmsResultDto = new CmsResultDto();
 		
 		try {
@@ -5984,7 +5989,7 @@ public class PortalServiceImpl implements PortalServiceIface {
 			cmsResultDto.setResultCode((long) 1);
 			cmsResultDto.setErrorMessage(str);
 		}
-		cmsLog.info("Cms -> PortalServiceImpl -> savePtpPgpRels returns.");
+		cmsLog.debug("Cms -> PortalServiceImpl -> savePtpPgpRels returns.");
 		return cmsResultDto;
 	}
 	
@@ -5995,7 +6000,7 @@ public class PortalServiceImpl implements PortalServiceIface {
 			List ptpPgpRels,					// 页面包装与节目包关系对象
 			String operatorId					// 操作人员ID
 	) {
-		cmsLog.info("Cms -> PortalServiceImpl -> deletePtpPgpRels...");
+		cmsLog.debug("Cms -> PortalServiceImpl -> deletePtpPgpRels...");
 		CmsResultDto cmsResultDto = new CmsResultDto();
 		
 		try {
@@ -6008,7 +6013,7 @@ public class PortalServiceImpl implements PortalServiceIface {
 			cmsResultDto.setResultCode((long) 1);
 			cmsResultDto.setErrorMessage(str);
 		}
-		cmsLog.info("Cms -> PortalServiceImpl -> deletePtpPgpRels returns.");
+		cmsLog.debug("Cms -> PortalServiceImpl -> deletePtpPgpRels returns.");
 		return cmsResultDto;
 	}
 
@@ -6340,7 +6345,7 @@ public class PortalServiceImpl implements PortalServiceIface {
 				|| this.FINISHGENERATEJS.equals(currentAction)) {
 			List<String> beforeGenerateJsActs = this.flowActionManager.getGreaterOrLessAction(
 					this.GENERATEJS, true);
-			int days = Integer.valueOf(new CmsConfig().getPropertyByName("ScheduleDays"));
+			int days = Integer.valueOf(this.configDao.getValueById("ScheduleDays"));
 			List<String> beforeScheduleDates = new ArrayList<String>();
 			List<String> tempBeforeScheduleDates = DateUtil.getBeforeDaysStrList(
 					scheduleDate, days - 1);

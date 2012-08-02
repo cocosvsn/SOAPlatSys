@@ -270,7 +270,7 @@ public class VodBillingImpl implements VodBillingIface {
 	// 复制文件，本地 --> 本地
 	private int copyFile(String strFileFrom, String strFileTo)
 	{
-		cmsLog.info("Cms -> VodBillingImpl -> copyFile...");
+		cmsLog.debug("Cms -> VodBillingImpl -> copyFile...");
 		cmsLog.info("From : " + strFileFrom);
 		cmsLog.info("To : " + strFileTo);
 		int ret = -1;
@@ -310,7 +310,7 @@ public class VodBillingImpl implements VodBillingIface {
 			cmsLog.info(ex.getMessage());
 		}
 		
-		cmsLog.info("Cms -> VodBillingImpl -> copyFile returns.");
+		cmsLog.debug("Cms -> VodBillingImpl -> copyFile returns.");
 		return ret;
 	}
 
@@ -318,7 +318,7 @@ public class VodBillingImpl implements VodBillingIface {
 	private int deleteFile(String strFile)
 	{
 		// 删除文件
-		cmsLog.info("Cms -> VodBillingImpl -> deleteFile...");
+		cmsLog.debug("Cms -> VodBillingImpl -> deleteFile...");
 		int ireturn = -1;
 		try
 		{
@@ -335,7 +335,7 @@ public class VodBillingImpl implements VodBillingIface {
 			cmsLog.info(ex.getMessage());
 		}
 		
-		cmsLog.info("Cms -> VodBillingImpl -> deleteFile returns.");
+		cmsLog.debug("Cms -> VodBillingImpl -> deleteFile returns.");
 		return ireturn;
 	}
 	

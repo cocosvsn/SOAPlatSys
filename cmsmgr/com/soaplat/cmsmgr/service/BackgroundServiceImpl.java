@@ -22,7 +22,7 @@ public class BackgroundServiceImpl implements BackgroundServiceIface {
 	// 24小时运行，查询加扰任务表中记录，发现任务则发送加扰任务到加扰服务器
 	private static void getEncryptTask()
 	{
-		cmsLog.info("Cms -> BackgroundServiceImpl -> getEncryptTask...");
+		cmsLog.debug("Cms -> BackgroundServiceImpl -> getEncryptTask...");
 		try 
 		{
 			EncryptServiceServiceImpl encryptService = new EncryptServiceServiceImpl();
@@ -38,12 +38,12 @@ public class BackgroundServiceImpl implements BackgroundServiceIface {
 		{
 			// TODO: handle exception
 		}
-		cmsLog.info("Cms -> BackgroundServiceImpl -> getEncryptTask returns.");
+		cmsLog.debug("Cms -> BackgroundServiceImpl -> getEncryptTask returns.");
 	}
 	
 	private static void encryptTaskMonitor()
 	{
-		cmsLog.info("Cms -> BackgroundServiceImpl -> encryptTaskMonitor...");
+		cmsLog.debug("Cms -> BackgroundServiceImpl -> encryptTaskMonitor...");
 		try 
 		{
 			EncryptServiceServiceImpl encryptService = new EncryptServiceServiceImpl();
@@ -59,14 +59,14 @@ public class BackgroundServiceImpl implements BackgroundServiceIface {
 		{
 			// TODO: handle exception
 		}
-		cmsLog.info("Cms -> BackgroundServiceImpl -> encryptTaskMonitor returns.");
+		cmsLog.debug("Cms -> BackgroundServiceImpl -> encryptTaskMonitor returns.");
 	}
 	
 	// 20100202 13:11
 	// 启动任务扫描
 	public CmsResultDto setEncryptTaskRun()
 	{
-		cmsLog.info("Cms -> BackgroundServiceImpl -> setEncryptTaskRun...");
+		cmsLog.debug("Cms -> BackgroundServiceImpl -> setEncryptTaskRun...");
 		CmsResultDto cmsResultDto = new CmsResultDto();
 		
 		if(getEncryptTask == false)
@@ -81,7 +81,7 @@ public class BackgroundServiceImpl implements BackgroundServiceIface {
 			cmsResultDto.setErrorMessage(str);
 			cmsLog.info(str);
 		}
-		cmsLog.info("Cms -> BackgroundServiceImpl -> setEncryptTaskRun returns.");
+		cmsLog.debug("Cms -> BackgroundServiceImpl -> setEncryptTaskRun returns.");
 		return cmsResultDto;
 	}
 	
@@ -89,7 +89,7 @@ public class BackgroundServiceImpl implements BackgroundServiceIface {
 	// 中止任务扫描
 	public CmsResultDto setEncryptTaskStandby()
 	{
-		cmsLog.info("Cms -> BackgroundServiceImpl -> setEncryptTaskStandby...");
+		cmsLog.debug("Cms -> BackgroundServiceImpl -> setEncryptTaskStandby...");
 		CmsResultDto cmsResultDto = new CmsResultDto();
 		
 		if(getEncryptTask == true)
@@ -103,7 +103,7 @@ public class BackgroundServiceImpl implements BackgroundServiceIface {
 			cmsResultDto.setErrorMessage(str);
 			cmsLog.info(str);
 		}
-		cmsLog.info("Cms -> BackgroundServiceImpl -> setEncryptTaskStandby returns.");
+		cmsLog.debug("Cms -> BackgroundServiceImpl -> setEncryptTaskStandby returns.");
 		return cmsResultDto;
 	}
 	
@@ -111,7 +111,7 @@ public class BackgroundServiceImpl implements BackgroundServiceIface {
 	// 启动任务监控
 	public CmsResultDto setEncryptTaskMonitorRun()
 	{
-		cmsLog.info("Cms -> BackgroundServiceImpl -> setEncryptTaskMonitorRun...");
+		cmsLog.debug("Cms -> BackgroundServiceImpl -> setEncryptTaskMonitorRun...");
 		CmsResultDto cmsResultDto = new CmsResultDto();
 		
 		if(encryptTaskMonitor == false)
@@ -126,7 +126,7 @@ public class BackgroundServiceImpl implements BackgroundServiceIface {
 			cmsResultDto.setErrorMessage(str);
 			cmsLog.info(str);
 		}
-		cmsLog.info("Cms -> BackgroundServiceImpl -> setEncryptTaskMonitorRun returns.");
+		cmsLog.debug("Cms -> BackgroundServiceImpl -> setEncryptTaskMonitorRun returns.");
 		return cmsResultDto;
 	}
 	
@@ -134,7 +134,7 @@ public class BackgroundServiceImpl implements BackgroundServiceIface {
 	// 中止任务监控
 	public CmsResultDto setEncryptTaskMonitorStandby()
 	{
-		cmsLog.info("Cms -> BackgroundServiceImpl -> setEncryptTaskMonitorStandby...");
+		cmsLog.debug("Cms -> BackgroundServiceImpl -> setEncryptTaskMonitorStandby...");
 		CmsResultDto cmsResultDto = new CmsResultDto();
 		
 		if(encryptTaskMonitor == true)
@@ -148,7 +148,7 @@ public class BackgroundServiceImpl implements BackgroundServiceIface {
 			cmsResultDto.setErrorMessage(str);
 			cmsLog.info(str);
 		}
-		cmsLog.info("Cms -> BackgroundServiceImpl -> setEncryptTaskMonitorStandby returns.");
+		cmsLog.debug("Cms -> BackgroundServiceImpl -> setEncryptTaskMonitorStandby returns.");
 		return cmsResultDto;
 	}
 	
@@ -156,11 +156,11 @@ public class BackgroundServiceImpl implements BackgroundServiceIface {
 	// 查询任务扫描工作状态
 	public CmsResultDto getEncryptTaskWorkStatus()
 	{
-		cmsLog.info("Cms -> BackgroundServiceImpl -> getEncryptTaskStatus...");
+		cmsLog.debug("Cms -> BackgroundServiceImpl -> getEncryptTaskStatus...");
 		CmsResultDto cmsResultDto = new CmsResultDto();
 		
 		cmsResultDto.setResultObject(getEncryptTask);
-		cmsLog.info("Cms -> BackgroundServiceImpl -> getEncryptTaskStatus returns.");
+		cmsLog.debug("Cms -> BackgroundServiceImpl -> getEncryptTaskStatus returns.");
 		return cmsResultDto;
 	} 
 	

@@ -431,6 +431,20 @@ public class BroadcastModuleManagerImpl implements IBroadcastModuleManager {
 			egFoldElement.addAttribute("UPDATEFLAG", "1");
 			egFoldElement.addAttribute("UPDATETIME", DateUtil.getDateStr("yyyy-MM-dd HH:mm:ss:SSS", portalColumn.getUpdatedate()));
 			egFoldElement.addAttribute("FOLDID", "1");
+			/**
+			 * 加入用户分组信息
+			 * HuangBo addition by 2012年8月1日 11时04分
+			 */
+			List<CmsSite> sites = this.cmsSiteManager.findAll();
+			for (CmsSite cmsSite : sites) {
+				Element siteEgFoldElement = foldElement.addElement("EgFold");
+				siteEgFoldElement.addAttribute("FOLDNAME", "D_GROUP");
+				siteEgFoldElement.addAttribute("ID", cmsSite.getSiteCode());
+				siteEgFoldElement.addAttribute("SRC", "/" + cmsSite.getSiteCode() + "/");
+				siteEgFoldElement.addAttribute("UPDATEFLAG", "1");
+				siteEgFoldElement.addAttribute("UPDATETIME", DateUtil.getDateStr("yyyy-MM-dd HH:mm:ss:SSS", cmsSite.getUpdateTime()));
+				siteEgFoldElement.addAttribute("FOLDID", "1");
+			}
 		}
 		
 		return document;
@@ -654,7 +668,7 @@ public class BroadcastModuleManagerImpl implements IBroadcastModuleManager {
 			String siteCode
 			)
 	{
-		cmsLog.info("Cms -> BroadcastModuleManagerImpl -> checkProgPackageFilesReady...");
+		cmsLog.debug("Cms -> BroadcastModuleManagerImpl -> checkProgPackageFilesReady...");
 		
 		boolean ready = true;
 
@@ -937,7 +951,7 @@ public class BroadcastModuleManagerImpl implements IBroadcastModuleManager {
 		
 
 		cmsLog.info("检查文件结果：" + ready);
-		cmsLog.info("Cms -> BroadcastModuleManagerImpl -> checkProgPackageFilesReady returns.");
+		cmsLog.debug("Cms -> BroadcastModuleManagerImpl -> checkProgPackageFilesReady returns.");
 		return ready;
 	}
 	
@@ -964,10 +978,11 @@ public class BroadcastModuleManagerImpl implements IBroadcastModuleManager {
 			String stclassOnline,
 			long fileStyleCode,		// 1 - 节目预告 ; 2 - 播发单
 			String scheduledate,
-			String siteCode
+			String siteCode,
+			List<String> unEncryptCode
 			)
 	{
-		cmsLog.info("Cms -> BroadcastModuleManagerImpl -> checkProgPackageFilesReady_123...");
+		cmsLog.debug("Cms -> BroadcastModuleManagerImpl -> checkProgPackageFilesReady_123...");
 		
 		boolean ready = true;
 
@@ -1187,9 +1202,9 @@ public class BroadcastModuleManagerImpl implements IBroadcastModuleManager {
 								 * HuangBo update by 2011年7月1日 16时44分
 								 * 增加清流产品号判断
 								 */
-								List<String> encryptCode = Arrays.asList(
-						        		new CmsConfig().getPropertyByName("UnEncryptCode").split(","));
-								if (!encryptCode.containsAll(
+//								List<String> encryptCode = Arrays.asList(
+//						        		new CmsConfig().getPropertyByName("UnEncryptCode").split(","));
+								if (!unEncryptCode.containsAll(
 				        				Arrays.asList(productInfo.getKeyId().split(",")))) {
 									if(list != null && list.size() >= 2)
 									{
@@ -1296,7 +1311,7 @@ public class BroadcastModuleManagerImpl implements IBroadcastModuleManager {
 		
 
 		cmsLog.info("检查文件结果：" + ready);
-		cmsLog.info("Cms -> BroadcastModuleManagerImpl -> checkProgPackageFilesReady_123 returns.");
+		cmsLog.debug("Cms -> BroadcastModuleManagerImpl -> checkProgPackageFilesReady_123 returns.");
 		return ready;
 	}
 	
@@ -2149,7 +2164,8 @@ public class BroadcastModuleManagerImpl implements IBroadcastModuleManager {
 			String date, 			// yyyy-MM-dd
 			String operatorId, 		// 操作人员id
 			String plandate, 		// 计划播发日期，格式："yyyy-MM-dd HH:mm:ss"
-			boolean forceToGenerate	// 强制生成播发单，如果为true，当某个品牌或节目包出现错误的情况，也继续生成播发单xml文件。
+			boolean forceToGenerate,	// 强制生成播发单，如果为true，当某个品牌或节目包出现错误的情况，也继续生成播发单xml文件。
+			List<String> unEncryptCode, String scheduleDays
 			)
 	{
 		// cms 1.21 版本，生成播发单，
@@ -2158,7 +2174,7 @@ public class BroadcastModuleManagerImpl implements IBroadcastModuleManager {
 		// 2 - 根据栏目分类节目包
 		// 播发单下发完成，保存发布文件表记录progListfile，并且发送活动 86-->87 播放单生成成功，发送
 		
-		cmsLog.info("Cms -> BroadcastModuleManagerImpl -> saveGenerateBroadcastxml_123...");
+		cmsLog.debug("Cms -> BroadcastModuleManagerImpl -> saveGenerateBroadcastxml_123...");
 		CmsResultDto cmsResultDto = new CmsResultDto();
 		
 		int errorcount = 0;
@@ -2166,7 +2182,7 @@ public class BroadcastModuleManagerImpl implements IBroadcastModuleManager {
 		
 		// 配置文件库中
 		String serverOS = cc.getPropertyByName("ServerOS");		// 服务器操作系统
-		String scheduleDays = cc.getPropertyByName("ScheduleDays");		// 天数
+//		String scheduleDays = cc.getPropertyByName("ScheduleDays");		// 天数
 		String broadcastXmlTemp = cc.getPropertyByName("BroadcastXmlTemp"); 	// 播发单xml本地临时目录
 		
 		String stclassOnline = "Online"; 		// 一级等级
@@ -2255,11 +2271,8 @@ public class BroadcastModuleManagerImpl implements IBroadcastModuleManager {
 						 * 判断当前编单中是否有文件未到位的节目包，如果有不能生成播发单
 						 */
 						cmsLog.info(" 判断当前编单中是否有文件未到位的节目包..." );
-						if(checkProgPackageFilesReady_123(
-								stclassOnline, 
-								(long)2, scheduledate, cmsSite.getSiteCode())
-								)
-						{
+						if(checkProgPackageFilesReady_123(stclassOnline, 
+								2L, scheduledate, cmsSite.getSiteCode(), unEncryptCode)){
 							// 节目包文件都到位
 							cmsLog.info("该品牌即将播发的节目包文件，已经完全到位（一级库），该品牌加入播发单，继续...");
 						}
@@ -2684,7 +2697,7 @@ public class BroadcastModuleManagerImpl implements IBroadcastModuleManager {
 		}
 		cmsResultDto.setErrorDetail(errordetails);
 
-		cmsLog.info("Cms -> BroadcastModuleManagerImpl -> saveGenerateBroadcastxml_123 returns.");
+		cmsLog.debug("Cms -> BroadcastModuleManagerImpl -> saveGenerateBroadcastxml_123 returns.");
 		return cmsResultDto;
 	}
 	
@@ -2695,7 +2708,7 @@ public class BroadcastModuleManagerImpl implements IBroadcastModuleManager {
 	 */
 	public CmsResultDto getProgListDeleteDetails(String date, String operatorId)
 	{
-		cmsLog.info("Cms -> BroadcastModuleManagerImpl -> getProgListDeleteDetails...");
+		cmsLog.debug("Cms -> BroadcastModuleManagerImpl -> getProgListDeleteDetails...");
 		CmsResultDto cmsResultDto = new CmsResultDto();
 		
 		cmsLog.info("输入参数：");
@@ -2706,7 +2719,7 @@ public class BroadcastModuleManagerImpl implements IBroadcastModuleManager {
 		List<ProgListDeleteDetail> pldds = progListDeleteDetailManager.getProgListDeleteDetailsByScheduledate(scheduleDate);
 		cmsResultDto.setResultObject(pldds);
 		
-		cmsLog.info("Cms -> BroadcastModuleManagerImpl -> getProgListDeleteDetails returns.");
+		cmsLog.debug("Cms -> BroadcastModuleManagerImpl -> getProgListDeleteDetails returns.");
 		return cmsResultDto;
 	}
 	
@@ -2719,7 +2732,7 @@ public class BroadcastModuleManagerImpl implements IBroadcastModuleManager {
 	 */
 	public CmsResultDto saveProgListDeleteDetails(String date, List<ProgPackage> progPackages, String operatorId)
 	{
-		cmsLog.info("Cms -> BroadcastModuleManagerImpl -> saveProgListDeleteDetails...");
+		cmsLog.debug("Cms -> BroadcastModuleManagerImpl -> saveProgListDeleteDetails...");
 		CmsResultDto cmsResultDto = new CmsResultDto();
 		
 		cmsLog.info("输入参数：");
@@ -2759,7 +2772,7 @@ public class BroadcastModuleManagerImpl implements IBroadcastModuleManager {
 			cmsLog.warn(str);
 		}
 		
-		cmsLog.info("Cms -> BroadcastModuleManagerImpl -> saveProgListDeleteDetails returns.");
+		cmsLog.debug("Cms -> BroadcastModuleManagerImpl -> saveProgListDeleteDetails returns.");
 		return cmsResultDto;
 	}
 	
@@ -2771,7 +2784,7 @@ public class BroadcastModuleManagerImpl implements IBroadcastModuleManager {
 	 */
 	public CmsResultDto deleteProgListDeleteDetails(List<String> progListDeleteDetailids, String operatorId)
 	{
-		cmsLog.info("Cms -> BroadcastModuleManagerImpl -> deleteProgListDeleteDetails...");
+		cmsLog.debug("Cms -> BroadcastModuleManagerImpl -> deleteProgListDeleteDetails...");
 		CmsResultDto cmsResultDto = new CmsResultDto();
 		
 		cmsLog.info("输入参数：");
@@ -2804,685 +2817,12 @@ public class BroadcastModuleManagerImpl implements IBroadcastModuleManager {
 			cmsLog.warn(str);
 		}
 		
-		cmsLog.info("Cms -> BroadcastModuleManagerImpl -> deleteProgListDeleteDetails returns.");
+		cmsLog.debug("Cms -> BroadcastModuleManagerImpl -> deleteProgListDeleteDetails returns.");
 		return cmsResultDto;
 	}
 	
 	
 	//=============================================================================================
-	
-	
-	
-	//=============================================================================================
-	
-	//---------------------- 1.2 接口方法 -----------------------------------------------------------
-	/**
-	 * 20101126 13:07 1.2 生成播发单xml文件
-	 * @param date，格式：yyyy-MM-dd
-	 * @param operatorId
-	 * @param plandate
-	 * @return CmsResultDto.errordetails不为空时，播发单文件生成，但是有节目包未加入到播发单中的情况。
-	 */
-//	public CmsResultDto saveGenerateBroadcastxml(
-//			String date, 			// yyyy-MM-dd
-//			String operatorId, 		// 操作人员id
-//			String plandate, 		// 计划播发日期，格式："yyyy-MM-dd HH:mm:ss"
-//			boolean forceToGenerate	// 强制生成播发单，如果为true，当某个品牌或节目包出现错误的情况，也继续生成播发单xml文件。
-//			)
-//	{
-//		// cms 1.21 版本，生成播发单，
-//		// 由于媒资不能上线，节目来源仍然是cms导入，contentid用节目包主文件的文件id来代替。
-//		// 1 - 查询date的栏目单详细记录
-//		// 2 - 根据栏目分类节目包
-//		// 播发单下发完成，保存发布文件表记录progListfile，并且发送活动 86-->87 播放单生成成功，发送
-//		
-//		cmsLog.info("Cms -> BroadcastManagerImpl -> generateBroadcastXml...");
-//		CmsResultDto cmsResultDto = new CmsResultDto();
-//		
-//		int errorcount = 0;
-//		String errordetails = "";
-//		
-//		// 配置文件库中
-//		String serverOS = cc.getPropertyByName("ServerOS");		// 服务器操作系统
-//		String scheduleDays = cc.getPropertyByName("ScheduleDays");		// 天数
-//		String broadcastXmlTemp = cc.getPropertyByName("BroadcastXmlTemp"); 	// 播发单xml本地临时目录
-//		
-//		String stclassOnline = "Online"; 		// 一级等级
-//		String filecodeBroadcast = "BRDXML";
-////		String rootPortalColumnDefcatseq = "";
-//		String localfile = "";					// 播发单本地临时路径
-//		String broadcastXmlFullPath = "";		// 播发单路径
-////		String errorDetail = "";
-//		long fileStyleCode = 0L;		// 1 - 节目预告 ; 2 - 播发单
-//		Date nowDate = new Date();
-//		String scheduledate = fileopr.convertDateToScheduleDate(date);
-//		Date ddate = fileopr.convertStringToDate(date, "yyyy-MM-dd");
-//		
-//		long days = 7L;
-//		try
-//		{
-//			days = Long.valueOf(scheduleDays);
-//		}
-//		catch(Exception e)
-//		{
-//			cmsLog.warn("预告天数类型转换异常：" + e.getMessage());
-//		}
-//
-//		// 播发单文件名
-//		String broadcastXmlName = "broadcast_" + date +"_";
-//		broadcastXmlName += fileopr.convertDateToString(nowDate,"yyyyMMddHHmmss");
-//		broadcastXmlName += ".xml";
-//		
-//		/**
-//		 * 查询播发单的路径
-//		 */
-//		List<String> filepaths = getBroadcastXmlFilepath(
-//				filecodeBroadcast, 
-//				stclassOnline, 
-//				date, 
-//				broadcastXmlTemp, 
-//				serverOS
-//				);
-//		if(filepaths != null && filepaths.size() >= 2)
-//		{
-//			broadcastXmlFullPath = filepaths.get(0);
-//			localfile = filepaths.get(1);
-//			
-//			localfile = localfile + broadcastXmlName;
-//			broadcastXmlFullPath = broadcastXmlFullPath + broadcastXmlName;
-//			
-//			cmsLog.info("播发单本地临时路径 - " + localfile);
-//			cmsLog.info("播发单目标路径 - " + broadcastXmlFullPath);
-//			
-//			/**
-//			 * 判断当前活动是否允许生成播发单
-//			 */
-//			cmsLog.info("判断编单总表活动是否是“播发”(FU00000086)...");
-//			cmsLog.info("编单总表日期：" + scheduledate);
-//			ProgListMang progListMang = (ProgListMang)progListMangManager.getById(scheduledate);
-//
-//			// 判断编单总表活动是否是“播发”(FU00000086)
-//			if ("FU00000086".equalsIgnoreCase(progListMang.getIdAct()))
-//			{
-//				cmsLog.info("编单总表活动是“播发”(FU00000086)，允许生成播发单...");
-//				cmsLog.info("获得播发单xml文件生成的目标路径...");
-//
-//				/**
-//				 * 查询品牌
-//				 * 查询品牌下所有栏目
-//				 * 查询栏目下所有节目包
-//				 * 查询节目包下所有文件
-//				 */
-//				cmsLog.info("查询所有品牌...");
-//				List cmsSites = cmsSiteManager.findAll();
-//				if(cmsSites != null && cmsSites.size() > 0)
-//				{
-//					cmsLog.info("共有" + cmsSites.size() + "个品牌。");
-//
-//					BroadcastPushVod broadcastPushVod = new BroadcastPushVod();
-//					List<BroadcastSite> broadcastSites = new ArrayList<BroadcastSite>();
-//					for (int i = 0; i < cmsSites.size(); i++)
-//					{
-//						CmsSite cmsSite = (CmsSite) cmsSites.get(i);
-//						
-//						cmsLog.info("处理第" + (i + 1) + "个品牌...");
-//						cmsLog.info("品牌code：" + cmsSite.getSiteCode());
-//						cmsLog.info("品牌名称：" + cmsSite.getSitename());
-//						
-//						/**
-//						 * 判断当前编单中是否有文件未到位的节目包，如果有不能生成播发单
-//						 */
-//						cmsLog.info(" 判断当前编单中是否有文件未到位的节目包..." );
-//						if(checkProgPackageFilesReady(
-//								stclassOnline, 
-//								(long)2, scheduledate, cmsSite.getSiteCode())
-//								)
-//						{
-//							// 节目包文件都到位
-//							cmsLog.info("该品牌即将播发的节目包文件，已经完全到位（一级库），该品牌加入播发单，继续...");
-//						}
-//						else
-//						{
-//							// 节目包文件未完全到位
-//							cmsLog.info("该品牌即将播发的节目包文件，尚未完全到位（一级库），该品牌不加入播发单，跳过...");
-//							errorcount++;
-//							errordetails += "品牌(" + cmsSite.getSitename() + ")即将播发的节目包文件，尚未完全到位（一级库），该品牌不加入播发单。\r\n";
-//							continue;
-//						}
-//						
-//						
-//						cmsLog.info("得到品牌下所有有效的、叶子节点栏目...");
-//						List pcs = portalColumnManager.getPortalColumnsBySitecodeValidtagIsleaf(
-//								cmsSite.getSiteCode(), 
-//								(long)0, 		// validflag
-//								"Y"				// isleaf
-//								);
-//						cmsLog.info("品牌下共有" + pcs.size() + "个有效的、叶子节点栏目...");
-//						
-//						BroadcastSite broadcastSite = new BroadcastSite();// 品牌
-//						List<BroadcastProglist> broadcastProglists = new ArrayList<BroadcastProglist>();
-//						List<BroadcastJs> broadcastJses = new ArrayList<BroadcastJs>();
-//						List<BroadcastDelete> broadcastDeletes = new ArrayList<BroadcastDelete>();
-//
-//						for(long d = 0; d < days; d++)
-//						{
-//							Date dscheduledate = new Date();
-//							dscheduledate.setTime(ddate.getTime() + 24*60*60*1000*d);
-//							String strscheduledate = fileopr.convertDateToString(dscheduledate, "yyyyMMdd000000");
-//							
-//							if(d == 0)
-//							{
-//								cmsLog.info("处理当日编单...");
-//								cmsLog.info("编单日期：" + strscheduledate);
-//								fileStyleCode = 2L;
-//								
-//							}
-//							else
-//							{
-//								cmsLog.info("处理节目预告编单...");
-//								cmsLog.info("编单日期：" + strscheduledate);
-//								fileStyleCode = 1L;
-//							}
-//							
-//							// 编单节点
-//							BroadcastProglist broadcastProglist = new BroadcastProglist();
-//							List<BroadcastColumn> broadcastColumns = new ArrayList<BroadcastColumn>();
-//
-//							for(int j = 0; j < pcs.size(); j++)
-//							{
-//								PortalColumn portalColumn = (PortalColumn) pcs.get(j);
-//								
-//								cmsLog.info("处理第" + (i+1) + "个栏目...");
-//								cmsLog.info("栏目code：" + portalColumn.getDefcatcode());
-//								cmsLog.info("栏目名称：" + portalColumn.getColumnname());
-//								cmsLog.info("栏目id：" + portalColumn.getColumnclassid());
-//								
-//								BroadcastColumn broadcastColumn = new BroadcastColumn();
-//								List<BroadcastProgPackage> broadcastProgPackages = new ArrayList<BroadcastProgPackage>();			
-//								
-//								cmsLog.info("编单日期：" + strscheduledate);
-//								cmsLog.info("查询栏目下的栏目单详细(ProgListDetail)...");
-//								List plds = progListDetailManager.getProgListDetailsByScheduledateColumnclassid(
-//										strscheduledate, 
-//										portalColumn.getColumnclassid()
-//										);
-//								cmsLog.info("栏目单详细(ProgListDetail)记录数量：" + plds.size());
-//								for(int k = 0; k < plds.size(); k++)
-//								{
-//									ProgListDetail pld = (ProgListDetail)plds.get(k);
-//									// 获得节目包
-//									ProgPackage pp = (ProgPackage)progPackageManager.getById(pld.getProductid());
-//									
-//									
-//									List<ProgramFiles> pfs = new ArrayList<ProgramFiles>();	// 需要加入播发单的节目包文件
-//									String contentid = "";		// 目前为主文件的progfileid
-//									String productinfoid = pld.getProductInfoID();
-//									String jsfileid = pld.getJsFileID();
-//									String keyfileid = null;
-//									String keyids = "";
-//									
-//									cmsLog.info("处理第" + (k+1) + "个栏目单详细...");
-//									cmsLog.info("节目包ID：" + pld.getProductid());
-//									cmsLog.info("节目包名称：" + pld.getProductname());
-//									cmsLog.info("文件样式应用代码：" + fileStyleCode);
-//									cmsLog.info("节目包的样式ID：" + pp.getStyleid());
-//									cmsLog.info("产品信息ID：" + productinfoid);
-//									cmsLog.info("节目包JS文件ID：" + jsfileid);
-//									
-//									TProductInfo productInfo = productinfoManager.getTProductInfoById(productinfoid);
-//									if(productInfo != null)
-//									{
-//										keyfileid = productInfo.getKeyFileId();
-//										keyids = productInfo.getKeyId();
-//									}
-//									cmsLog.info("节目包Key文件ID：" + keyfileid);
-//									
-//									if(d != 0)		// 是节目预告，不是当日编单
-//									{
-//										/**
-//										 * 如果是节目预告（不是当日节目）
-//										 * 并且，栏目单详细不加入节目预告
-//										 * 则，不处理，跳过
-//										 */
-//										if(!"Y".equalsIgnoreCase(pld.getScheduleTag()))
-//										{
-//											cmsLog.info("栏目单详细记录属于节目预告编单，且不加入节目预告，不处理，跳过...");
-//											continue;
-//										}
-//									}
-//									else			// 不是节目预告，是当日编单
-//									{
-//										
-//									}
-//									if(productinfoid == null || "".equalsIgnoreCase(productinfoid))
-//									{
-//										cmsLog.info("栏目单详细的产品信息ID为空，不处理，跳过...");
-//										errorcount++;
-//										errordetails += "栏目单详细(" + pld.getProductname() + ")的产品信息ID为空，不加入播发单。\r\n";
-//										continue;
-//									}
-//									if(jsfileid == null || "".equalsIgnoreCase(jsfileid))
-//									{
-//										cmsLog.info("栏目单详细的JS文件ID为空，不处理，跳过...");
-//										errordetails += "栏目单详细(" + pld.getProductname() + ")的JS文件ID为空，不加入播发单。\r\n";
-//										errorcount++;
-//										continue;
-//									}
-//									if(keyfileid == null || "".equalsIgnoreCase(keyfileid))
-//									{
-//										cmsLog.info("栏目单详细的Key文件ID为空，不处理，跳过...");
-//										errorcount++;
-//										errordetails += "栏目单详细(" + pld.getProductname() + ")的Key文件ID为空，不加入播发单。\r\n";
-//										continue;
-//									}
-//									
-//									/** 
-//									 * 获得节目包下文件列表（根据文件样式）
-//									 * 编单当日的节目包文件，不适用于文件样式，取节目包所有文件
-//									 * 编单日后的编单，根据文件样式，取节目包的文件用于生成播发单
-//									 */ 
-//									
-//									/**
-//									 * 根据应用（生成节目预告），
-//									 * 查询文件样式表（FileStyle），
-//									 * 得到允许加入播发单预告部分的节目包文件的filetype列表
-//									 * 另外，需要判断栏目单详细(proglistdetail)的节目预告标志(scheduletag)
-//									 */
-//									cmsLog.info("查询文件样式...");
-//									List<FileStyle> fileStyles = fileStyleManager.queryFileStylesByStyleCodeAndStyleID(fileStyleCode, pp.getStyleid());
-//
-//									if(fileStyles == null || fileStyles.size() <= 0)
-//									{
-//										cmsLog.info("节目包的文件样式为空，不处理，跳过...");
-//										errorcount++;
-//										errordetails += "节目包(" + pp.getProductname() + ")的文件样式为空，不加入播发单。\r\n";
-//									}
-//									else
-//									{
-//										cmsLog.info("节目包的文件样式size：" + fileStyles.size());
-//										for(int m = 0; m < fileStyles.size(); m++)
-//										{
-//											FileStyle fileStyle = fileStyles.get(m);
-//											
-//											cmsLog.info("filetypeid：" + fileStyle.getFileTypeId());
-//											
-//											
-//											List<ProgramFiles> programFiles = packageFilesManager.getProgramFilesesByProductidFiletype(pp.getProductid(), fileStyle.getFileTypeId());
-//											if(programFiles != null && programFiles.size() > 0)
-//											{
-//												ProgramFiles pf = programFiles.get(0);
-//												pfs.add(pf);
-//												
-//												// 更新contentid
-//												if(pf.getProgrank() == (long)1)
-//												{
-//													contentid = pf.getContentId();
-//												}
-//											}
-//										}
-//										
-//										/**
-//										 * 如果主文件的文件id（contentid）未找到，需要先找到
-//										 */
-//										
-//										if(pfs.size() > 0)
-//										{
-//											BroadcastProgPackage broadcastProgPackage = new BroadcastProgPackage();
-//											List<BroadcastFile> broadcastFiles = new ArrayList<BroadcastFile>();
-//											List<BroadcastPushCondition> broadcastPushConditions = new ArrayList<BroadcastPushCondition>();
-//
-//											/**
-//											 * 节目包文件
-//											 */
-//											for(int m = 0; m < pfs.size(); m++)
-//											{
-//												ProgramFiles pf = pfs.get(m);
-//												
-//												// 返回：List
-//												// 1 - String 源文件存放目标路径，格式："smb://hc:hc@172.23.19.66/公用/test.xml"
-//												// 2 - List<Object[]>
-//												// 		(AmsStorage)Object[0]
-//												// 		(AmsStoragePrgRel)Object[1]
-//												// 		(AmsStorageDir)Object[2]
-//												// 		(AmsStorageClass)Object[3]
-//												List list = packageFilesManager.getSourcePathByProgfileidStclasscodeWithoutProgramFiles(
-//														pf.getProgfileid(), 
-//														stclassOnline, 
-//														""
-//														);
-//												if(list != null && list.size() >= 2)
-//												{
-//													List<Object[]> list1 = (List<Object[]>)list.get(1);
-//													Object[] rows = (Object[]) list1.get(0);
-//													AmsStorage ams = (AmsStorage) rows[0];
-//													AmsStoragePrgRel amspr = (AmsStoragePrgRel) rows[1];
-//													AmsStorageDir amsd = (AmsStorageDir) rows[2];
-//													AmsStorageClass amsc = (AmsStorageClass) rows[3];
-//													
-//													String src = amspr.getFilepath();
-//													src = src.replace('\\', '/');
-//													src = fileopr.checkPathFormatFirst(src, '/');
-//													src = fileopr.checkPathFormatRear(src, '/');
-//													src += amspr.getFilename();
-//													String updateflag = "N";
-//													String updatetime = "";
-//													try
-//													{
-//														if(pf.getUpdateTime() == null)
-//														{
-//															updateflag = "N";
-//															updatetime = "";
-//														}
-//														else
-//														{
-//															if(pf.getInputtime().compareTo(pf.getUpdateTime()) == 0)
-//															{
-//																updateflag = "N";
-//																updatetime = "";
-//															}
-//															else
-//															{
-//																updateflag = "Y";
-//																updatetime = fileopr.convertDateToString(pf.getUpdateTime(), "yyyy-MM-dd HH:mm:ss");
-//															}
-//														}
-//													}
-//													catch(Exception ex)
-//													{
-//														updateflag = "N";
-//														updatetime = "";
-//													}
-//													
-//													BroadcastFile broadcastFile = new BroadcastFile();
-//													broadcastFile.setProgfileid(pf.getProgfileid());
-//													broadcastFile.setFilename(pf.getFilename());
-//													broadcastFile.setContentid(contentid);	// CONTENTID（全部为主文件值）
-//													broadcastFile.setProgrank(pf.getProgrank().toString());	// 主体文件标识,1-主文件;0-非主文件
-//													broadcastFile.setFilecode(pf.getFilecode());
-//													broadcastFile.setFiletypeid(pf.getFiletypeid());
-//													broadcastFile.setSrc(src);						// 源文件路径
-//													broadcastFile.setUpdateflag(updateflag);		// 更新标识
-//													broadcastFile.setUpdatetime(updatetime);		// 更新版本
-//													
-//													broadcastFiles.add(broadcastFile);
-//												}
-//												else
-//												{
-//													cmsLog.warn("文件在一级库的位置没有查询到。");
-//													cmsLog.warn("文件ID：" + pf.getProgfileid());
-//													errorcount++;
-//													errordetails += "文件("
-//																	+ pf.getFilename() 
-//																	+ ")在一级库的位置没有查询到，节目包(" 
-//																	+ pp.getProductname() 
-//																	+ ")加入播发单，文件未加入播发单。\r\n";
-//												}
-//											}
-//											
-//											/**
-//											 * Keyids
-//											 */
-////											String productinfoId = pld.getProductInfoID();
-////											String keyids = "";
-////											TProductInfo productInfo = (TProductInfo)productinfoManager.getById(productinfoId);
-////											if(productInfo != null)
-////											{
-////												keyids = productInfo.getKeyId();
-////											}
-//											
-//											/**
-//											 * key文件，根据栏目单详细记录、文件位置表找
-//											 */
-////											String keyfileid = pld.getProductInfoID();
-//											if(keyfileid != null && !"".equalsIgnoreCase(keyfileid))
-//											{
-//												List list = packageFilesManager.getSourcePathByProgfileidStclasscodeWithoutProgramFiles(
-//														keyfileid, 
-//														stclassOnline, 
-//														""
-//														);
-//												if(list != null && list.size() >= 2)
-//												{
-//													List<Object[]> list1 = (List<Object[]>)list.get(1);
-//													Object[] rows = (Object[]) list1.get(0);
-//													AmsStorage ams = (AmsStorage) rows[0];
-//													AmsStoragePrgRel amspr = (AmsStoragePrgRel) rows[1];
-//													AmsStorageDir amsd = (AmsStorageDir) rows[2];
-//													AmsStorageClass amsc = (AmsStorageClass) rows[3];
-//													
-//													String src = amspr.getFilepath();
-//													src = src.replace('\\', '/');
-//													src = fileopr.checkPathFormatFirst(src, '/');
-//													src = fileopr.checkPathFormatRear(src, '/');
-//													src += amspr.getFilename();
-//													String updateflag = "Y";
-//													String updatetime = fileopr.convertDateToString(productInfo.getInputTime(), "yyyy-MM-dd HH:mm:ss");
-//													
-//													BroadcastFile broadcastFile = new BroadcastFile();
-//													broadcastFile.setProgfileid(keyfileid);
-//													broadcastFile.setFilename(amspr.getFilename());
-//													broadcastFile.setContentid(contentid);	// CONTENTID（全部为主文件值）
-//													broadcastFile.setProgrank("0");	// 主体文件标识,1-主文件;0-非主文件
-//													broadcastFile.setFilecode("KEY");
-//													broadcastFile.setFiletypeid(amspr.getFtypeglobalid());
-//													broadcastFile.setSrc(src);						// 源文件路径
-//													broadcastFile.setUpdateflag(updateflag);		// 更新标识
-//													broadcastFile.setUpdatetime(updatetime);		// 更新版本
-//													
-//													broadcastFiles.add(broadcastFile);
-//												}
-//											}
-//											
-//											/**
-//											 * js文件，根据栏目单详细记录、文件位置表找
-//											 */
-////											String jsfileid = pld.getJsFileID();
-//											if(jsfileid != null && !"".equalsIgnoreCase(jsfileid))
-//											{
-//												List list = packageFilesManager.getSourcePathByProgfileidStclasscodeWithoutProgramFiles(
-//														jsfileid, 
-//														stclassOnline, 
-//														""
-//														);
-//												if(list != null && list.size() >= 2)
-//												{
-//													List<Object[]> list1 = (List<Object[]>)list.get(1);
-//													Object[] rows = (Object[]) list1.get(0);
-//													AmsStorage ams = (AmsStorage) rows[0];
-//													AmsStoragePrgRel amspr = (AmsStoragePrgRel) rows[1];
-//													AmsStorageDir amsd = (AmsStorageDir) rows[2];
-//													AmsStorageClass amsc = (AmsStorageClass) rows[3];
-//													
-//													String src = amspr.getFilepath();
-//													src = src.replace('\\', '/');
-//													src = fileopr.checkPathFormatFirst(src, '/');
-//													src = fileopr.checkPathFormatRear(src, '/');
-//													src += amspr.getFilename();
-//													String updateflag = "Y";
-//													String updatetime = fileopr.convertDateToString(pld.getUploaddate(), "yyyy-MM-dd HH:mm:ss");
-//													
-//													BroadcastFile broadcastFile = new BroadcastFile();
-//													broadcastFile.setProgfileid(jsfileid);
-//													broadcastFile.setFilename(amspr.getFilename());
-//													broadcastFile.setContentid(contentid);	// CONTENTID（全部为主文件值）
-//													broadcastFile.setProgrank("0");	// 主体文件标识,1-主文件;0-非主文件
-//													broadcastFile.setFilecode("PPJS");
-//													broadcastFile.setFiletypeid(amspr.getFtypeglobalid());
-//													broadcastFile.setSrc(src);						// 源文件路径
-//													broadcastFile.setUpdateflag(updateflag);		// 更新标识
-//													broadcastFile.setUpdatetime(updatetime);		// 更新版本
-//													
-//													broadcastFiles.add(broadcastFile);
-//												}
-//											}
-//
-//											BroadcastPushCondition broadcastPushCondition = new BroadcastPushCondition();
-//											broadcastPushCondition.setValue("投递策略代码...");
-//											broadcastPushConditions.add(broadcastPushCondition);
-//	
-//											broadcastProgPackage.setPpid(pp.getProductid());
-//											broadcastProgPackage.setStbTitle(pp.getProductname());
-//											broadcastProgPackage.setKeyids(keyids);
-//											broadcastProgPackage.setBroadcastFiles(broadcastFiles);
-//											broadcastProgPackage.setBroadcastPushConditions(broadcastPushConditions);
-//											broadcastProgPackages.add(broadcastProgPackage);
-//										}
-//										else
-//										{
-//											/**
-//											 * 符合文件样式的节目包文件没有查询到，节目包不加入播发单
-//											 */
-//											cmsLog.info("符合文件样式的节目包文件没有查询到，节目包不加入播发单。");
-//											errorcount++;
-//											errordetails += "符合文件样式的节目包文件没有查询到，节目包(" + pp.getProductname() + ")不加入播发单。\r\n";
-//										}
-//									}	// if(fileStyles == null || fileStyles.size() <= 0) else
-//								}	// for(int k = 0; k < plds.size(); k++)
-//								
-//								broadcastColumn.setDefCatCode(portalColumn.getDefcatcode());
-//								broadcastColumn.setName(portalColumn.getColumnname());
-//								broadcastColumn.setType(portalColumn.getArchivedays().toString());
-//								broadcastColumn.setBroadcastProgPackages(broadcastProgPackages);
-//								broadcastColumns.add(broadcastColumn);
-//							}	// for(int j = 0; j < pcs.size(); j++)
-//							
-//							broadcastProglist.setScheduleDate(strscheduledate);
-//							broadcastProglist.setBroadcastColumns(broadcastColumns);
-//							broadcastProglists.add(broadcastProglist);
-//						}	// for(long d = 0; d < days; d++)
-//						
-//						/**
-//						 * 节目预告js文件名字，
-//						 * CmsSite表
-//						 */
-//						// 节目预告js节点
-//						BroadcastJs broadcastJs = new BroadcastJs();
-//						List<BroadcastYgJs> broadcastYgJses = new ArrayList<BroadcastYgJs>();
-//						BroadcastYgJs broadcastYgJs = new BroadcastYgJs();
-//						broadcastYgJs.setFileName(cmsSite.getEpgpath());
-//						broadcastYgJs.setScheduleDate(scheduledate);
-//						broadcastYgJs.setSrc("");
-//						broadcastYgJses.add(broadcastYgJs);
-//						broadcastJs.setBroadcastYgJses(broadcastYgJses);
-//						broadcastJses.add(broadcastJs);
-//						
-//						// 删除节目包节点
-//						BroadcastDelete broadcastDelete = new BroadcastDelete();
-//						broadcastDeletes.add(broadcastDelete);
-//
-//						
-//						broadcastSite.setBroadcastTime(plandate);// 播发时间
-//						broadcastSite.setSiteCode(cmsSite.getSiteCode());// 品牌code
-//						broadcastSite.setSiteName(cmsSite.getSitename());// 品牌名称
-//						broadcastSite.setScheduleDate(scheduledate);// 栏目单日期
-//						broadcastSite.setBroadcastProglists(broadcastProglists);
-//						broadcastSite.setBroadcastJses(broadcastJses);
-//						broadcastSite.setBroadcastDeletes(broadcastDeletes);
-//						broadcastSites.add(broadcastSite);
-//					}	// for (int i = 0; i < cmsSites.size(); i++)
-//					
-//					broadcastPushVod.setId("");
-//					broadcastPushVod.setBroadcastSites(broadcastSites);
-//					
-//					boolean generateXmlFile = false;
-//					if(errorcount > 0)
-//					{
-//						if(forceToGenerate == true)
-//						{
-//							generateXmlFile = true;
-//						}
-//						else
-//						{
-//							generateXmlFile = false;
-//						}
-//					}	
-//					else
-//					{
-//						generateXmlFile = true;
-//					}
-//					/**
-//					 * 生成播发单xml Document
-//					 */
-//					if(generateXmlFile == true)
-//					{
-//						Document document = generateXmlDoc(broadcastPushVod);
-//						
-//						/**
-//						 * 1 - 把xml字符串增加到ProgListfile记录，获取新增记录的id，设置新增记录为无效状态(state1 = 1)
-//						 * 2 - 把新增id设置为xml的pushvod id
-//						 * 3 - 生成播发单的xml文件在本地
-//						 * 4 - 复制本地播发单xml文件到网络路径（一级库）
-//						 * 5 - 设置新增ProgListfile记录为有效状态(state1 = 0)
-//						 */
-//						ProgListFile progListFile = new ProgListFile();
-//						progListFile.setScheduledate(scheduledate);
-//						progListFile.setFilename(broadcastXmlName);
-//						progListFile.setFiletype((long) 9);
-//						progListFile.setDate1(nowDate);
-//						progListFile.setDate4(fileopr.convertStringToDate(plandate, "yyyy-MM-dd HH:mm:ss"));
-//						progListFile.setState1((long) 1);		// 设置为无效
-//						progListFile.setState2((long) 0);
-//						progListFile.setInputmanid(operatorId);
-//	//					progListFile.setColumnxml(strxml);
-//						progListFile.setInputtime(nowDate);
-//	
-//						int ret = saveBroadcastXmlFile(
-//								broadcastPushVod, 
-//								document, broadcastXmlFullPath, localfile, 
-//								progListFile, date, operatorId);
-//						if(ret == 0)
-//						{
-//							cmsLog.info("生成播发单xml文件成功。");
-//							cmsLog.info("目标路径 - " + broadcastXmlFullPath);
-//						}
-//						else
-//						{
-//							String str = "生成播发单xml文件失败。";
-//							cmsLog.warn(str);
-//							cmsResultDto.setErrorMessage(str);
-//							cmsResultDto.setResultCode((long)1);
-//						}
-//					}
-//					else
-//					{
-//						String str = "生成播发单过程中发生错误，不强制生成播发单xml文件。";
-//						cmsLog.warn(str);
-//						cmsResultDto.setErrorMessage(str);
-//						cmsResultDto.setResultCode((long)1);
-//					}
-//				}
-//				else
-//				{
-//					String str = "品牌数量为0，不生成播发单。";
-//					cmsLog.warn(str);
-//					cmsResultDto.setErrorMessage(str);
-//				}
-//			}
-//			else
-//			{
-//				String str = "编单总表活动不是“播发”(FU00000086)，不生成播发单。";
-//				cmsLog.warn(str);
-//				cmsLog.info("编单总表活动：" + progListMang.getIdAct());
-//				cmsResultDto.setErrorMessage(str);
-//				cmsResultDto.setResultCode((long)1);
-//			}
-//		}
-//		else
-//		{
-//			String str = "查询播发单路径失败，不生成播发单。";
-//			cmsLog.warn(str);
-//			cmsResultDto.setErrorMessage(str);
-//			cmsResultDto.setResultCode((long)1);
-//		}
-//		cmsResultDto.setErrorDetail(errordetails);
-//
-//		cmsLog.info("Cms -> BroadcastManagerImpl -> generateBroadcastXml returns.");
-//		return cmsResultDto;
-//	}
-
-	//=============================================================================================
-	
-	
 	
 	//------------------ 旧代码，不使用 -------------------------------------------------------------
 	/**
@@ -3507,7 +2847,8 @@ public class BroadcastModuleManagerImpl implements IBroadcastModuleManager {
 //			IFlowActivityOrderManager flowActivityOrderManager,
 			String date, 			// yyyy-MM-dd
 			String operatorId, 		// 操作人员id
-			String plandate 		// 计划播发日期，格式："yyyy-MM-dd HH:mm:ss"
+			String plandate, 		// 计划播发日期，格式："yyyy-MM-dd HH:mm:ss"
+			String scheduleDays
 			)
 	{
 		// cms 1.21 版本，生成播发单，
@@ -3516,7 +2857,7 @@ public class BroadcastModuleManagerImpl implements IBroadcastModuleManager {
 		// 2 - 根据栏目分类节目包
 		// 播发单下发完成，保存发布文件表记录progListfile，并且发送活动 86-->87 播放单生成成功，发送
 		
-		cmsLog.info("Cms -> BroadcastModuleManagerImpl -> generateBroadcastXml...");
+		cmsLog.debug("Cms -> BroadcastModuleManagerImpl -> generateBroadcastXml...");
 		CmsResultDto cmsResultDto = new CmsResultDto();
 		
 		int errorcount = 0;
@@ -3524,7 +2865,7 @@ public class BroadcastModuleManagerImpl implements IBroadcastModuleManager {
 		
 		// 配置文件库中
 		String serverOS = cc.getPropertyByName("ServerOS");		// 服务器操作系统
-		String scheduleDays = cc.getPropertyByName("ScheduleDays");		// 天数
+//		String scheduleDays = cc.getPropertyByName("ScheduleDays");		// 天数
 		String broadcastXmlTemp = cc.getPropertyByName("BroadcastXmlTemp"); 	// 播发单xml本地临时目录
 		
 		String stclassOnline = "Online"; 		// 一级等级
@@ -4011,7 +3352,7 @@ public class BroadcastModuleManagerImpl implements IBroadcastModuleManager {
 			cmsLog.warn("查询播发单路径失败，不生成播发单。");
 		}
 
-		cmsLog.info("Cms -> BroadcastModuleManagerImpl -> generateBroadcastXml returns.");
+		cmsLog.debug("Cms -> BroadcastModuleManagerImpl -> generateBroadcastXml returns.");
 		return cmsResultDto;
 	}
 

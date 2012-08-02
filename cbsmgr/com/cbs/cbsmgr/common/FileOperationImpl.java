@@ -45,7 +45,7 @@ public class FileOperationImpl {
 			String strformat					// 日期格式 "yyyy-MM-dd HH:mm:ss" "yyyyMMddHHmmssSSSSSS"
 			)
 	{
-//		cmsLog.info("Cms -> FileOperationImpl -> convertStringToDate...");
+//		cmsLog.debug("Cms -> FileOperationImpl -> convertStringToDate...");
 		Date date = null;
 		try 
 		{
@@ -67,7 +67,7 @@ public class FileOperationImpl {
 		{
 			cmsLog.error("Cms -> FileOperationImpl -> convertStringToDate - 日期转换失败，详细信息：" + e.getMessage());
 		}
-//		cmsLog.info("Cms -> FileOperationImpl -> convertStringToDate returns.");
+//		cmsLog.debug("Cms -> FileOperationImpl -> convertStringToDate returns.");
 		return date;
 	}
 	
@@ -78,7 +78,7 @@ public class FileOperationImpl {
 			String strformat					// 日期格式 "yyyyMMddHHmmssSSSSSS"
 			)
 	{
-//		cmsLog.info("Cms -> FileOperationImpl -> convertDateToString...");
+//		cmsLog.debug("Cms -> FileOperationImpl -> convertDateToString...");
 		String strdate = "";
 		try 
 		{
@@ -96,7 +96,7 @@ public class FileOperationImpl {
 		{
 			cmsLog.error("Cms -> FileOperationImpl -> convertDateToString - 日期转换失败，详细信息：" + e.getMessage());
 		}
-//		cmsLog.info("Cms -> FileOperationImpl -> convertDateToString returns.");
+//		cmsLog.debug("Cms -> FileOperationImpl -> convertDateToString returns.");
 		return strdate;
 	}
 	
@@ -107,7 +107,7 @@ public class FileOperationImpl {
 			char checkword						// 结束字符，格式：'/'
 			)
 	{
-//		cmsLog.info("Cms -> FileOperationImpl -> checkPathFormatRear...");
+//		cmsLog.debug("Cms -> FileOperationImpl -> checkPathFormatRear...");
 		String newPath = "";
 		
 		try 
@@ -133,7 +133,7 @@ public class FileOperationImpl {
 		{
 			cmsLog.error("Cms -> FileOperationImpl -> checkPathFormatRear - 异常：" + e.getMessage());
 		}
-		//		cmsLog.info("Cms -> FileOperationImpl -> checkPathFormatRear returns.");
+		//		cmsLog.debug("Cms -> FileOperationImpl -> checkPathFormatRear returns.");
 		return newPath;
 	}
 	
@@ -144,7 +144,7 @@ public class FileOperationImpl {
 			char checkword						// 结束字符，格式：'/'
 			)
 	{
-//		cmsLog.info("Cms -> FileOperationImpl -> checkPathFormatFirst...");
+//		cmsLog.debug("Cms -> FileOperationImpl -> checkPathFormatFirst...");
 		String newPath = "";
 		
 		try {
@@ -161,7 +161,7 @@ public class FileOperationImpl {
 		} catch (Exception e) {
 			cmsLog.error("Cms -> FileOperationImpl -> checkPathFormatFirst - 异常：" + e.getMessage());
 		}
-		//		cmsLog.info("Cms -> FileOperationImpl -> checkPathFormatFirst returns.");
+		//		cmsLog.debug("Cms -> FileOperationImpl -> checkPathFormatFirst returns.");
 		return newPath;
 	}
 	
@@ -172,7 +172,7 @@ public class FileOperationImpl {
 			)
 	{
 		// 删除文件
-//		cmsLog.info("Cms -> FileOperationImpl -> deleteSmbFile...");
+//		cmsLog.debug("Cms -> FileOperationImpl -> deleteSmbFile...");
 		int ireturn = -1;
 		try
 		{
@@ -180,11 +180,11 @@ public class FileOperationImpl {
 			{
 				SmbFile file = new SmbFile(strFile);
 				file.delete();
-				cmsLog.info("Cms -> FileOperationImpl -> deleteSmbFile - 删除文件成功 : " + strFile);
+				cmsLog.debug("Cms -> FileOperationImpl -> deleteSmbFile - 删除文件成功 : " + strFile);
 			}
 			else
 			{
-				cmsLog.info("Cms -> FileOperationImpl -> deleteSmbFile - 文件不存在，不需要删除 : " + strFile);
+				cmsLog.debug("Cms -> FileOperationImpl -> deleteSmbFile - 文件不存在，不需要删除 : " + strFile);
 			}
 			ireturn = 0;
 		}
@@ -195,7 +195,7 @@ public class FileOperationImpl {
 			cmsLog.error("Cms -> FileOperationImpl -> deleteSmbFile - 异常：" + ex.getMessage());
 		}
 		
-//		cmsLog.info("Cms -> FileOperationImpl -> deleteSmbFile returns.");
+//		cmsLog.debug("Cms -> FileOperationImpl -> deleteSmbFile returns.");
 		return ireturn;
 	}
 	
@@ -206,7 +206,7 @@ public class FileOperationImpl {
 			)
 	{
 		// 删除文件
-//		cmsLog.info("Cms -> FileOperationImpl -> deleteLocalFile...");
+//		cmsLog.debug("Cms -> FileOperationImpl -> deleteLocalFile...");
 		int ireturn = -1;
 		try
 		{
@@ -214,11 +214,11 @@ public class FileOperationImpl {
 			{
 				File file = new File(strFile);
 				file.delete();
-				cmsLog.info("Cms -> FileOperationImpl -> deleteLocalFile - 删除文件成功 : " + strFile);
+				cmsLog.debug("Cms -> FileOperationImpl -> deleteLocalFile - 删除文件成功 : " + strFile);
 			}
 			else
 			{
-				cmsLog.info("Cms -> FileOperationImpl -> deleteLocalFile - 文件不存在，不需要删除 : " + strFile);
+				cmsLog.debug("Cms -> FileOperationImpl -> deleteLocalFile - 文件不存在，不需要删除 : " + strFile);
 			}
 			ireturn = 0;
 		}
@@ -229,7 +229,7 @@ public class FileOperationImpl {
 			cmsLog.error("Cms -> FileOperationImpl -> deleteLocalFile - 异常：" + ex.getMessage());
 		}
 		
-//		cmsLog.info("Cms -> FileOperationImpl -> deleteLocalFile returns.");
+//		cmsLog.debug("Cms -> FileOperationImpl -> deleteLocalFile returns.");
 		return ireturn;
 	}
 	
@@ -239,7 +239,7 @@ public class FileOperationImpl {
 			String dir						// 目录，"smb://hc:hc@172.23.19.66/公用/"
 			)
 	{
-//		cmsLog.info("Cms -> FileOperationImpl -> checkSmbDir...");
+//		cmsLog.debug("Cms -> FileOperationImpl -> checkSmbDir...");
 		String head = "";
 		String checkDir = "";
 		
@@ -258,11 +258,11 @@ public class FileOperationImpl {
 			{
 				System.out.println(file + "不存在");
 				file.mkdirs();
-				cmsLog.info("Cms -> FileOperationImpl -> checkSmbDir - 目录已经创建。" + checkDir);
+				cmsLog.debug("Cms -> FileOperationImpl -> checkSmbDir - 目录已经创建。" + checkDir);
 			}
 			else
 			{
-				cmsLog.info("Cms -> FileOperationImpl -> checkSmbDir - 目录已经存在，不操作。" + checkDir);
+				cmsLog.debug("Cms -> FileOperationImpl -> checkSmbDir - 目录已经存在，不操作。" + checkDir);
 			}
 		} 
 		catch (Exception e) 
@@ -270,7 +270,7 @@ public class FileOperationImpl {
 			cmsLog.error("Cms -> FileOperationImpl -> checkSmbDir - 异常：" + e.getMessage());
 			return 1;
 		}
-//		cmsLog.info("Cms -> FileOperationImpl -> checkSmbDir returns.");
+//		cmsLog.debug("Cms -> FileOperationImpl -> checkSmbDir returns.");
 		return 0;
 	}
 	
@@ -280,7 +280,7 @@ public class FileOperationImpl {
 			String dir						// 目录，"smb://hc:hc@172.23.19.66/公用/"
 			)
 	{
-//		cmsLog.info("Cms -> FileOperationImpl -> checkLocalDir...");
+//		cmsLog.debug("Cms -> FileOperationImpl -> checkLocalDir...");
 //		String head = "";
 		String checkDir = "";
 //		String newdir = "";
@@ -301,11 +301,11 @@ public class FileOperationImpl {
 			{
 				System.out.println(file + "不存在");
 				file.mkdirs();
-				cmsLog.info("Cms -> FileOperationImpl -> checkLocalDir - 目录已经创建。" + checkDir);
+				cmsLog.debug("Cms -> FileOperationImpl -> checkLocalDir - 目录已经创建。" + checkDir);
 			}
 			else
 			{
-				cmsLog.info("Cms -> FileOperationImpl -> checkLocalDir - 目录已经存在，不操作。" + checkDir);
+				cmsLog.debug("Cms -> FileOperationImpl -> checkLocalDir - 目录已经存在，不操作。" + checkDir);
 			}
 		} 
 		catch (Exception e) 
@@ -313,7 +313,7 @@ public class FileOperationImpl {
 			cmsLog.error("Cms -> FileOperationImpl -> checkLocalDir - 异常：" + e.getMessage());
 			return 1;
 		}
-//		cmsLog.info("Cms -> FileOperationImpl -> checkLocalDir returns.");
+//		cmsLog.debug("Cms -> FileOperationImpl -> checkLocalDir returns.");
 		return 0;
 	}
 	
@@ -324,7 +324,7 @@ public class FileOperationImpl {
 			String strFileTo				// 目标文件路径，包含文件名和后缀，格式："smb://hc:hc@172.23.19.66/公用/20100125.xml"
 			)
 	{
-		cmsLog.info("Cms -> FileOperationImpl -> copyFileFromSmbToSmb...");
+		cmsLog.debug("Cms -> FileOperationImpl -> copyFileFromSmbToSmb...");
 		cmsLog.info("源 - " + strFileFrom);
 		cmsLog.info("目标 - " + strFileTo);
 		int ret = -1;
@@ -392,7 +392,7 @@ public class FileOperationImpl {
 			cmsLog.error("Cms -> FileOperationImpl -> copyFileFromSmbToSmb - 异常：" + ex.getMessage());
 		}
 		
-		cmsLog.info("Cms -> FileOperationImpl -> copyFileFromSmbToSmb returns.");
+		cmsLog.debug("Cms -> FileOperationImpl -> copyFileFromSmbToSmb returns.");
 		return ret;
 	}
 
@@ -402,7 +402,7 @@ public class FileOperationImpl {
 			String strFileTo
 			)
 	{
-		cmsLog.info("Cms -> FileOperationImpl -> copyFileFromLocalToSmb...");
+		cmsLog.debug("Cms -> FileOperationImpl -> copyFileFromLocalToSmb...");
 		cmsLog.info("源 - " + strFileFrom);
 		cmsLog.info("目标 - " + strFileTo);
 		int ret = -1;
@@ -471,7 +471,7 @@ public class FileOperationImpl {
 			cmsLog.error("Cms -> FileOperationImpl -> copyFileFromLocalToSmb - 异常：" + ex.getMessage());
 		}
 		
-		cmsLog.info("Cms -> FileOperationImpl -> copyFileFromLocalToSmb returns.");
+		cmsLog.debug("Cms -> FileOperationImpl -> copyFileFromLocalToSmb returns.");
 		return ret;
 	}
 	
@@ -481,7 +481,7 @@ public class FileOperationImpl {
 			String strFileTo
 			)
 	{
-		cmsLog.info("Cms -> FileOperationImpl -> copyFileFromSmbToLocal...");
+		cmsLog.debug("Cms -> FileOperationImpl -> copyFileFromSmbToLocal...");
 		cmsLog.info("源 - " + strFileFrom);
 		cmsLog.info("目标 - " + strFileTo);
 		int ret = -1;
@@ -546,7 +546,7 @@ public class FileOperationImpl {
 			cmsLog.error("Cms -> FileOperationImpl -> copyFileFromSmbToLocal - 异常：" + ex.getMessage());
 		}
 		
-		cmsLog.info("Cms -> FileOperationImpl -> copyFileFromSmbToLocal returns.");
+		cmsLog.debug("Cms -> FileOperationImpl -> copyFileFromSmbToLocal returns.");
 		return ret;
 	}
 	
@@ -556,7 +556,7 @@ public class FileOperationImpl {
 			String strFileTo
 			)
 	{
-		cmsLog.info("Cms -> FileOperationImpl -> copyFileFromLocalToLocal...");
+		cmsLog.debug("Cms -> FileOperationImpl -> copyFileFromLocalToLocal...");
 		cmsLog.info("源 - " + strFileFrom);
 		cmsLog.info("目标 - " + strFileTo);
 		int ret = -1;
@@ -621,7 +621,7 @@ public class FileOperationImpl {
 			cmsLog.error("Cms -> FileOperationImpl -> copyFileFromLocalToLocal - 异常：" + ex.getMessage());
 		}
 		
-		cmsLog.info("Cms -> FileOperationImpl -> copyFileFromLocalToLocal returns.");
+		cmsLog.debug("Cms -> FileOperationImpl -> copyFileFromLocalToLocal returns.");
 		return ret;
 	}
 	
@@ -632,7 +632,7 @@ public class FileOperationImpl {
 			String strWord				// 文件内容字符串
 			)
 	{
-		cmsLog.info("Cms -> FileOperationImpl -> createSmbFile...");
+		cmsLog.debug("Cms -> FileOperationImpl -> createSmbFile...");
 		int ireturn = -1;
 		String head = "";
 		
@@ -671,7 +671,7 @@ public class FileOperationImpl {
 			cmsLog.error("Cms -> FileOperationImpl -> createSmbFile - 异常：" + ex.getMessage());
 		}
 		
-		cmsLog.info("Cms -> FileOperationImpl -> createSmbFile returns.");
+		cmsLog.debug("Cms -> FileOperationImpl -> createSmbFile returns.");
 		return ireturn;
 	}
 	
@@ -682,7 +682,7 @@ public class FileOperationImpl {
 			String strWord				// 文件内容字符串
 			)
 	{
-		cmsLog.info("Cms -> FileOperationImpl -> createSmbFileGb2312...");
+		cmsLog.debug("Cms -> FileOperationImpl -> createSmbFileGb2312...");
 		int ireturn = -1;
 		String head = "";
 		
@@ -722,7 +722,7 @@ public class FileOperationImpl {
 			cmsLog.error("Cms -> FileOperationImpl -> createSmbFileGb2312 - 异常：" + ex.getMessage());
 		}
 		
-		cmsLog.info("Cms -> FileOperationImpl -> createSmbFileGb2312 returns.");
+		cmsLog.debug("Cms -> FileOperationImpl -> createSmbFileGb2312 returns.");
 		return ireturn;
 	}
 
@@ -741,7 +741,7 @@ public class FileOperationImpl {
 		// smb://administrator:123456@10.0.2.7/monitor/1.txt
 		// 2.txt
 		
-		cmsLog.info("Cms -> FileOperationImpl -> renameSmbFile...");
+		cmsLog.debug("Cms -> FileOperationImpl -> renameSmbFile...");
 		int ireturn = -1;
 		
 		// 判断新文件名
@@ -788,7 +788,7 @@ public class FileOperationImpl {
 			cmsLog.error("Cms -> FileOperationImpl -> renameSmbFile - 异常：" + ex.getMessage());
 		}
 		
-		cmsLog.info("Cms -> FileOperationImpl -> renameSmbFile returns.");
+		cmsLog.debug("Cms -> FileOperationImpl -> renameSmbFile returns.");
 		return ireturn;
 	}
 	
@@ -807,7 +807,7 @@ public class FileOperationImpl {
 		// smb://administrator:123456@10.0.2.7/monitor/1.txt
 		// 2.txt
 		
-		cmsLog.info("Cms -> FileOperationImpl -> renameLocalFile...");
+		cmsLog.debug("Cms -> FileOperationImpl -> renameLocalFile...");
 		int ireturn = -1;
 		
 		// 判断新文件名
@@ -856,7 +856,7 @@ public class FileOperationImpl {
 			cmsLog.error("Cms -> FileOperationImpl -> renameLocalFile - 异常：" + ex.getMessage());
 		}
 		
-		cmsLog.info("Cms -> FileOperationImpl -> renameLocalFile returns.");
+		cmsLog.debug("Cms -> FileOperationImpl -> renameLocalFile returns.");
 		return ireturn;
 	}
 
@@ -866,7 +866,7 @@ public class FileOperationImpl {
 			String strPath 				// 源文件夹路径，格式："smb://hc:hc@172.23.19.66/公用/"
 			)
 	{
-		cmsLog.info("Cms -> FileOperationImpl -> listSmbFiles...");
+		cmsLog.debug("Cms -> FileOperationImpl -> listSmbFiles...");
 		SmbFile[] list = null;
 		
 		try 
@@ -901,7 +901,7 @@ public class FileOperationImpl {
 		{
 			cmsLog.error("Cms -> FileOperationImpl -> listSmbFiles - 异常：" + e.getMessage());
 		}
-		cmsLog.info("Cms -> FileOperationImpl -> listSmbFiles returns.");
+		cmsLog.debug("Cms -> FileOperationImpl -> listSmbFiles returns.");
 		return list;
 	}
 	
@@ -911,7 +911,7 @@ public class FileOperationImpl {
 			String strPath 				// 源文件夹路径，格式："c:/公用/"
 			)
 	{
-		cmsLog.info("Cms -> FileOperationImpl -> listLocalFiles...");
+		cmsLog.debug("Cms -> FileOperationImpl -> listLocalFiles...");
 		File[] list = null;
 		
 		try 
@@ -946,7 +946,7 @@ public class FileOperationImpl {
 		{
 			cmsLog.error("Cms -> FileOperationImpl -> listLocalFiles - 异常：" + e.getMessage());
 		}
-		cmsLog.info("Cms -> FileOperationImpl -> listLocalFiles returns.");
+		cmsLog.debug("Cms -> FileOperationImpl -> listLocalFiles returns.");
 		return list;
 	}
 	
@@ -956,7 +956,7 @@ public class FileOperationImpl {
 			String filePath
 			)
 	{
-//		cmsLog.info("Cms -> FileOperationImpl -> checkSmbFileExist...");
+//		cmsLog.debug("Cms -> FileOperationImpl -> checkSmbFileExist...");
 		boolean exist = false;
 		
 		String head = "";
@@ -989,7 +989,7 @@ public class FileOperationImpl {
 			}
 		}
 		
-//		cmsLog.info("Cms -> FileOperationImpl -> checkSmbFileExist returns.");
+//		cmsLog.debug("Cms -> FileOperationImpl -> checkSmbFileExist returns.");
 		return exist;
 	}
 
@@ -999,7 +999,7 @@ public class FileOperationImpl {
 			String filePath
 			)
 	{
-//		cmsLog.info("Cms -> FileOperationImpl -> checkFileExist...");
+//		cmsLog.debug("Cms -> FileOperationImpl -> checkFileExist...");
 		boolean exist = false;
 		
 		String head = "";
@@ -1032,7 +1032,7 @@ public class FileOperationImpl {
 			}
 		}
 		
-//		cmsLog.info("Cms -> FileOperationImpl -> checkFileExist returns.");
+//		cmsLog.debug("Cms -> FileOperationImpl -> checkFileExist returns.");
 		return exist;
 	}
 	
@@ -1040,7 +1040,7 @@ public class FileOperationImpl {
 	// xml转字符串
 	public String XMLtoStr(Document document)
     {
-		cmsLog.info("Cms -> FileOperationImpl -> XMLtoStr...");
+		cmsLog.debug("Cms -> FileOperationImpl -> XMLtoStr...");
         String result = null;
 
         if (document != null)
@@ -1063,7 +1063,7 @@ public class FileOperationImpl {
             }
             result = strResult.getWriter().toString();
         }
-        cmsLog.info("Cms -> FileOperationImpl -> XMLtoStr returns.");
+        cmsLog.debug("Cms -> FileOperationImpl -> XMLtoStr returns.");
         return result;
     }
 
@@ -1074,7 +1074,7 @@ public class FileOperationImpl {
 //			String zipFilePath			// zipFilePath是压缩后的zip文件的路径，可以是绝对或相对路径，包含文件的扩展名
 //			)
 //	{
-//		cmsLog.info("Cms -> FileOperationImpl -> zipSmbSinglePath...");
+//		cmsLog.debug("Cms -> FileOperationImpl -> zipSmbSinglePath...");
 //		int ret = -1;
 //		
 //		try {
@@ -1094,7 +1094,7 @@ public class FileOperationImpl {
 //		{
 //			cmsLog.error("Cms -> FileOperationImpl -> zipSmbSinglePath - 异常：" + e.getMessage());
 //		}
-//		cmsLog.info("Cms -> FileOperationImpl -> zipSmbSinglePath returns.");
+//		cmsLog.debug("Cms -> FileOperationImpl -> zipSmbSinglePath returns.");
 //		return ret;
 //	}
 
@@ -1105,7 +1105,7 @@ public class FileOperationImpl {
 //			String dirPathSmb			// dirPath是用来放置解压后文件的目录的路径，可以是绝对或相对路径
 //			)
 //	{
-//		cmsLog.info("Cms -> FileOperationImpl -> unZipSmb...");
+//		cmsLog.debug("Cms -> FileOperationImpl -> unZipSmb...");
 //		int ret = -1;
 //		
 //		try {
@@ -1128,7 +1128,7 @@ public class FileOperationImpl {
 //		{
 //			cmsLog.error("Cms -> FileOperationImpl -> unZipSmb - 异常：" + e.getMessage());
 //		}
-//		cmsLog.info("Cms -> FileOperationImpl -> unZipSmb returns.");
+//		cmsLog.debug("Cms -> FileOperationImpl -> unZipSmb returns.");
 //		return ret;
 //	}
 

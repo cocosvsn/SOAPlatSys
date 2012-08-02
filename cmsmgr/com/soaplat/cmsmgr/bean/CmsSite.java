@@ -28,7 +28,10 @@ public class CmsSite  implements java.io.Serializable {
     private String	epgip;			// 节目预告JS变量
     private Date	updateTime;
     private String	remark;
-//     private String filepath;
+    /**
+     * 上传的文件路径, 多个文件以[;]分号分隔
+     */
+    private String filepath;
 //     private Date validFrom;
 //     private Date validTo;
 
@@ -165,5 +168,21 @@ public class CmsSite  implements java.io.Serializable {
 	 */
 	public void setRemark(String remark) {
 		this.remark = remark;
+	}
+
+	/** 
+	 * 获取上传的文件路径多个文件以[;]分号分隔 
+	 * @return filepath 上传的文件路径多个文件以[;]分号分隔 
+	 */
+	public String getFilepath() {
+		return filepath;
+	}
+
+	/** 
+	 * 设置上传的文件路径多个文件以[;]分号分隔 
+	 * @param filepath 上传的文件路径多个文件以[;]分号分隔 
+	 */
+	public void setFilepath(String filepath) {
+		this.filepath = filepath;
 	}
 }

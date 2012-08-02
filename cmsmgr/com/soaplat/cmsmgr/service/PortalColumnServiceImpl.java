@@ -68,7 +68,7 @@ public class PortalColumnServiceImpl implements PortalColumnServiceIface {
 	private final String ATTRIBUTE = "{0}:''{1}''";
 	private final String ATTRIBUTENUMBER = "{0}:{1}";
     private final String ATTRIBUTEOBJECT = "{0}:'{'{1}'}'";
-    private final String ARRAYOBJECT = "''{0}'':[{1}]";
+    private final String ARRAYOBJECT = "{0}:[{1}]";
     private final String STRING = "''{0}''";
     
     private final String PROGACTION = "FU00000077";
@@ -168,38 +168,38 @@ public class PortalColumnServiceImpl implements PortalColumnServiceIface {
 	// ------------------------------------------------------
 	// 得到栏目单
 	public CmsResultDto getAllProgLists() {
-		cmsLog.info("Cms -> PortalColumnServiceImpl -> getAllProgLists...");
+		cmsLog.debug("Cms -> PortalColumnServiceImpl -> getAllProgLists...");
 		CmsResultDto cmsResultDto = new CmsResultDto();
 
 		List progLists = progListManager.findAll();
 		cmsResultDto.setResultObject(progLists);
 		cmsLog
-				.info("Cms -> PortalColumnServiceImpl -> getAllProgLists returns.");
+				.debug("Cms -> PortalColumnServiceImpl -> getAllProgLists returns.");
 		return cmsResultDto;
 	}
 
 	// 得到栏目单
 	public CmsResultDto getProgListsByIdact(String idact, String pop) {
-		cmsLog.info("Cms -> PortalColumnServiceImpl -> getProgListsByIdact...");
+		cmsLog.debug("Cms -> PortalColumnServiceImpl -> getProgListsByIdact...");
 		CmsResultDto cmsResultDto = new CmsResultDto();
 
 		List progLists = progListManager.getProgListsByIdActAndPop(idact, pop);
 		cmsResultDto.setResultObject(progLists);
 		cmsLog
-				.info("Cms -> PortalColumnServiceImpl -> getProgListsByIdact returns.");
+				.debug("Cms -> PortalColumnServiceImpl -> getProgListsByIdact returns.");
 		return cmsResultDto;
 	}
 
 	// 保存（新建）栏目单
 	public CmsResultDto saveProgList(ProgList progList) {
-		cmsLog.info("Cms -> PortalColumnServiceImpl -> saveProgList...");
+		cmsLog.debug("Cms -> PortalColumnServiceImpl -> saveProgList...");
 		CmsResultDto cmsResultDto = new CmsResultDto();
 
 		cmsTransactionManager.saveProgList(progListManager, bpmcManager,
 				progList);
 
 		cmsResultDto.setResultObject(progList);
-		cmsLog.info("Cms -> PortalColumnServiceImpl -> saveProgList returns.");
+		cmsLog.debug("Cms -> PortalColumnServiceImpl -> saveProgList returns.");
 		return cmsResultDto;
 	}
 
@@ -207,7 +207,7 @@ public class PortalColumnServiceImpl implements PortalColumnServiceIface {
 	public CmsResultDto getProgListDetailsByPdateAndDefcatseq(String pdate,
 			String defcatseq) {
 		cmsLog
-				.info("Cms -> PortalColumnServiceImpl -> getProgListDetailsByPdateAndColumnclassid...");
+				.debug("Cms -> PortalColumnServiceImpl -> getProgListDetailsByPdateAndColumnclassid...");
 		CmsResultDto cmsResultDto = new CmsResultDto();
 		//		
 		cmsLog.info("代码空。");
@@ -237,7 +237,7 @@ public class PortalColumnServiceImpl implements PortalColumnServiceIface {
 		// }
 		// cmsResultDto.setResultObject(progListDetails);
 		cmsLog
-				.info("Cms -> PortalColumnServiceImpl -> getProgListDetailsByPdateAndColumnclassid returns.");
+				.debug("Cms -> PortalColumnServiceImpl -> getProgListDetailsByPdateAndColumnclassid returns.");
 		return cmsResultDto;
 	}
 
@@ -245,7 +245,7 @@ public class PortalColumnServiceImpl implements PortalColumnServiceIface {
 	public CmsResultDto addProgListDetailsToProgList(List progPackages,
 			String pdate, String columnclassid, List lnums) {
 		cmsLog
-				.info("Cms -> PortalColumnServiceImpl -> addProgListDetailsToProgList...");
+				.debug("Cms -> PortalColumnServiceImpl -> addProgListDetailsToProgList...");
 		CmsResultDto cmsResultDto = new CmsResultDto();
 
 		cmsTransactionManager.saveProgListDetailsToProgList(progListManager,
@@ -253,21 +253,21 @@ public class PortalColumnServiceImpl implements PortalColumnServiceIface {
 				pdate, columnclassid, lnums);
 
 		cmsLog
-				.info("Cms -> PortalColumnServiceImpl -> addProgListDetailsToProgList returns.");
+				.debug("Cms -> PortalColumnServiceImpl -> addProgListDetailsToProgList returns.");
 		return cmsResultDto;
 	}
 
 	// 删除栏目单详细 ProgListDetail
 	public CmsResultDto deleteProgListDetailsFromProgList(List progListDetails) {
 		cmsLog
-				.info("Cms -> PortalColumnServiceImpl -> deleteProgListDetailsFromProgList...");
+				.debug("Cms -> PortalColumnServiceImpl -> deleteProgListDetailsFromProgList...");
 		CmsResultDto cmsResultDto = new CmsResultDto();
 
 		cmsTransactionManager.deleteProgListDetailsFromProgList(
 				progListDetailManager, progListDetails);
 
 		cmsLog
-				.info("Cms -> PortalColumnServiceImpl -> deleteProgListDetailsFromProgList returns.");
+				.debug("Cms -> PortalColumnServiceImpl -> deleteProgListDetailsFromProgList returns.");
 		return cmsResultDto;
 	}
 
@@ -277,14 +277,14 @@ public class PortalColumnServiceImpl implements PortalColumnServiceIface {
 	public CmsResultDto updateProgListDetails(
 			List<ProgListDetail> progListDetails, Date offlineDate) {
 		cmsLog
-				.info("Cms -> PortalColumnServiceImpl -> updateProgListDetails...");
+				.debug("Cms -> PortalColumnServiceImpl -> updateProgListDetails...");
 		CmsResultDto cmsResultDto = new CmsResultDto();
 
 		cmsResultDto = cmsTransactionManager.updateProgListDetails(
 				progListDetailManager, portalColumnManager, progPackageManager,
 				progListDetails, offlineDate);
 		cmsLog
-				.info("Cms -> PortalColumnServiceImpl -> updateProgListDetails returns.");
+				.debug("Cms -> PortalColumnServiceImpl -> updateProgListDetails returns.");
 		return cmsResultDto;
 	}
 
@@ -341,7 +341,7 @@ public class PortalColumnServiceImpl implements PortalColumnServiceIface {
 	// 根据当前活动，查询下一活动和操作人员
 	public CmsResultDto getNextOperationByCurOperation(String curIdProcess) {
 		cmsLog
-				.info("Cms -> PortalColumnServiceImpl -> getNextOperationByCurOperation...");
+				.debug("Cms -> PortalColumnServiceImpl -> getNextOperationByCurOperation...");
 		CmsResultDto cmsResultDto = new CmsResultDto();
 
 		List funResourceDtos = new ArrayList();
@@ -364,7 +364,7 @@ public class PortalColumnServiceImpl implements PortalColumnServiceIface {
 
 		cmsResultDto.setResultObject(funResourceDtos);
 		cmsLog
-				.info("Cms -> PortalColumnServiceImpl -> getNextOperationByCurOperation returns.");
+				.debug("Cms -> PortalColumnServiceImpl -> getNextOperationByCurOperation returns.");
 		return cmsResultDto;
 	}
 
@@ -373,7 +373,7 @@ public class PortalColumnServiceImpl implements PortalColumnServiceIface {
 	public CmsResultDto sendProgList(ProgList progList, String nextIdAct,
 			String nextOperator, String nextState2, String operator,
 			String sendremark) {
-		cmsLog.info("Cms -> PortalColumnServiceImpl -> sendProgList...");
+		cmsLog.debug("Cms -> PortalColumnServiceImpl -> sendProgList...");
 		CmsResultDto cmsResultDto = new CmsResultDto();
 
 		cmsLog.info("代码空");
@@ -388,7 +388,7 @@ public class PortalColumnServiceImpl implements PortalColumnServiceIface {
 		// sendremark
 		// );
 
-		cmsLog.info("Cms -> PortalColumnServiceImpl -> sendProgList returns.");
+		cmsLog.debug("Cms -> PortalColumnServiceImpl -> sendProgList returns.");
 		return cmsResultDto;
 	}
 
@@ -402,7 +402,7 @@ public class PortalColumnServiceImpl implements PortalColumnServiceIface {
 			List<String> lnums, // 节目包的序号
 			String userId // 操作人员的id
 	) {
-		cmsLog.info("Cms -> PortalColumnServiceImpl -> saveProgListDetails...");
+		cmsLog.debug("Cms -> PortalColumnServiceImpl -> saveProgListDetails...");
 		CmsResultDto cmsResultDto = new CmsResultDto();
 
 		List<Long> newLnums = new ArrayList<Long>();
@@ -429,7 +429,7 @@ public class PortalColumnServiceImpl implements PortalColumnServiceIface {
 					date, offlineDate, columnclassid, newLnums, userId);
 		}
 		cmsLog
-				.info("Cms -> PortalColumnServiceImpl -> saveProgListDetails returns.");
+				.debug("Cms -> PortalColumnServiceImpl -> saveProgListDetails returns.");
 		return cmsResultDto;
 	}
 
@@ -438,7 +438,7 @@ public class PortalColumnServiceImpl implements PortalColumnServiceIface {
 	public CmsResultDto deleteProgListDetails(
 			List<ProgListDetail> progListDetails, String date) {
 		cmsLog
-				.info("Cms -> PortalColumnServiceImpl -> deleteProgListDetails...");
+				.debug("Cms -> PortalColumnServiceImpl -> deleteProgListDetails...");
 		CmsResultDto cmsResultDto = new CmsResultDto();
 
 		if (progListDetails == null) {
@@ -450,14 +450,14 @@ public class PortalColumnServiceImpl implements PortalColumnServiceIface {
 				progListDetailManager, progListDetails, date);
 
 		cmsLog
-				.info("Cms -> PortalColumnServiceImpl -> deleteProgListDetails returns.");
+				.debug("Cms -> PortalColumnServiceImpl -> deleteProgListDetails returns.");
 		return cmsResultDto;
 	}
 
 	// 报警查看，date格式：yyyy-MM-dd
 	public CmsResultDto viewProgListDetailAlarm(String date) {
 		cmsLog
-				.info("Cms -> PortalColumnServiceImpl -> viewProgListDetailAlarm...");
+				.debug("Cms -> PortalColumnServiceImpl -> viewProgListDetailAlarm...");
 		CmsResultDto cmsResultDto = new CmsResultDto();
 
 		// 返回：
@@ -557,7 +557,7 @@ public class PortalColumnServiceImpl implements PortalColumnServiceIface {
 
 		cmsResultDto.setResultObject(retList);
 		cmsLog
-				.info("Cms -> PortalColumnServiceImpl -> viewProgListDetailAlarm returns.");
+				.debug("Cms -> PortalColumnServiceImpl -> viewProgListDetailAlarm returns.");
 		return cmsResultDto;
 	}
 
@@ -570,14 +570,14 @@ public class PortalColumnServiceImpl implements PortalColumnServiceIface {
 			String operator, // 当前操作人员
 			String sendremark // 备注
 	) {
-		cmsLog.info("Cms -> PortalColumnServiceImpl -> sendProgListDetails...");
+		cmsLog.debug("Cms -> PortalColumnServiceImpl -> sendProgListDetails...");
 		CmsResultDto cmsResultDto = new CmsResultDto();
 
 		cmsTransactionManager.saveSendProgListDetails(progListDetailManager,
 				bpmcManager, progListDetails, nextIdAct, nextOperator,
 				nextState2, operator, sendremark);
 		cmsLog
-				.info("Cms -> PortalColumnServiceImpl -> sendProgListDetails returns.");
+				.debug("Cms -> PortalColumnServiceImpl -> sendProgListDetails returns.");
 		return cmsResultDto;
 	}
 
@@ -585,11 +585,11 @@ public class PortalColumnServiceImpl implements PortalColumnServiceIface {
 	// 发布栏目单（详细）
 	public CmsResultDto publishProgListDetails() {
 		cmsLog
-				.info("Cms -> PortalColumnServiceImpl -> publishProgListDetails...");
+				.debug("Cms -> PortalColumnServiceImpl -> publishProgListDetails...");
 		CmsResultDto cmsResultDto = new CmsResultDto();
 
 		cmsLog
-				.info("Cms -> PortalColumnServiceImpl -> publishProgListDetails returns.");
+				.debug("Cms -> PortalColumnServiceImpl -> publishProgListDetails returns.");
 		return cmsResultDto;
 	}
 
@@ -603,7 +603,7 @@ public class PortalColumnServiceImpl implements PortalColumnServiceIface {
 		// 2 - List<String> states 节目包状态（0导入1缓存库2加扰库3播控库）
 		// 3 - List<String> dealStates 处理状态（0未处理1处理8失败9成功）
 		cmsLog
-				.info("Cms -> PortalColumnServiceImpl -> getProgListDetailsByDateAndDefcatseq...");
+				.debug("Cms -> PortalColumnServiceImpl -> getProgListDetailsByDateAndDefcatseq...");
 		CmsResultDto cmsResultDto = new CmsResultDto();
 		List retlist = new ArrayList();
 
@@ -679,7 +679,7 @@ public class PortalColumnServiceImpl implements PortalColumnServiceIface {
 			cmsResultDto.setErrorMessage(str);
 		}
 		cmsLog
-				.info("Cms -> PortalColumnServiceImpl -> getProgListDetailsByDateAndDefcatseq returns.");
+				.debug("Cms -> PortalColumnServiceImpl -> getProgListDetailsByDateAndDefcatseq returns.");
 		return cmsResultDto;
 	}
 
@@ -820,7 +820,7 @@ public class PortalColumnServiceImpl implements PortalColumnServiceIface {
 		// 86-->87 播放单生成成功，发送
 
 		cmsLog
-				.info("Cms -> PortalColumnServiceImpl -> checkSendProgListMangDetails...");
+				.debug("Cms -> PortalColumnServiceImpl -> checkSendProgListMangDetails...");
 
 		boolean allowSend = true;
 
@@ -966,7 +966,7 @@ public class PortalColumnServiceImpl implements PortalColumnServiceIface {
 		}
 
 		cmsLog
-				.info("Cms -> PortalColumnServiceImpl -> checkSendProgListMangDetails returns.");
+				.debug("Cms -> PortalColumnServiceImpl -> checkSendProgListMangDetails returns.");
 		return allowSend;
 	}
 
@@ -1004,7 +1004,7 @@ public class PortalColumnServiceImpl implements PortalColumnServiceIface {
 		// 86-->87 播放单生成成功，发送
 
 		cmsLog
-				.info("Cms -> PortalColumnServiceImpl -> sendProgListMangDetails...");
+				.debug("Cms -> PortalColumnServiceImpl -> sendProgListMangDetails...");
 		CmsResultDto cmsResultDto = new CmsResultDto();
 
 		// 转换日期date(yyyy-MM-dd)为主键格式：yyyyMMdd000000
@@ -1073,7 +1073,7 @@ public class PortalColumnServiceImpl implements PortalColumnServiceIface {
 		}
 
 		cmsLog
-				.info("Cms -> PortalColumnServiceImpl -> sendProgListMangDetails returns.");
+				.debug("Cms -> PortalColumnServiceImpl -> sendProgListMangDetails returns.");
 		return cmsResultDto;
 	}
 
@@ -1091,7 +1091,7 @@ public class PortalColumnServiceImpl implements PortalColumnServiceIface {
 			String sendremark // 备注
 	) {
 		cmsLog
-				.info("Cms -> PortalColumnServiceImpl -> backProgListMangDetails...");
+				.debug("Cms -> PortalColumnServiceImpl -> backProgListMangDetails...");
 		CmsResultDto cmsResultDto = new CmsResultDto();
 
 		// 转换日期date(yyyy-MM-dd)为主键格式：yyyyMMdd000000
@@ -1119,7 +1119,7 @@ public class PortalColumnServiceImpl implements PortalColumnServiceIface {
 		}
 
 		cmsLog
-				.info("Cms -> PortalColumnServiceImpl -> backProgListMangDetails returns.");
+				.debug("Cms -> PortalColumnServiceImpl -> backProgListMangDetails returns.");
 		return cmsResultDto;
 	}
 
@@ -1138,7 +1138,7 @@ public class PortalColumnServiceImpl implements PortalColumnServiceIface {
 			String sendremark // 备注
 	) {
 		cmsLog
-				.info("Cms -> PortalColumnServiceImpl -> sendProgListMangDetails...");
+				.debug("Cms -> PortalColumnServiceImpl -> sendProgListMangDetails...");
 		CmsResultDto cmsResultDto = new CmsResultDto();
 
 		// 转换日期date(yyyy-MM-dd)为主键格式：yyyyMMdd000000
@@ -1190,7 +1190,7 @@ public class PortalColumnServiceImpl implements PortalColumnServiceIface {
 		}
 
 		cmsLog
-				.info("Cms -> PortalColumnServiceImpl -> sendProgListMangDetails returns.");
+				.debug("Cms -> PortalColumnServiceImpl -> sendProgListMangDetails returns.");
 		return cmsResultDto;
 	}
 
@@ -1209,7 +1209,7 @@ public class PortalColumnServiceImpl implements PortalColumnServiceIface {
 			String sendremark // 备注
 	) {
 		cmsLog
-				.info("Cms -> PortalColumnServiceImpl -> backLocalProgListMangDetails...");
+				.debug("Cms -> PortalColumnServiceImpl -> backLocalProgListMangDetails...");
 		CmsResultDto cmsResultDto = new CmsResultDto();
 
 		// 转换日期date(yyyy-MM-dd)为主键格式：yyyyMMdd000000
@@ -1253,13 +1253,13 @@ public class PortalColumnServiceImpl implements PortalColumnServiceIface {
 		}
 
 		cmsLog
-				.info("Cms -> PortalColumnServiceImpl -> backLocalProgListMangDetails returns.");
+				.debug("Cms -> PortalColumnServiceImpl -> backLocalProgListMangDetails returns.");
 		return cmsResultDto;
 	}
 
 	// ProgPackageServiceImpl也有此方法，以后做调整
 	private int createXMLFile(String strFileName, String strXml) {
-		cmsLog.info("Cms -> ProgPackageServiceImpl -> createXMLFile...");
+		cmsLog.debug("Cms -> ProgPackageServiceImpl -> createXMLFile...");
 		int ireturn = -1;
 
 		// FileOperationImpl fileopr = new FileOperationImpl();
@@ -1284,7 +1284,7 @@ public class PortalColumnServiceImpl implements PortalColumnServiceIface {
 		// cmsLog.info(ex.getMessage());
 		// }
 
-		cmsLog.info("Cms -> ProgPackageServiceImpl -> createXMLFile returns.");
+		cmsLog.debug("Cms -> ProgPackageServiceImpl -> createXMLFile returns.");
 		return ireturn;
 	}
 
@@ -1330,7 +1330,7 @@ public class PortalColumnServiceImpl implements PortalColumnServiceIface {
 	// 删除smb文件
 	private int deleteSmbFile(String strFile) {
 		// 删除文件
-		cmsLog.info("Cms -> ProgPackageServiceImpl -> deleteSmbFile...");
+		cmsLog.debug("Cms -> ProgPackageServiceImpl -> deleteSmbFile...");
 		int ireturn = -1;
 		// FileOperationImpl fileopr = new FileOperationImpl();
 
@@ -1350,7 +1350,7 @@ public class PortalColumnServiceImpl implements PortalColumnServiceIface {
 		// cmsLog.info(ex.getMessage());
 		// }
 
-		cmsLog.info("Cms -> ProgPackageServiceImpl -> deleteSmbFile returns.");
+		cmsLog.debug("Cms -> ProgPackageServiceImpl -> deleteSmbFile returns.");
 		return ireturn;
 	}
 
@@ -1360,7 +1360,7 @@ public class PortalColumnServiceImpl implements PortalColumnServiceIface {
 			String operator // 当前操作人员
 	) {
 		cmsLog
-				.info("Cms -> PortalColumnServiceImpl -> generatePortalXmlForLocal...");
+				.debug("Cms -> PortalColumnServiceImpl -> generatePortalXmlForLocal...");
 		CmsResultDto cmsResultDto = new CmsResultDto();
 
 		// 配置文件，获取
@@ -1578,7 +1578,7 @@ public class PortalColumnServiceImpl implements PortalColumnServiceIface {
 		// }
 
 		cmsLog
-				.info("Cms -> PortalColumnServiceImpl -> generatePortalXmlForLocal returns.");
+				.debug("Cms -> PortalColumnServiceImpl -> generatePortalXmlForLocal returns.");
 		return cmsResultDto;
 	}
 
@@ -1586,7 +1586,7 @@ public class PortalColumnServiceImpl implements PortalColumnServiceIface {
 	public CmsResultDto generatePortalXml(String date, // 编单的日期，格式：yyyy-MM-dd
 			String operator // 当前操作人员
 	) {
-		cmsLog.info("Cms -> PortalColumnServiceImpl -> generatePortalXml...");
+		cmsLog.debug("Cms -> PortalColumnServiceImpl -> generatePortalXml...");
 		CmsResultDto cmsResultDto = new CmsResultDto();
 
 		cmsResultDto = generatePortalXmlForLocal(date, operator);
@@ -1709,7 +1709,7 @@ public class PortalColumnServiceImpl implements PortalColumnServiceIface {
 		// }
 
 		cmsLog
-				.info("Cms -> PortalColumnServiceImpl -> generatePortalXml returns.");
+				.debug("Cms -> PortalColumnServiceImpl -> generatePortalXml returns.");
 		return cmsResultDto;
 	}
 
@@ -1780,7 +1780,7 @@ public class PortalColumnServiceImpl implements PortalColumnServiceIface {
 			String operator // 当前操作人员
 	) {
 		cmsLog
-				.info("Cms -> PortalColumnServiceImpl -> getProgListMangDetails...");
+				.debug("Cms -> PortalColumnServiceImpl -> getProgListMangDetails...");
 		CmsResultDto cmsResultDto = new CmsResultDto();
 		List<Integer> retStates = new ArrayList<Integer>();
 
@@ -1839,7 +1839,7 @@ public class PortalColumnServiceImpl implements PortalColumnServiceIface {
 
 		cmsResultDto.setResultObject(retStates);
 		cmsLog
-				.info("Cms -> PortalColumnServiceImpl -> getProgListMangDetails returns.");
+				.debug("Cms -> PortalColumnServiceImpl -> getProgListMangDetails returns.");
 		return cmsResultDto;
 	}
 
@@ -1856,7 +1856,7 @@ public class PortalColumnServiceImpl implements PortalColumnServiceIface {
 			String operator // 当前操作人员
 	) {
 		cmsLog
-				.info("Cms -> PortalColumnServiceImpl -> getLocalProgListMangDetails...");
+				.debug("Cms -> PortalColumnServiceImpl -> getLocalProgListMangDetails...");
 		CmsResultDto cmsResultDto = new CmsResultDto();
 		List<Integer> retStates = new ArrayList<Integer>();
 
@@ -1919,7 +1919,7 @@ public class PortalColumnServiceImpl implements PortalColumnServiceIface {
 
 		cmsResultDto.setResultObject(retStates);
 		cmsLog
-				.info("Cms -> PortalColumnServiceImpl -> getLocalProgListMangDetails returns.");
+				.debug("Cms -> PortalColumnServiceImpl -> getLocalProgListMangDetails returns.");
 		return cmsResultDto;
 	}
 
@@ -1934,7 +1934,7 @@ public class PortalColumnServiceImpl implements PortalColumnServiceIface {
 		// (ProgListMang)Object[]
 		// (FlowAction)Object[]
 		cmsLog
-				.info("Cms -> PortalColumnServiceImpl -> getProgListMangsByDate...");
+				.debug("Cms -> PortalColumnServiceImpl -> getProgListMangsByDate...");
 		cmsLog.info("dateFrom : " + dateFrom);
 		cmsLog.info("dateTo : " + dateTo);
 		CmsResultDto cmsResultDto = new CmsResultDto();
@@ -1950,7 +1950,7 @@ public class PortalColumnServiceImpl implements PortalColumnServiceIface {
 		cmsLog.info("返回记录数 : " + list.size());
 		cmsResultDto.setResultObject(list);
 		cmsLog
-				.info("Cms -> PortalColumnServiceImpl -> getProgListMangsByDate returns.");
+				.debug("Cms -> PortalColumnServiceImpl -> getProgListMangsByDate returns.");
 		return cmsResultDto;
 	}
 
@@ -1965,7 +1965,7 @@ public class PortalColumnServiceImpl implements PortalColumnServiceIface {
 		// (FlowAction)Object[2]
 
 		cmsLog
-				.info("Cms -> PortalColumnServiceImpl -> getProgListMangDetailsByScheduledate...");
+				.debug("Cms -> PortalColumnServiceImpl -> getProgListMangDetailsByScheduledate...");
 		CmsResultDto cmsResultDto = new CmsResultDto();
 
 		// 返回：List<Object[]>
@@ -1976,7 +1976,7 @@ public class PortalColumnServiceImpl implements PortalColumnServiceIface {
 				.getProgListMangDetailsByScheduledate(scheduledate);
 		cmsResultDto.setResultObject(list);
 		cmsLog
-				.info("Cms -> PortalColumnServiceImpl -> getProgListMangDetailsByScheduledate returns.");
+				.debug("Cms -> PortalColumnServiceImpl -> getProgListMangDetailsByScheduledate returns.");
 		return cmsResultDto;
 	}
 
@@ -1992,7 +1992,7 @@ public class PortalColumnServiceImpl implements PortalColumnServiceIface {
 		// (FlowAction)Object[2]
 
 		cmsLog
-				.info("Cms -> PortalColumnServiceImpl -> getLocalProgListMangDetailsByScheduledate...");
+				.debug("Cms -> PortalColumnServiceImpl -> getLocalProgListMangDetailsByScheduledate...");
 		CmsResultDto cmsResultDto = new CmsResultDto();
 
 		// 返回：List<Object[]>
@@ -2003,7 +2003,7 @@ public class PortalColumnServiceImpl implements PortalColumnServiceIface {
 				.getLocalProgListMangDetailsByScheduledate(scheduledate);
 		cmsResultDto.setResultObject(list);
 		cmsLog
-				.info("Cms -> PortalColumnServiceImpl -> getLocalProgListMangDetailsByScheduledate returns.");
+				.debug("Cms -> PortalColumnServiceImpl -> getLocalProgListMangDetailsByScheduledate returns.");
 		return cmsResultDto;
 	}
 
@@ -2015,7 +2015,7 @@ public class PortalColumnServiceImpl implements PortalColumnServiceIface {
 			String stclasscodeOnline, // 播控库存储体等级code
 			ProgListDetail progListDetail) {
 		cmsLog
-				.info("Cms -> PortalColumnServiceImpl -> refreshState1OfProgPackage...");
+				.debug("Cms -> PortalColumnServiceImpl -> refreshState1OfProgPackage...");
 		CmsResultDto cmsResultDto = new CmsResultDto();
 
 		ProgPackage progPackage = (ProgPackage) progPackageManager
@@ -2035,7 +2035,7 @@ public class PortalColumnServiceImpl implements PortalColumnServiceIface {
 		}
 
 		cmsLog
-				.info("Cms -> PortalColumnServiceImpl -> refreshState1OfProgPackage returns.");
+				.debug("Cms -> PortalColumnServiceImpl -> refreshState1OfProgPackage returns.");
 		return cmsResultDto;
 	}
 
@@ -2054,7 +2054,7 @@ public class PortalColumnServiceImpl implements PortalColumnServiceIface {
 		// 4.2 - 如果不是，不处理，break
 
 		cmsLog
-				.info("Cms -> PortalColumnServiceImpl -> refreshState1sInProgListDetail...");
+				.debug("Cms -> PortalColumnServiceImpl -> refreshState1sInProgListDetail...");
 		CmsResultDto cmsResultDto = new CmsResultDto();
 
 		// 配置文件，获取
@@ -2107,7 +2107,7 @@ public class PortalColumnServiceImpl implements PortalColumnServiceIface {
 		}
 
 		cmsLog
-				.info("Cms -> PortalColumnServiceImpl -> refreshState1sInProgListDetail returns.");
+				.debug("Cms -> PortalColumnServiceImpl -> refreshState1sInProgListDetail returns.");
 		return cmsResultDto;
 	}
 
@@ -2131,7 +2131,7 @@ public class PortalColumnServiceImpl implements PortalColumnServiceIface {
 		// 7 - 修改xml文件名字
 
 		cmsLog
-				.info("Cms -> PortalColumnServiceImpl -> importPortalXmlToBjCms...");
+				.debug("Cms -> PortalColumnServiceImpl -> importPortalXmlToBjCms...");
 		CmsResultDto cmsResultDto = new CmsResultDto();
 
 		// 读取配置文件
@@ -2148,7 +2148,7 @@ public class PortalColumnServiceImpl implements PortalColumnServiceIface {
 				progListPath, operator);
 
 		cmsLog
-				.info("Cms -> PortalColumnServiceImpl -> importPortalXmlToBjCms returns.");
+				.debug("Cms -> PortalColumnServiceImpl -> importPortalXmlToBjCms returns.");
 		return cmsResultDto;
 	}
 
@@ -2177,7 +2177,7 @@ public class PortalColumnServiceImpl implements PortalColumnServiceIface {
 		// 7.2.1.2.2 - 下迁移单，把节目包下的文件迁移到缓存库
 
 		cmsLog
-				.info("Cms -> PortalColumnServiceImpl -> importProgPackageFilesToBjCms...");
+				.debug("Cms -> PortalColumnServiceImpl -> importProgPackageFilesToBjCms...");
 		CmsResultDto cmsResultDto = new CmsResultDto();
 
 		// 1 - 从配置文件，获得数据导出导入的节目包的源路径
@@ -2201,7 +2201,7 @@ public class PortalColumnServiceImpl implements PortalColumnServiceIface {
 				operator);
 
 		cmsLog
-				.info("Cms -> PortalColumnServiceImpl -> importProgPackageFilesToBjCms returns.");
+				.debug("Cms -> PortalColumnServiceImpl -> importProgPackageFilesToBjCms returns.");
 		return cmsResultDto;
 	}
 
@@ -2209,7 +2209,7 @@ public class PortalColumnServiceImpl implements PortalColumnServiceIface {
 	// 数据导入，包括节目包和编单, 被前台调用
 	public CmsResultDto importDataToBjCms(String operator // 当前操作人员
 	) {
-		cmsLog.info("Cms -> PortalColumnServiceImpl -> importDataToBjCms...");
+		cmsLog.debug("Cms -> PortalColumnServiceImpl -> importDataToBjCms...");
 		CmsResultDto cmsResultDto = new CmsResultDto();
 
 		String str = "";
@@ -2251,7 +2251,7 @@ public class PortalColumnServiceImpl implements PortalColumnServiceIface {
 		cmsResultDto.setErrorDetail(str);
 
 		cmsLog
-				.info("Cms -> PortalColumnServiceImpl -> importDataToBjCms returns.");
+				.debug("Cms -> PortalColumnServiceImpl -> importDataToBjCms returns.");
 		return cmsResultDto;
 	}
 
@@ -2261,7 +2261,7 @@ public class PortalColumnServiceImpl implements PortalColumnServiceIface {
 	// 得到所有的栏目
 	@SuppressWarnings("unchecked")
 	public CmsResultDto getAllPortalColumns() {
-		cmsLog.info("Cms -> PortalColumnServiceImpl -> getAllPortalColumns...");
+		cmsLog.debug("Cms -> PortalColumnServiceImpl -> getAllPortalColumns...");
 		CmsResultDto cmsResultDto = new CmsResultDto();
 
 		// 获利节目包js文件在一级库的存放路径
@@ -2302,7 +2302,7 @@ public class PortalColumnServiceImpl implements PortalColumnServiceIface {
 		cmsResultDto.setResultObject(portalColumnDtos);
 
 		cmsLog
-				.info("Cms -> PortalColumnServiceImpl -> getAllPortalColumns returns.");
+				.debug("Cms -> PortalColumnServiceImpl -> getAllPortalColumns returns.");
 		return cmsResultDto;
 	}
 
@@ -2310,7 +2310,7 @@ public class PortalColumnServiceImpl implements PortalColumnServiceIface {
 	public CmsResultDto addProgPackagesToPortalColumn(List progPackages,
 			String columnclassid) {
 		cmsLog
-				.info("Cms -> PortalColumnServiceImpl -> addProgPackagesToPortalColumn...");
+				.debug("Cms -> PortalColumnServiceImpl -> addProgPackagesToPortalColumn...");
 		CmsResultDto cmsResultDto = new CmsResultDto();
 
 		cmsTransactionManager.saveProgPackagesToPortalColumn(
@@ -2318,7 +2318,7 @@ public class PortalColumnServiceImpl implements PortalColumnServiceIface {
 				columnclassid);
 
 		cmsLog
-				.info("Cms -> PortalColumnServiceImpl -> addProgPackagesToPortalColumn returns.");
+				.debug("Cms -> PortalColumnServiceImpl -> addProgPackagesToPortalColumn returns.");
 		return cmsResultDto;
 	}
 
@@ -2326,7 +2326,7 @@ public class PortalColumnServiceImpl implements PortalColumnServiceIface {
 	public CmsResultDto deleteProgPackagesFromPortalColumn(List progPackages,
 			String columnclassid) {
 		cmsLog
-				.info("Cms -> PortalColumnServiceImpl -> deleteProgPackagesFromPortalColumn...");
+				.debug("Cms -> PortalColumnServiceImpl -> deleteProgPackagesFromPortalColumn...");
 		CmsResultDto cmsResultDto = new CmsResultDto();
 
 		cmsTransactionManager.deleteProgPackagesFromPortalColumn(
@@ -2334,7 +2334,7 @@ public class PortalColumnServiceImpl implements PortalColumnServiceIface {
 				columnclassid);
 
 		cmsLog
-				.info("Cms -> PortalColumnServiceImpl -> deleteProgPackagesFromPortalColumn returns.");
+				.debug("Cms -> PortalColumnServiceImpl -> deleteProgPackagesFromPortalColumn returns.");
 		return cmsResultDto;
 	}
 
@@ -2380,6 +2380,7 @@ public class PortalColumnServiceImpl implements PortalColumnServiceIface {
 			cmsLog.debug("\tPortalColumn.covermodeid" + portalColumn.getCovermodeid());
 			cmsLog.debug("\tPortalColumn.listmodeid" + portalColumn.getListmodeid());
 		}
+		portalColumn.setSiteCode(null);
 		CmsResultDto cmsResultDto = new CmsResultDto();
 		
 		/**
@@ -2813,20 +2814,20 @@ public class PortalColumnServiceImpl implements PortalColumnServiceIface {
 			cmsLog.debug("停播/启用栏目");
 			childUpdateFlag += 1;
 		}
-		if (!curPortalColumn.getSiteCode().equals(portalColumn.getSiteCode())) {
-			cmsLog.debug("修改栏目品牌");
-			List<Object[]> list = progListDetailManager.queryScheduleDateAndActionName(
-					curPortalColumn.getColumnclassid());
-			for (PortalColumn p : childPortalColumns) {
-				list.addAll(progListDetailManager.queryScheduleDateAndActionName(
-						p.getColumnclassid()));
-			}
-			cmsLog.debug("当前栏目所属品牌未播发节目包数量为: " + list.size());
-			if (0 < list.size()) {
-				return "当前栏目所属品牌未播发节目包数量为: " + list.size() + " 不允许修改栏目品牌! ";	
-			}
-			childUpdateFlag += 2;
-		}
+//		if (!curPortalColumn.getSiteCode().equals(portalColumn.getSiteCode())) {
+//			cmsLog.debug("修改栏目品牌");
+//			List<Object[]> list = progListDetailManager.queryScheduleDateAndActionName(
+//					curPortalColumn.getColumnclassid());
+//			for (PortalColumn p : childPortalColumns) {
+//				list.addAll(progListDetailManager.queryScheduleDateAndActionName(
+//						p.getColumnclassid()));
+//			}
+//			cmsLog.debug("当前栏目所属品牌未播发节目包数量为: " + list.size());
+//			if (0 < list.size()) {
+//				return "当前栏目所属品牌未播发节目包数量为: " + list.size() + " 不允许修改栏目品牌! ";	
+//			}
+//			childUpdateFlag += 2;
+//		}
 		
 		// 如果启用, 则需要找出停用的父栏目, 一并启用(停用则不需要修改父栏目)
 		if (!curPortalColumn.getValidFlag().equals(portalColumn.getValidFlag())
@@ -2870,7 +2871,7 @@ public class PortalColumnServiceImpl implements PortalColumnServiceIface {
 
 	// 删除栏目 PortalColumn
 	public String deletePortalColumn(String columnclassid) {
-		cmsLog.info("Cms -> PortalColumnServiceImpl -> deletePortalColumn...");
+		cmsLog.debug("Cms -> PortalColumnServiceImpl -> deletePortalColumn...");
 		CmsResultDto cmsResultDto = new CmsResultDto();
 		
 		// 检查栏目ID是否合法
@@ -2937,7 +2938,7 @@ public class PortalColumnServiceImpl implements PortalColumnServiceIface {
 			return cmsResultDto.getErrorMessage();
 		}
 		
-		cmsLog.info("Cms -> PortalColumnServiceImpl -> deletePortalColumn returns.");
+		cmsLog.debug("Cms -> PortalColumnServiceImpl -> deletePortalColumn returns.");
 		return null;
 	}
 
@@ -2945,7 +2946,7 @@ public class PortalColumnServiceImpl implements PortalColumnServiceIface {
 	public CmsResultDto saveSrvColumnByColumnclassid(List cmsServices,
 			String columnclassid) {
 		cmsLog
-				.info("Cms -> PortalColumnServiceImpl -> saveSrvColumnByColumnclassid...");
+				.debug("Cms -> PortalColumnServiceImpl -> saveSrvColumnByColumnclassid...");
 		CmsResultDto cmsResultDto = new CmsResultDto();
 
 		cmsResultDto = cmsTransactionManager.saveSrvColumnByColumnclassid(
@@ -2953,59 +2954,59 @@ public class PortalColumnServiceImpl implements PortalColumnServiceIface {
 				columnclassid);
 
 		cmsLog
-				.info("Cms -> PortalColumnServiceImpl -> saveSrvColumnByColumnclassid returns.");
+				.debug("Cms -> PortalColumnServiceImpl -> saveSrvColumnByColumnclassid returns.");
 		return cmsResultDto;
 	}
 
 	// 根据栏目id，得到栏目与服务的配置关系 SrvColumn
 	public CmsResultDto getCmsServicesByColumnclassid(String columnclassid) {
 		cmsLog
-				.info("Cms -> PortalColumnServiceImpl -> getCmsServicesByColumnclassid...");
+				.debug("Cms -> PortalColumnServiceImpl -> getCmsServicesByColumnclassid...");
 		CmsResultDto cmsResultDto = new CmsResultDto();
 
 		List cmsServices = srvColumnManager
 				.getCmsServicesByColumnclassid(columnclassid);
 		cmsResultDto.setResultObject(cmsServices);
 		cmsLog
-				.info("Cms -> PortalColumnServiceImpl -> getCmsServicesByColumnclassid returns.");
+				.debug("Cms -> PortalColumnServiceImpl -> getCmsServicesByColumnclassid returns.");
 		return cmsResultDto;
 	}
 
 	// 得到所有模板 PortalMod 20091109 19:18
 	public CmsResultDto getAllPortalMods() {
-		cmsLog.info("Cms -> PortalColumnServiceImpl -> getAllPortalMods...");
+		cmsLog.debug("Cms -> PortalColumnServiceImpl -> getAllPortalMods...");
 		CmsResultDto cmsResultDto = new CmsResultDto();
 
 		List portalMods = portalModManager.findAll();
 		cmsResultDto.setResultObject(portalMods);
 		cmsLog
-				.info("Cms -> PortalColumnServiceImpl -> getAllPortalMods returns.");
+				.debug("Cms -> PortalColumnServiceImpl -> getAllPortalMods returns.");
 		return cmsResultDto;
 	}
 
 	// 根据栏目，查询得到节目包
 	public CmsResultDto getProgPackagesByColumnclassid(String columnclassid) {
-		cmsLog.info("Cms -> PortalColumnServiceImpl -> getAllPortalMods...");
+		cmsLog.debug("Cms -> PortalColumnServiceImpl -> getAllPortalMods...");
 		CmsResultDto cmsResultDto = new CmsResultDto();
 
 		List progPackages = pPColumnRelManager
 				.getProgPackagesByColumnclassid(columnclassid);
 		cmsResultDto.setResultObject(progPackages);
 		cmsLog
-				.info("Cms -> PortalColumnServiceImpl -> getAllPortalMods returns.");
+				.debug("Cms -> PortalColumnServiceImpl -> getAllPortalMods returns.");
 		return cmsResultDto;
 	}
 
 	// 得到栏目样式列表
 	public CmsResultDto getPortalColumnStyles() {
-		cmsLog.info("Cms -> PortalColumnServiceImpl -> getAllPortalMods...");
+		cmsLog.debug("Cms -> PortalColumnServiceImpl -> getAllPortalMods...");
 		CmsResultDto cmsResultDto = new CmsResultDto();
 
 		List<PackStyle> packStyles = packStyleManager.findByProperty(
 				"styletype", Long.valueOf(1));
 		cmsResultDto.setResultObject(packStyles);
 		cmsLog
-				.info("Cms -> PortalColumnServiceImpl -> getAllPortalMods returns.");
+				.debug("Cms -> PortalColumnServiceImpl -> getAllPortalMods returns.");
 		return cmsResultDto;
 	}
 
@@ -3013,7 +3014,7 @@ public class PortalColumnServiceImpl implements PortalColumnServiceIface {
 	public CmsResultDto getPortalColumnsByRoleids(List<String> roleids) {
 		// String roleid : 角色id
 		cmsLog
-				.info("Cms -> PortalColumnServiceImpl -> getPortalColumnsByRoleid...");
+				.debug("Cms -> PortalColumnServiceImpl -> getPortalColumnsByRoleid...");
 		CmsResultDto cmsResultDto = new CmsResultDto();
 
 		if (roleids == null) {
@@ -3094,7 +3095,7 @@ public class PortalColumnServiceImpl implements PortalColumnServiceIface {
 
 		cmsResultDto.setResultObject(retlist);
 		cmsLog
-				.info("Cms -> PortalColumnServiceImpl -> getPortalColumnsByRoleid returns.");
+				.debug("Cms -> PortalColumnServiceImpl -> getPortalColumnsByRoleid returns.");
 		return cmsResultDto;
 	}
 
@@ -3111,7 +3112,7 @@ public class PortalColumnServiceImpl implements PortalColumnServiceIface {
 		// 作废，当取消钩选非叶子或叶子节点时，如果该节点所属的父节点下没有任何钩选的节点，则自动取消钩选。递归：自动取消钩选父节点时，也需要同样的操作。
 
 		cmsLog
-				.info("Cms -> PortalColumnServiceImpl -> savePortalRoleOperRel...");
+				.debug("Cms -> PortalColumnServiceImpl -> savePortalRoleOperRel...");
 		CmsResultDto cmsResultDto = new CmsResultDto();
 
 		if (roleid == null || portalColumn == null) {
@@ -3127,7 +3128,7 @@ public class PortalColumnServiceImpl implements PortalColumnServiceIface {
 				roleid, portalColumn, inputmanid);
 
 		cmsLog
-				.info("Cms -> PortalColumnServiceImpl -> savePortalRoleOperRel returns.");
+				.debug("Cms -> PortalColumnServiceImpl -> savePortalRoleOperRel returns.");
 		return cmsResultDto;
 	}
 
@@ -3135,7 +3136,7 @@ public class PortalColumnServiceImpl implements PortalColumnServiceIface {
 	public CmsResultDto deletePortalRoleOperRel(String roleid,
 			PortalColumn portalColumn, String inputmanid) {
 		cmsLog
-				.info("Cms -> PortalColumnServiceImpl -> deletePortalRoleOperRel...");
+				.debug("Cms -> PortalColumnServiceImpl -> deletePortalRoleOperRel...");
 		CmsResultDto cmsResultDto = new CmsResultDto();
 
 		if (roleid == null || portalColumn == null) {
@@ -3151,7 +3152,7 @@ public class PortalColumnServiceImpl implements PortalColumnServiceIface {
 				roleid, portalColumn, inputmanid);
 
 		cmsLog
-				.info("Cms -> PortalColumnServiceImpl -> deletePortalRoleOperRel returns.");
+				.debug("Cms -> PortalColumnServiceImpl -> deletePortalRoleOperRel returns.");
 		return cmsResultDto;
 	}
 
@@ -3168,7 +3169,7 @@ public class PortalColumnServiceImpl implements PortalColumnServiceIface {
 	 */
 	public CmsResultDto updateRollBack(String date, String inputid,
 			String remark) {
-		cmsLog.info("Cms -> PortalColumnServiceImpl -> updateRollBack... ");
+		cmsLog.debug("Cms -> PortalColumnServiceImpl -> updateRollBack... ");
 
 		CmsResultDto cmsResultDto = new CmsResultDto();
 
@@ -3220,14 +3221,27 @@ public class PortalColumnServiceImpl implements PortalColumnServiceIface {
 		StringBuilder columnBuilder = new StringBuilder("[");
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss:SSS");
 		for (PortalColumn p : portalColumns) {
+			if (cmsLog.isDebugEnabled()) {
+				cmsLog.debug("PortalColumn.getDefcatcode       : " + p.getDefcatcode());
+				cmsLog.debug("PortalColumn.getStyleid          : " + p.getStyleid());
+				cmsLog.debug("PortalColumn.getPublishfilename  : " + p.getPublishfilename());
+				cmsLog.debug("PortalColumn.getFocusImgName     : " + p.getFocusImgName());
+				cmsLog.debug("PortalColumn.getBlurImgName      : " + p.getBlurImgName());
+				cmsLog.debug("PortalColumn.getRemark           : " + p.getRemark());
+				cmsLog.debug("PortalColumn.getParentsid        : " + p.getParentsid());
+				cmsLog.debug("PortalColumn.getCountnumb        : " + p.getCountnumb());
+				cmsLog.debug("PortalColumn.getIsleaf           : " + p.getIsleaf());
+				cmsLog.debug("PortalColumn.getValidFlag        : " + p.getValidFlag());
+				cmsLog.debug("PortalColumn.getCovermodeid      : " + p.getCovermodeid());
+				cmsLog.debug("PortalColumn.getUpdatedate       : " + p.getUpdatedate());
+			}
 			columnBuilder.append("{" +
 					MessageFormat.format(this.ATTRIBUTE, "id", p.getDefcatcode()) + "," +
 					MessageFormat.format(this.ATTRIBUTE, "type", this.getColumnType(p.getStyleid())) + "," +
 					MessageFormat.format(this.ATTRIBUTE, "name", p.getPublishfilename().trim()) + "," +
-					MessageFormat.format(this.ATTRIBUTEOBJECT, "poster", 
-							MessageFormat.format(this.ARRAYOBJECT, defaultSkinName, 
-									"'" + p.getFocusImgName() + "','" + p.getBlurImgName() + "'")) +
-//									+ "," +
+//					MessageFormat.format(this.ATTRIBUTEOBJECT, "poster", 
+					MessageFormat.format(this.ARRAYOBJECT, "poster", 
+									"'" + p.getFocusImgName() + "','" + p.getBlurImgName() + "'") + "," +
 //							MessageFormat.format(this.ARRAYOBJECT, secondkinName,
 //									"'" + p.getCurrentdir() + "','" + p.getContentmodeid() + "'") + "," +
 //							MessageFormat.format(this.ARRAYOBJECT, thirdSkinName,
@@ -3235,10 +3249,10 @@ public class PortalColumnServiceImpl implements PortalColumnServiceIface {
 					MessageFormat.format(this.ATTRIBUTE, "desc", null == p.getRemark() ? "" : p.getRemark().trim()) +  "," +
 					MessageFormat.format(this.ATTRIBUTE, "parent", p.getParentsid().trim()) + "," +
 					MessageFormat.format(this.ATTRIBUTENUMBER, "priority", String.valueOf(p.getCountnumb())) + "," +
-					MessageFormat.format(this.ATTRIBUTENUMBER, "brand", "gqpp".equals(p.getSiteCode()) ? 1 : 2) + "," +
+//					MessageFormat.format(this.ATTRIBUTENUMBER, "brand", "gqpp".equals(p.getSiteCode()) ? 1 : 2) + "," +
 					MessageFormat.format(this.ATTRIBUTENUMBER, "ISLEAF", "Y".equals(p.getIsleaf()) ? true : false) + "," +
 					MessageFormat.format(this.ATTRIBUTENUMBER, "states", p.getValidFlag()) + "," +
-					MessageFormat.format(this.ATTRIBUTENUMBER, "display", p.getValidFlag()) + "," +
+					MessageFormat.format(this.ATTRIBUTENUMBER, "display", p.getCovermodeid()) + "," +
 					MessageFormat.format(this.ATTRIBUTE, "timestamp", simpleDateFormat.format(p.getUpdatedate())) + "},");
 		}
 		
@@ -3291,7 +3305,7 @@ public class PortalColumnServiceImpl implements PortalColumnServiceIface {
 			}
 			return this.portalColumnManager.queryPortalColumnsByRolesAndValid(scheduleDate, roleIds, currAct);
 		} catch (Exception e) {
-			cmsLog.error(e);
+			cmsLog.error("", e);
 			cmsLog.error("初始化日期 [" + dateStr + "] 号的编单失败!");
 			return null;
 		}
@@ -3363,8 +3377,8 @@ public class PortalColumnServiceImpl implements PortalColumnServiceIface {
 			
 			if (!defaultSkinFocusImg.exists()
 					&& !defaultSkinBlurImg.exists()) {
-				fileopr.copyFileFromLocalToSmb(ServerConfigListener.REAL_PATH + "images/t.png", defaultSkinFocusImgName);
-				fileopr.copyFileFromLocalToSmb(ServerConfigListener.REAL_PATH + "images/f.png", defaultSkinBlurImgName);
+				fileopr.copyFileFromLocalToSmb(ServerConfigListener.REAL_PATH + "images/init_focus.png", defaultSkinFocusImgName);
+				fileopr.copyFileFromLocalToSmb(ServerConfigListener.REAL_PATH + "images/init_blur.png", defaultSkinBlurImgName);
 			} else {
 				return "初始化栏目图标失败!";
 			}

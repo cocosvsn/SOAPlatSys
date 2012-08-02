@@ -119,7 +119,7 @@ public class CmsServiceServiceImpl implements CmsServiceServiceIface {
 	// 删除服务
 	public CmsResultDto deleteCmsService(String srvId)
 	{
-		cmsLog.info("Cms -> CmsServiceServiceImpl -> deleteCmsService...");
+		cmsLog.debug("Cms -> CmsServiceServiceImpl -> deleteCmsService...");
 		CmsResultDto cmsResultDto = new CmsResultDto();
 
 		cmsTransactionManager.deleteCmsService(
@@ -225,14 +225,14 @@ public class CmsServiceServiceImpl implements CmsServiceServiceIface {
 //				}
 //			}
 //		}
-		cmsLog.info("Cms -> CmsServiceServiceImpl -> deleteCmsService returns.");
+		cmsLog.debug("Cms -> CmsServiceServiceImpl -> deleteCmsService returns.");
 		return cmsResultDto;
 	}
 	
 	// 修改服务
 	public CmsResultDto modifyCmsService(CmsService cmsService)
 	{
-		cmsLog.info("Cms -> CmsServiceServiceImpl -> modifyCmsService...");
+		cmsLog.debug("Cms -> CmsServiceServiceImpl -> modifyCmsService...");
 		CmsResultDto cmsResultDto = new CmsResultDto();
 //		CmsService newCmsService = new CmsService();
 		CmsService curCmsService = (CmsService)cmsServiceManager.getById(cmsService.getSrvid());
@@ -263,14 +263,14 @@ public class CmsServiceServiceImpl implements CmsServiceServiceIface {
 			cmsResultDto.setResultCode((long)1);
 			cmsResultDto.setErrorMessage("未查询到该服务节点。srvid:" + curCmsService.getSrvid());
 		}
-		cmsLog.info("Cms -> CmsServiceServiceImpl -> modifyCmsService returns.");
+		cmsLog.debug("Cms -> CmsServiceServiceImpl -> modifyCmsService returns.");
 		return cmsResultDto;
 	}
 	
 	// 创建服务
 	public CmsResultDto createCmsService(CmsService cmsService)
 	{
-		cmsLog.info("Cms -> CmsServiceServiceImpl -> createCmsService...");
+		cmsLog.debug("Cms -> CmsServiceServiceImpl -> createCmsService...");
 		CmsResultDto cmsResultDto = new CmsResultDto();
 		
 		cmsService = cmsTransactionManager.saveCmsService(
@@ -378,7 +378,7 @@ public class CmsServiceServiceImpl implements CmsServiceServiceIface {
 //			cmsLog.info("服务代码为空。");
 //		}
 		
-		cmsLog.info("Cms -> CmsServiceServiceImpl -> createCmsService returns.");
+		cmsLog.debug("Cms -> CmsServiceServiceImpl -> createCmsService returns.");
 		return cmsResultDto;
 	}
 
@@ -387,7 +387,7 @@ public class CmsServiceServiceImpl implements CmsServiceServiceIface {
 	// 查询服务与节目分类的配置关系记录 SrvProgClass ProgramCategoryDto 20091105
 	public CmsResultDto getProgramCategoryDtosBySrvid(String srvid)
 	{
-		cmsLog.info("Cms -> CmsServiceServiceImpl -> getProgramCategoryDtosBySrvid...");
+		cmsLog.debug("Cms -> CmsServiceServiceImpl -> getProgramCategoryDtosBySrvid...");
 		CmsResultDto cmsResultDto = new CmsResultDto();
 		
 		List ProgramCategoryDtos = new ArrayList();
@@ -414,7 +414,7 @@ public class CmsServiceServiceImpl implements CmsServiceServiceIface {
 		}
 		
 		cmsResultDto.setResultObject(ProgramCategoryDtos);
-		cmsLog.info("Cms -> CmsServiceServiceImpl -> getProgramCategoryDtosBySrvid returns.");
+		cmsLog.debug("Cms -> CmsServiceServiceImpl -> getProgramCategoryDtosBySrvid returns.");
 		return cmsResultDto;
 	}
 	
@@ -422,12 +422,12 @@ public class CmsServiceServiceImpl implements CmsServiceServiceIface {
 	// 查询服务与栏目的配置关系记录 SrvColumn PortalColumn 20091105
 	public CmsResultDto getPortalColumnsBySrvid(String srvid)
 	{
-		cmsLog.info("Cms -> CmsServiceServiceImpl -> getPortalColumnsBySrvid...");
+		cmsLog.debug("Cms -> CmsServiceServiceImpl -> getPortalColumnsBySrvid...");
 		CmsResultDto cmsResultDto = new CmsResultDto();
 		
 		List portalColumns = srvColumnManager.getPortalColumnsBySrvid(srvid);
 		cmsResultDto.setResultObject(portalColumns);
-		cmsLog.info("Cms -> CmsServiceServiceImpl -> getPortalColumnsBySrvid returns.");
+		cmsLog.debug("Cms -> CmsServiceServiceImpl -> getPortalColumnsBySrvid returns.");
 		return cmsResultDto;
 	}
 	
@@ -435,7 +435,7 @@ public class CmsServiceServiceImpl implements CmsServiceServiceIface {
 	// 查询服务与产品的配置关系记录 SrvProduct ProductCategory 20091105
 	public CmsResultDto getProductCategoriesBySrvid(String srvid)
 	{
-		cmsLog.info("Cms -> CmsServiceServiceImpl -> getProductCategoriesBySrvid...");
+		cmsLog.debug("Cms -> CmsServiceServiceImpl -> getProductCategoriesBySrvid...");
 		CmsResultDto cmsResultDto = new CmsResultDto();
 		//???????????????????????????????????????????????????????????????????????????????????????????
 		//???????????????????????????????????????????????????????????????????????????????????????????
@@ -443,14 +443,14 @@ public class CmsServiceServiceImpl implements CmsServiceServiceIface {
 		//???????????????????????????????????????????????????????????????????????????????????????????
 		List productCategories = srvProductManager.getProductCategoriesBySrvid(srvid);
 		cmsResultDto.setResultObject(productCategories);
-		cmsLog.info("Cms -> CmsServiceServiceImpl -> getProductCategoriesBySrvid returns.");
+		cmsLog.debug("Cms -> CmsServiceServiceImpl -> getProductCategoriesBySrvid returns.");
 		return cmsResultDto;
 	}
 	
 	// 查询服务与产品的配置关系记录 SrvProduct ProductCategory ProductCategoryDisplayDTO 20091110
 	public CmsResultDto getProductCategoryDisplayDTOsBySrvid(String srvid)
 	{
-		cmsLog.info("Cms -> CmsServiceServiceImpl -> getProductCategoryDtosBySrvid...");
+		cmsLog.debug("Cms -> CmsServiceServiceImpl -> getProductCategoryDtosBySrvid...");
 		CmsResultDto cmsResultDto = new CmsResultDto();
 
 		// hql:
@@ -513,7 +513,7 @@ public class CmsServiceServiceImpl implements CmsServiceServiceIface {
 		}
 		
 		cmsResultDto.setResultObject(productCategoryDisplayDtos);
-		cmsLog.info("Cms -> CmsServiceServiceImpl -> getProductCategoryDtosBySrvid returns.");
+		cmsLog.debug("Cms -> CmsServiceServiceImpl -> getProductCategoryDtosBySrvid returns.");
 		return cmsResultDto;
 	}
 	

@@ -393,7 +393,7 @@ public class ProgPackageManagerImpl implements IProgPackageManager {
 			String result				// 此次操作结果： "Y" - 成功； "N" - 失败
 			)
 	{
-		cmsLog.info("Cms -> ProgPackageManagerImpl -> updateRefreshStateOfProgPackage...");
+		cmsLog.debug("Cms -> ProgPackageManagerImpl -> updateRefreshStateOfProgPackage...");
 		CmsResultDto cmsResultDto = new CmsResultDto();
 		
 		/**
@@ -718,7 +718,7 @@ public class ProgPackageManagerImpl implements IProgPackageManager {
 			cmsLog.warn(str);
 		}	
 		
-		cmsLog.info("Cms -> ProgPackageManagerImpl -> updateRefreshStateOfProgPackage returns.");
+		cmsLog.debug("Cms -> ProgPackageManagerImpl -> updateRefreshStateOfProgPackage returns.");
 		return cmsResultDto;
 	}
 

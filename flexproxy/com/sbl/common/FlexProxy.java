@@ -25,6 +25,8 @@ public class FlexProxy {
 	 */
 	public Object invoke(String operName, ParamVo param, UserInf userinf)
 			throws Exception {
+		logger.info("Remote Interface: {{}}, Params: {{}}, UserInfo: {{}}", 
+				new Object[] {operName, param.getParam(), userinf});
 		HttpSession session = FlexContext.getHttpRequest().getSession();
 //		session.setMaxInactiveInterval(60);
 		Cookie[] cookies = FlexContext.getHttpRequest().getCookies();
