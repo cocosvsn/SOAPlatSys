@@ -1,157 +1,54 @@
-[ {
-	id : 'yx_dy',
-	type : '视频类',
-	name : '高清电影',
-	'poster' : [ '1.1.3yx_dy_focus.png', '1.1.3yx_dy_blur.png' ],
-	desc : '',
-	parent : 'LANMUSHU',
-	priority : 0,
-	ISLEAF : true,
-	states : 0,
-	display : 0,
-	timestamp : '2012-07-31 14:18:42:000'
-}, {
-	id : 'ROOT',
-	type : '混合类',
-	name : '',
-	'poster' : [ '1.1.3ROOT_focus.png', '1.1.3ROOT_blur.png' ],
-	desc : '',
-	parent : '',
-	priority : 0,
-	ISLEAF : false,
-	states : 0,
-	display : -1,
-	timestamp : '2012-08-01 10:17:26:485'
-}, {
-	id : 'LANMUSHU',
-	type : '混合类',
-	name : 'Portal.js',
-	'poster' : [ '1.1.3LANMUSHU_focus.png', '1.1.3LANMUSHU_blur.png' ],
-	desc : '',
-	parent : 'ROOT',
-	priority : 0,
-	ISLEAF : false,
-	states : 0,
-	display : -1,
-	timestamp : '2012-07-31 14:18:24:000'
-}, {
-	id : 'yx_zh',
-	type : '视频类',
-	name : '综合',
-	'poster' : [ '1.1.3yx_zh_focus.png', '1.1.3yx_zh_blur.png' ],
-	desc : '',
-	parent : 'LANMUSHU',
-	priority : 2,
-	ISLEAF : true,
-	states : 0,
-	display : 1,
-	timestamp : '2012-07-31 14:40:00:160'
-}, {
-	id : 'yx_dsj',
-	type : '视频类',
-	name : '电视剧',
-	'poster' : [ '1.1.3yx_dsj_focus.png', '1.1.3yx_dsj_blur.png' ],
-	desc : '',
-	parent : 'LANMUSHU',
-	priority : 3,
-	ISLEAF : true,
-	states : 0,
-	display : 0,
-	timestamp : '2012-07-31 14:35:51:775'
-}, {
-	id : 'yx_jlp',
-	type : '视频类',
-	name : '纪录片',
-	'poster' : [ '1.1.3yx_jlp_focus.png', '1.1.3yx_jlp_blur.png' ],
-	desc : '',
-	parent : 'LANMUSHU',
-	priority : 4,
-	ISLEAF : true,
-	states : 0,
-	display : 0,
-	timestamp : '2012-07-31 14:36:24:396'
-}, {
-	id : 'yx_dzbz',
-	type : '报纸类',
-	name : '电子报纸',
-	'poster' : [ '1.1.3yx_dzbz_focus.png', '1.1.3yx_dzbz_blur.png' ],
-	desc : '',
-	parent : 'LANMUSHU',
-	priority : 5,
-	ISLEAF : true,
-	states : 0,
-	display : 0,
-	timestamp : '2012-07-31 14:37:01:598'
-}, {
-	id : 'yx_dzts',
-	type : '图书类',
-	name : '电子图书',
-	'poster' : [ '1.1.3yx_dzts_focus.png', '1.1.3yx_dzts_blur.png' ],
-	desc : '',
-	parent : 'LANMUSHU',
-	priority : 6,
-	ISLEAF : true,
-	states : 0,
-	display : 0,
-	timestamp : '2012-07-31 14:37:55:341'
-}, {
-	id : 'yx_dzzz',
-	type : '杂志类',
-	name : '电子杂志',
-	'poster' : [ '1.1.3yx_dzzz_focus.png', '1.1.3yx_dzzz_blur.png' ],
-	desc : '',
-	parent : 'LANMUSHU',
-	priority : 7,
-	ISLEAF : true,
-	states : 0,
-	display : 0,
-	timestamp : '2012-07-31 14:38:27:370'
-}, {
-	id : 'test',
-	type : '视频类',
-	name : '测试栏目',
-	'poster' : [ '1.1.3test_focus.png', '1.1.3test_blur.png' ],
-	desc : '',
-	parent : 'LANMUSHU',
-	priority : 8,
-	ISLEAF : false,
-	states : 0,
-	display : 0,
-	timestamp : '2012-08-01 09:25:23:566'
-}, {
-	id : 'test_sub1',
-	type : '视频类',
-	name : '测试子栏目1',
-	'poster' : [ '1.1.3test_sub1_focus.png', '1.1.3test_sub1_blur.png' ],
-	desc : '',
-	parent : 'test',
-	priority : 81,
-	ISLEAF : true,
-	states : 2,
-	display : 0,
-	timestamp : '2012-08-01 10:17:26:416'
-}, {
-	id : 'test_sub2',
-	type : '视频类',
-	name : '测试子栏目2',
-	'poster' : [ '1.1.3test_sub2_focus.png', '1.1.3test_sub2_blur.png' ],
-	desc : '',
-	parent : 'test',
-	priority : 92,
-	ISLEAF : true,
-	states : 0,
-	display : -1,
-	timestamp : '2012-08-01 09:27:01:972'
-}, {
-	id : 'yx_home_ad',
-	type : '视频类',
-	name : '首页广告',
-	'poster' : [ '1.1.3yx_home_ad_focus.png', '1.1.3yx_home_ad_blur.png' ],
-	desc : '',
-	parent : 'LANMUSHU',
-	priority : 999,
-	ISLEAF : true,
-	states : 0,
-	display : -1,
-	timestamp : '2012-07-31 14:34:27:728'
-} ];
+var data = {
+	"METADATA" : {
+		"中文名称" : "aaaaa",
+		"英文名称" : "a",
+		"STB片名" : "a",
+		"导演" : "a",
+		"演员" : "a",
+		"类型" : "a",
+		"语言" : "国语",
+		"年代" : "a",
+		"字幕" : "无",
+		"字幕语言" : "国语",
+		"清晰度" : "全高清",
+		"产地" : "a",
+		"大小" : "a",
+		"片长" : "a",
+		"码率" : "a",
+		"音频" : "a",
+		"质级" : "5",
+		"星级" : "5",
+		"版权期始" : "",
+		"版权期终" : "2013-07-31",
+		"提供商" : "a",
+		"热播" : "否",
+		"保留" : "是",
+		"打折" : "否",
+		"强制保留" : "是",
+		"保留期终" : "2013-07-31",
+		"简介" : "aaaaaaaaaaaaaa",
+		"评论" : "aaaaaaaaaaaaaa",
+		"荐语" : "aaaaaaaaaaaaaaa",
+		"加密" : "否"
+	},
+	"PROGFILE" : {},
+	"PORTALINFO" : [ "yx_dy" ],
+	"APP" : {
+		"PROGPACKAGEID" : "PPVP20120730155741000153",
+		"SUMFILESIZE" : "185937448"
+	},
+	"PRODUCTINFO" : [ {
+		"VALIDDATE" : "2011-07-15 00:00:00",
+		"INVALIDDATE" : "2099-01-01 00:00:00",
+		"casystem" : [ {
+			"systemid" : "1",
+			"cdcadesc" : [ {
+				"securityflag" : "",
+				"KEYID" : "1100,100"
+			} ]
+		} ],
+		"rightdesc" : [ {
+			"EXPIREDDATE" : "2012-07-30 15:59:44"
+		} ]
+	} ]
+};

@@ -466,7 +466,7 @@ public class EncryptServiceServiceImpl implements EncryptServiceServiceIface {
 	}
 
 	public void addTaskHB1_11() {
-		cmsLog.debug("addTaskHB1_11()");
+		cmsLog.debug("addTaskHB1_11() currentThread: " + Thread.currentThread().getId() + " currentMemAddr: " + this);
 		List<EncryptList> list = encryptListManager.findByProperty("dealstate", 0L);
 		if (0 < list.size()) {
 			for (EncryptList encryptList : list) {
@@ -523,7 +523,7 @@ public class EncryptServiceServiceImpl implements EncryptServiceServiceIface {
 	}
 	
 	public void getTaskStatusHB1_11() throws Exception {
-		cmsLog.debug("getTaskStatusHB1_11()");
+		cmsLog.debug("getTaskStatusHB1_11() currentThread: " + Thread.currentThread().getId() + " currentMemAddr: " + this);
 		List<EncryptList> list = encryptListManager.findByProperty("dealstate", 1L);
 		if (0 < list.size()) {
 			for (EncryptList encryptList : list) {

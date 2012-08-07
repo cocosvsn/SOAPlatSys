@@ -2260,21 +2260,6 @@ public class CmsTransactionManagerImpl implements ICmsTransactionManager {
 				}
 			}
 		}
-		// }
-		// catch(Exception ex)
-		// {
-		// // String str = "上传文件失败。详细信息：" + ex.getMessage();
-		// String str = "Cms -> CmsTransaction -> savePngOfProgPackage - 异常：" +
-		// ex.getMessage();
-		// cmsResultDto.setResultCode((long)1);
-		// cmsResultDto.setErrorMessage(str);
-		// cmsResultDto.setErrorDetail(ex.getMessage());
-		// cmsLog.error(str);
-		// cmsLog.warn("回滚数据库操作。");
-		// throw new RuntimeException(str);
-		//			
-		// // return cmsResultDto;
-		// }
 
 		cmsLog.debug("Cms -> CmsTransaction -> savePngOfProgPackage returns.");
 		return cmsResultDto;
@@ -2363,40 +2348,26 @@ public class CmsTransactionManagerImpl implements ICmsTransactionManager {
 					cell.getAttributes().getNamedItem("EPICODENUMBER")
 							.setNodeValue(progPackage.getEpicodenumber());
 				}
-				cellattr.setAttribute("PROGPACKAGEID", progPackage
-						.getProductid());
-				cellattr.setAttribute("PROGPACKAGENAME", progPackage
-						.getProductname());
+				cellattr.setAttribute("PROGPACKAGEID", progPackage.getProductid());
+				cellattr.setAttribute("PROGPACKAGENAME", progPackage.getProductname());
 				cellattr.setAttribute("PROGTYPE", progPackage.getProgtype());
-				cellattr.setAttribute("STYLEID", progPackage.getStyleid()
-						.toString());
-				cellattr.setAttribute("SUMFILESIZE", progPackage
-						.getSumfilesize());
-				cellattr.setAttribute("UPDATEMANID", progPackage
-						.getUpdatemanid());
+				cellattr.setAttribute("STYLEID", progPackage.getStyleid().toString());
+				cellattr.setAttribute("SUMFILESIZE", progPackage.getSumfilesize());
+				cellattr.setAttribute("UPDATEMANID", progPackage.getUpdatemanid());
 				cellattr.setAttribute("UPDATETIME", null == progPackage.getUpdatetime()
 						? "" : fileoper.convertDateToString(
 								progPackage.getUpdatetime(), "yyyy-MM-dd HH:mm:ss"));
-				cellattr.setAttribute("EPICODENUMBER", progPackage
-						.getEpicodenumber());
-
-				cellattr
-						.setAttribute("PTGLOBALID", progPackage.getPtglobalid());
-				cellattr.setAttribute("PRODUCTNAME", progPackage
-						.getProductname());
-				cellattr.setAttribute("DESCRIPTION", progPackage
-						.getDescription());
+				cellattr.setAttribute("EPICODENUMBER", progPackage.getEpicodenumber());
+				cellattr.setAttribute("PTGLOBALID", progPackage.getPtglobalid());
+				cellattr.setAttribute("PRODUCTNAME", progPackage.getProductname());
+				cellattr.setAttribute("DESCRIPTION", progPackage.getDescription());
 				cellattr.setAttribute("CATEGORY", progPackage.getCategory());
-				cellattr
-						.setAttribute("TITLEBRIEF", progPackage.getTitlebrief());
+				cellattr.setAttribute("TITLEBRIEF", progPackage.getTitlebrief());
 				cellattr.setAttribute("EPICODEID", progPackage.getEpicodeid());
 				cellattr.setAttribute("LENGTHTC", progPackage.getLengthtc());
-				cellattr.setAttribute("EPICODENAME", progPackage
-						.getEpicodename());
-				cellattr.setAttribute("SUBTITLELANGUAGE", progPackage
-						.getSubtitlelanguage());
-				cellattr.setAttribute("AUDIOLANGUAGE", progPackage
-						.getAudiolanguage());
+				cellattr.setAttribute("EPICODENAME", progPackage.getEpicodename());
+				cellattr.setAttribute("SUBTITLELANGUAGE", progPackage.getSubtitlelanguage());
+				cellattr.setAttribute("AUDIOLANGUAGE", progPackage.getAudiolanguage());
 				cellattr.setAttribute("DIRECTOR", progPackage.getDirector());
 				cellattr.setAttribute("ACTORS", progPackage.getActors());
 				cellattr.setAttribute("SHOOTDATE", progPackage.getShootdate());
@@ -2408,22 +2379,16 @@ public class CmsTransactionManagerImpl implements ICmsTransactionManager {
 				cellattr.setAttribute("SUBSCRIBERETIME", null == progPackage.getSubscriberetime()
 						? "" : fileoper.convertDateToString(
 								progPackage.getSubscriberetime(), "yyyy-MM-dd HH:mm:ss"));
-				cellattr
-						.setAttribute("INPUTMANID", progPackage.getInputmanid());
+				cellattr.setAttribute("INPUTMANID", progPackage.getInputmanid());
 				cellattr.setAttribute("INPUTTIME", null == progPackage.getInputtime()
 						? "" : fileoper.convertDateToString(
 								progPackage.getInputtime(), "yyyy-MM-dd HH:mm:ss"));
-				cellattr.setAttribute("FILESIZEHI", progPackage.getFilesizehi()
-						.toString());
-				cellattr.setAttribute("FILESIZELOW", progPackage
-						.getFilesizelow().toString());
-				cellattr.setAttribute("SUMFILESIZE", progPackage
-						.getSumfilesize());
+				cellattr.setAttribute("FILESIZEHI", progPackage.getFilesizehi().toString());
+				cellattr.setAttribute("FILESIZELOW", progPackage.getFilesizelow().toString());
+				cellattr.setAttribute("SUMFILESIZE", progPackage.getSumfilesize());
 				cellattr.setAttribute("REMARK", progPackage.getRemark());
-				cellattr.setAttribute("STATE", progPackage.getState()
-						.toString());
-				cellattr.setAttribute("DEALSTATE", progPackage.getDealstate()
-						.toString());
+				cellattr.setAttribute("STATE", progPackage.getState().toString());
+				cellattr.setAttribute("DEALSTATE", progPackage.getDealstate().toString());
 			}
 
 			cmsLog.debug("修改节目包的文件信息...");
@@ -2454,37 +2419,27 @@ public class CmsTransactionManagerImpl implements ICmsTransactionManager {
 					Element newe = doc.createElement("FILE");
 
 					newe.setAttribute("PROGFILEID", pf.getProgfileid());
-					newe.setAttribute("FILETYPEID", programFiles
-							.getFiletypeid());
+					newe.setAttribute("FILETYPEID", programFiles.getFiletypeid());
 					newe.setAttribute("FILECODE", programFiles.getFilecode());
 					newe.setAttribute("FILENAME", programFiles.getFilename());
-					newe.setAttribute("SUBTITLELANGUAGE", programFiles
-							.getSubtitlelanguage());
-					newe.setAttribute("DUBBEDLANGUAGE", programFiles
-							.getDubbedlanguage());
+					newe.setAttribute("SUBTITLELANGUAGE", programFiles.getSubtitlelanguage());
+					newe.setAttribute("DUBBEDLANGUAGE", programFiles.getDubbedlanguage());
 					/**
 					 * HuangBo update by 2011年4月13日 14时28分
 					 * 增加文件属性的ContentID属性
 					 */
-					newe.setAttribute("CONTENTID", programFiles
-							.getContentId());
-					newe.setAttribute("FILESIZEHI", programFiles
-							.getFilesizehi().toString());
-					newe.setAttribute("FILESIZELOW", programFiles
-							.getFilesizelow().toString());
-					newe.setAttribute("CONTENTFILESIZE", programFiles
-							.getContentfilesize());
-					newe.setAttribute("CONTENTCHECKSUM", programFiles
-							.getContentchecksum());
+					newe.setAttribute("CONTENTID", programFiles.getContentId());
+					newe.setAttribute("FILESIZEHI", programFiles.getFilesizehi().toString());
+					newe.setAttribute("FILESIZELOW", programFiles.getFilesizelow().toString());
+					newe.setAttribute("CONTENTFILESIZE", programFiles.getContentfilesize());
+					newe.setAttribute("CONTENTCHECKSUM", programFiles.getContentchecksum());
 
 					if (programFiles.getProgrank() != null)
-						newe.setAttribute("PROGRANK", programFiles
-								.getProgrank().toString());
+						newe.setAttribute("PROGRANK", programFiles.getProgrank().toString());
 					else
 						newe.setAttribute("PROGRANK", "0");
 
-					newe.setAttribute("INPUTMANID", programFiles
-							.getInputmanid());
+					newe.setAttribute("INPUTMANID", programFiles.getInputmanid());
 					newe.setAttribute("INPUTTIME", null == programFiles.getInputtime()
 							? "" : fileoper.convertDateToString(
 									programFiles.getInputtime(), "yyyy-MM-dd HH:mm:ss"));
@@ -2530,8 +2485,7 @@ public class CmsTransactionManagerImpl implements ICmsTransactionManager {
 				cmsLog.debug("已经更新节目包的xml，尚未保存到数据库。");
 			}
 		} catch (Exception ex) {
-			cmsLog.error("Cms -> CmsTransaction -> updateProgPackagePpxml - 异常："
-							+ ex.getMessage());
+			cmsLog.error("Cms -> CmsTransaction -> updateProgPackagePpxml - 异常：", ex);
 		}
 
 		cmsLog.debug("Cms -> CmsTransaction -> updateProgPackagePpxml returns.");

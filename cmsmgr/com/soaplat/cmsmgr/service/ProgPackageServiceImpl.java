@@ -474,44 +474,31 @@ public class ProgPackageServiceImpl implements ProgPackageServiceIface {
 					cell.getAttributes().getNamedItem("EPICODENUMBER")
 							.setNodeValue(progPackage.getEpicodenumber());
 				}
-				cellattr.setAttribute("PROGPACKAGEID",
-						progPackage.getProductid());
-				cellattr.setAttribute("PROGPACKAGENAME",
-						progPackage.getProductname());
+				cellattr.setAttribute("PROGPACKAGEID", progPackage.getProductid());
+				cellattr.setAttribute("PROGPACKAGENAME", progPackage.getProductname());
 				cellattr.setAttribute("PROGTYPE", progPackage.getProgtype());
-				cellattr.setAttribute("STYLEID", progPackage.getStyleid()
-						.toString());
-				cellattr.setAttribute("SUMFILESIZE",
-						progPackage.getSumfilesize());
-				cellattr.setAttribute("UPDATEMANID",
-						progPackage.getUpdatemanid());
+				cellattr.setAttribute("STYLEID", progPackage.getStyleid().toString());
+				cellattr.setAttribute("SUMFILESIZE", progPackage.getSumfilesize());
+				cellattr.setAttribute("UPDATEMANID", progPackage.getUpdatemanid());
 				cellattr.setAttribute("UPDATETIME", null == progPackage.getUpdatetime()
 						? "" : fileopr.convertDateToString(
 								progPackage.getUpdatetime(), "yyyy-MM-dd HH:mm:ss"));
-				cellattr.setAttribute("EPICODENUMBER",
-						progPackage.getEpicodenumber());
-
+				cellattr.setAttribute("EPICODENUMBER", progPackage.getEpicodenumber());
 				cellattr.setAttribute("PTGLOBALID", progPackage.getPtglobalid());
-				cellattr.setAttribute("PRODUCTNAME",
-						progPackage.getProductname());
-				cellattr.setAttribute("DESCRIPTION",
-						progPackage.getDescription());
+				cellattr.setAttribute("PRODUCTNAME", progPackage.getProductname());
+				cellattr.setAttribute("DESCRIPTION", progPackage.getDescription());
 				cellattr.setAttribute("CATEGORY", progPackage.getCategory());
 				cellattr.setAttribute("TITLEBRIEF", progPackage.getTitlebrief());
 				cellattr.setAttribute("EPICODEID", progPackage.getEpicodeid());
 				cellattr.setAttribute("LENGTHTC", progPackage.getLengthtc());
-				cellattr.setAttribute("EPICODENAME",
-						progPackage.getEpicodename());
-				cellattr.setAttribute("SUBTITLELANGUAGE",
-						progPackage.getSubtitlelanguage());
-				cellattr.setAttribute("AUDIOLANGUAGE",
-						progPackage.getAudiolanguage());
+				cellattr.setAttribute("EPICODENAME", progPackage.getEpicodename());
+				cellattr.setAttribute("SUBTITLELANGUAGE", progPackage.getSubtitlelanguage());
+				cellattr.setAttribute("AUDIOLANGUAGE", progPackage.getAudiolanguage());
 				cellattr.setAttribute("DIRECTOR", progPackage.getDirector());
 				cellattr.setAttribute("ACTORS", progPackage.getActors());
 				cellattr.setAttribute("SHOOTDATE", progPackage.getShootdate());
 				cellattr.setAttribute("ISSUEDATE", progPackage.getIssuedate());
-				cellattr.setAttribute("COUNTRYDIST",
-						progPackage.getCountrydist());
+				cellattr.setAttribute("COUNTRYDIST", progPackage.getCountrydist());
 				cellattr.setAttribute("SUBSCRIBERSTIME", null == progPackage.getSubscriberstime()
 						? "" : fileopr.convertDateToString(
 								progPackage.getSubscriberstime(), "yyyy-MM-dd HH:mm:ss"));
@@ -522,17 +509,12 @@ public class ProgPackageServiceImpl implements ProgPackageServiceIface {
 				cellattr.setAttribute("INPUTTIME", null == progPackage.getInputtime()
 						? "" : fileopr.convertDateToString(
 								progPackage.getInputtime(), "yyyy-MM-dd HH:mm:ss"));
-				cellattr.setAttribute("FILESIZEHI", progPackage.getFilesizehi()
-						.toString());
-				cellattr.setAttribute("FILESIZELOW", progPackage
-						.getFilesizelow().toString());
-				cellattr.setAttribute("SUMFILESIZE",
-						progPackage.getSumfilesize());
+				cellattr.setAttribute("FILESIZEHI", progPackage.getFilesizehi().toString());
+				cellattr.setAttribute("FILESIZELOW", progPackage.getFilesizelow().toString());
+				cellattr.setAttribute("SUMFILESIZE", progPackage.getSumfilesize());
 				cellattr.setAttribute("REMARK", progPackage.getRemark());
-				cellattr.setAttribute("STATE", progPackage.getState()
-						.toString());
-				cellattr.setAttribute("DEALSTATE", progPackage.getDealstate()
-						.toString());
+				cellattr.setAttribute("STATE", progPackage.getState().toString());
+				cellattr.setAttribute("DEALSTATE", progPackage.getDealstate().toString());
 			}
 
 			cmsLog.debug("修改节目包的文件信息(PROGFILE)...");
@@ -565,8 +547,7 @@ public class ProgPackageServiceImpl implements ProgPackageServiceIface {
 					Element newe = doc.createElement("FILE");
 
 					newe.setAttribute("PROGFILEID", pf.getProgfileid());
-					newe.setAttribute("FILETYPEID",
-							programFiles.getFiletypeid());
+					newe.setAttribute("FILETYPEID", programFiles.getFiletypeid());
 					newe.setAttribute("FILECODE", programFiles.getFilecode());
 					newe.setAttribute("FILENAME", programFiles.getFilename());
 
@@ -582,18 +563,12 @@ public class ProgPackageServiceImpl implements ProgPackageServiceIface {
 					// programFiles.getScreeformat());
 					// newe.setAttribute("HDCONTENT",
 					// programFiles.getHdcontent());
-					newe.setAttribute("SUBTITLELANGUAGE",
-							programFiles.getSubtitlelanguage());
-					newe.setAttribute("DUBBEDLANGUAGE",
-							programFiles.getDubbedlanguage());
-					newe.setAttribute("FILESIZEHI", programFiles
-							.getFilesizehi().toString());
-					newe.setAttribute("FILESIZELOW", programFiles
-							.getFilesizelow().toString());
-					newe.setAttribute("CONTENTFILESIZE",
-							programFiles.getContentfilesize());
-					newe.setAttribute("CONTENTCHECKSUM",
-							programFiles.getContentchecksum());
+					newe.setAttribute("SUBTITLELANGUAGE", programFiles.getSubtitlelanguage());
+					newe.setAttribute("DUBBEDLANGUAGE", programFiles.getDubbedlanguage());
+					newe.setAttribute("FILESIZEHI", programFiles.getFilesizehi().toString());
+					newe.setAttribute("FILESIZELOW", programFiles.getFilesizelow().toString());
+					newe.setAttribute("CONTENTFILESIZE", programFiles.getContentfilesize());
+					newe.setAttribute("CONTENTCHECKSUM", programFiles.getContentchecksum());
 					// newe.setAttribute("IMAGERATIO",
 					// programFiles.getImageratio());
 					// newe.setAttribute("ENCRYPTION",
@@ -614,8 +589,7 @@ public class ProgPackageServiceImpl implements ProgPackageServiceIface {
 					// else
 					// newe.setAttribute("PROGBKMONTH", "");
 					if (programFiles.getProgrank() != null)
-						newe.setAttribute("PROGRANK", programFiles
-								.getProgrank().toString());
+						newe.setAttribute("PROGRANK", programFiles.getProgrank().toString());
 					else
 						newe.setAttribute("PROGRANK", "0");
 					// newe.setAttribute("INSTORAGEMANID",
@@ -657,10 +631,8 @@ public class ProgPackageServiceImpl implements ProgPackageServiceIface {
 					 * HuangBo update by 2011年4月13日 14时28分
 					 * 增加文件属性的ContentID属性
 					 */
-					newe.setAttribute("CONTENTID",
-							programFiles.getContentId());
-					newe.setAttribute("INPUTMANID",
-							programFiles.getInputmanid());
+					newe.setAttribute("CONTENTID", programFiles.getContentId());
+					newe.setAttribute("INPUTMANID", programFiles.getInputmanid());
 					newe.setAttribute("INPUTTIME", null == programFiles.getInputtime()
 							? "" : fileopr.convertDateToString(
 									programFiles.getInputtime(), "yyyy-MM-dd HH:mm:ss"));
@@ -713,7 +685,7 @@ public class ProgPackageServiceImpl implements ProgPackageServiceIface {
 				cmsLog.debug("已经更新节目包(progPackage)的xml，尚未保存到数据库。");				
 			}
 		} catch (Exception ex) {
-			cmsLog.error(ex.getMessage());
+			cmsLog.error("", ex);
 		}
 
 		cmsLog.debug("Cms -> ProgPackageServiceImpl -> modifyProgPackagePpxml returns.");
