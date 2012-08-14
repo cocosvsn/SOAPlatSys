@@ -2241,11 +2241,13 @@ public class EncryptServiceImpl implements EncryptServiceIface {
 //		encryptPath = cmsConfig.getPropertyByName("MappingCaonline");
 		encryptPath = this.configDao.getValueById("MappingCaonline");
 //		sourcePath = cmsConfig.getPropertyByName("MappingNearonline") + 
-		sourcePath = this.configDao.getValueById("MappingNearonline");
-		cmsLog.debug("映射加扰库盘符MappingCaonline   = " + encryptPath);
-		cmsLog.debug("映射缓存库盘符MappingNearonline = " + sourcePath);
-		sourcePath += sourcePath.substring(sourcePath.indexOf(
+		
+		sourcePath = this.configDao.getValueById("MappingNearonline") + 
+				sourcePath.substring(sourcePath.indexOf(
 						encryptProgVo.getProgramFileCode())).replaceAll("/", "\\\\");
+		
+		cmsLog.debug("映射加扰库盘符MappingCaonline   = " + encryptPath);
+		cmsLog.debug("映射缓存库盘符MappingNearonline路径 = " + sourcePath);
 		
 		EncryptList encryptTask = new EncryptList();
 		encryptTask.setProductid(encryptProgVo.getProgPackageId());
